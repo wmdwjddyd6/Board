@@ -18,5 +18,5 @@ public class MemberForm {
     public String getPassword() {
         return password;
     }
-    
+
 }
