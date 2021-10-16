@@ -2,16 +2,16 @@ package com.min.board.domain;
 
 public class Member {
 
-    private String name;
+    private String username;
     private String userId;
     private String password;
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getUserId() {
@@ -28,5 +28,12 @@ public class Member {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString(){
+        return "username : " + username
+                + " ID : " + userId
+                + " passwd : " + password;
     }
 }

@@ -21,11 +21,6 @@ public class DataSourceConfig {
         this.dataSource = dataSource;
     }
 
-    @ConfigurationProperties(prefix = "spring.datasource")
-    @Bean
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
-    }
 
     @Bean
     public MemberService memberService() {
@@ -33,7 +28,7 @@ public class DataSourceConfig {
     }
 
     @Bean
-    private MemberRepository memberRepository() {
+    public MemberRepository memberRepository() {
         return new MyMemberRepository(dataSource);
     }
 }
