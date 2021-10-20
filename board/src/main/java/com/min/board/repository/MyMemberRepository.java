@@ -1,9 +1,8 @@
 package com.min.board.repository;
 
-import com.min.board.domain.Member;
+import com.min.board.model.Member;
 
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.sql.*;
 
 public class MyMemberRepository implements MemberRepository{

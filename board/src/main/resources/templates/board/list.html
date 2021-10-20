@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head th:repalce="fragments/common :: head('게시판')">
+<head th:replace="fragments/common :: head('게시판')">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -15,13 +14,14 @@
 <body>
     <header>
         <!-- Fixed navbar -->
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" th:replace="fragments/common :: menu" />
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" th:replace="fragments/common :: menu(board)" />
     </header>
 
 
     <main class="flex-shrink-0">
         <div class="container mt-5">
             <h2>게시판</h2>
+            <p> 총 건수 : <span th:text="${#lists.size(boards)}"></span></p>
             <table class="table caption-top">
                 <caption>List of users</caption>
                 <thead>

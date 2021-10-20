@@ -1,6 +1,6 @@
 package com.min.board.service;
 
-import com.min.board.domain.Member;
+import com.min.board.model.Member;
 import com.min.board.repository.MemberRepository;
 
 public class MemberService {

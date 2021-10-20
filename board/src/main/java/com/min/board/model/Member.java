@@ -1,4 +1,4 @@
-package com.min.board.domain;
+package com.min.board.model;
 
 public class Member {
 
