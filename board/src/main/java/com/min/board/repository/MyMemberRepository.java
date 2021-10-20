@@ -25,7 +25,7 @@ public class MyMemberRepository implements MemberRepository{
             conn = getConnection();
             pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            pstmt.setString(1, member.getUsername());
+            pstmt.setString(1, member.getUserName());
             pstmt.setString(2, member.getUserId());
             pstmt.setString(3, member.getPassword());
 
@@ -33,7 +33,7 @@ public class MyMemberRepository implements MemberRepository{
             rs = pstmt.getGeneratedKeys();
 
             if (rs.next()) {
-                member.setUsername(rs.getString(1));
+                member.setUserName(rs.getString(1));
                 member.setUserId(rs.getString(2));
                 member.setPassword(rs.getString(3));
             }

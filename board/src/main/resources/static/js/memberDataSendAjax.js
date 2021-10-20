@@ -1,0 +1,5 @@
+function dataSend() {
+    $.ajax({
+        
+    })
+}

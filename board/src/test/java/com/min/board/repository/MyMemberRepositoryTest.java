@@ -22,7 +22,7 @@ class MyMemberRepositoryTest {
     public void save_테스트(){
         Member member = new Member();
 
-        member.setUsername("김광민");
+        member.setUserName("김광민");
         member.setUserId("wmdwjdd");
         member.setPassword("123456");
 
