@@ -15,14 +15,14 @@ public class JoinController {
         this.memberService = memberService;
     }
 
-    @GetMapping("member/join")
+    @GetMapping("/member/join")
     public String createForm(Model model){
         model.addAttribute("memberForm", new MemberForm());
         return "join";
     }
 
     //password null로 찍힘
-    @PostMapping("member/join")
+    @PostMapping("/member/join")
     public String createMember(@ModelAttribute MemberForm memberForm){
         Member member = new Member();
 
