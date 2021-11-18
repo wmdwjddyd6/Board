@@ -23,14 +23,14 @@
     <main class="flex-shrink-0">
         <div class="container mt-5">
             <h2>게시판</h2>
-            <form>
+            <form action="#" th:action="@{/board/form}" th:object="${board}" method="post">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="email" class="form-control" id="title">
+                    <input type="text" class="form-control" id="title" th:field="*{title}">
                 </div>
                 <div class="mb-3">
                     <label for="content" class="form-label">content</label>
-                    <textarea class="form-control" id="content" rows="3"></textarea>
+                    <textarea class="form-control" id="content" rows="3" th:field="*{contents}"></textarea>
                 </div>
                 <div class="nav justify-content-end">
                     <a type="button" class="btn btn-primary" th:href="@{/board/list}">exit</a>
