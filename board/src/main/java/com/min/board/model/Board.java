@@ -1,6 +1,7 @@
 package com.min.board.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name = "tb_board")
@@ -9,7 +10,13 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Size(min = 2, max = 30, message = "제목은 2자 이상 30자 이하입니다.")
     private String title;
+
+    @NotNull
+    @Size(min = 1, message = "내용을 입력하세요.")
     private String contents;
     private String image;
 
