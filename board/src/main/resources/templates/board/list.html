@@ -21,7 +21,7 @@
     <main class="flex-shrink-0">
         <div class="container mt-5">
             <h2>게시판</h2>
-            <p> 총 건수 : <span th:text="${#lists.size(boards)}"></span></p>
+            <p> 총 건수 : <span th:text="${boards.totalElements}"></span></p>
             <table class="table caption-top">
                 <caption>List of users</caption>
                 <thead>
@@ -43,14 +43,13 @@
             </table>
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                  <li class="page-item disabled">
-                    <a class="page-link">Previous</a>
+                  <li class="page-item" th:classappend="${boards.pageable.pageNumber + 1 == 1} ? 'disabled'">
+                    <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber - 1})}">Previous</a>
                   </li>
-                  <li class="page-item"><a class="page-link" href="#">1</a></li>
-                  <li class="page-item"><a class="page-link" href="#">2</a></li>
-                  <li class="page-item"><a class="page-link" href="#">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
+                  <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'" 
+                    th:each="i : ${#numbers.sequence(startPage, endPage)}"><a class="page-link" href="#" th:href="@{/board/list(page=${i - 1})}" th:text="${i}">1</a></li>
+                  <li class="page-item" th:classappend="${boards.pageable.pageNumber + 1 == boards.totalPages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1})}" href="#">Next</a>
                   </li>
                 </ul>
               </nav>
