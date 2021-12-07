@@ -58,14 +58,14 @@
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:classappend="${boards.pageable.pageNumber + 1 == 1} ? 'disabled'">
                         <a class="page-link"
-                            th:href="@{/board/list(page=${boards.pageable.pageNumber - 1})}">Previous</a>
+                            th:href="@{/board/list(page=${boards.pageable.pageNumber - 1}, searchText=${param.searchText})}">Previous</a>
                     </li>
                     <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'"
                         th:each="i : ${#numbers.sequence(startPage, endPage)}"><a class="page-link" href="#"
-                            th:href="@{/board/list(page=${i - 1})}" th:text="${i}">1</a></li>
+                            th:href="@{/board/list(page=${i - 1}, searchText=${param.searchText})}" th:text="${i}">1</a></li>
                     <li class="page-item"
                         th:classappend="${boards.pageable.pageNumber + 1 == boards.totalPages} ? 'disabled'">
-                        <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1})}"
+                        <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1}, searchText=${param.searchText})}"
                             href="#">Next</a>
                     </li>
                 </ul>
