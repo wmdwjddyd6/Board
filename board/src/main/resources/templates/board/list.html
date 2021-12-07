@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="fragments/common :: head('게시판')">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +15,8 @@
 <body>
     <header>
         <!-- Fixed navbar -->
-        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" th:replace="fragments/common :: menu(board)" />
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark"
+            th:replace="fragments/common :: menu(board)" />
     </header>
 
 
@@ -22,8 +24,18 @@
         <div class="container mt-5">
             <h2>게시판</h2>
             <p> 총 건수 : <span th:text="${boards.totalElements}"></span></p>
+            <form class="row g-3 justify-content-end">
+                <div class="col-auto">
+                    <label for="searchText" class="visually-hidden"></label>
+                    <input type="text" class="form-control" id="searchText">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-outline-secondary mb-3">Search</button>
+                </div>
+            </form>
+
             <table class="table caption-top">
-                <caption>List of users</caption>
+                <caption>List</caption>
                 <thead>
                     <tr>
                         <th scope="col">No</th>
@@ -41,20 +53,25 @@
                     </tr>
                 </tbody>
             </table>
+            
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                  <li class="page-item" th:classappend="${boards.pageable.pageNumber + 1 == 1} ? 'disabled'">
-                    <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber - 1})}">Previous</a>
-                  </li>
-                  <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'" 
-                    th:each="i : ${#numbers.sequence(startPage, endPage)}"><a class="page-link" href="#" th:href="@{/board/list(page=${i - 1})}" th:text="${i}">1</a></li>
-                  <li class="page-item" th:classappend="${boards.pageable.pageNumber + 1 == boards.totalPages} ? 'disabled'">
-                    <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1})}" href="#">Next</a>
-                  </li>
+                    <li class="page-item" th:classappend="${boards.pageable.pageNumber + 1 == 1} ? 'disabled'">
+                        <a class="page-link"
+                            th:href="@{/board/list(page=${boards.pageable.pageNumber - 1})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:classappend="${i == boards.pageable.pageNumber + 1} ? 'disabled'"
+                        th:each="i : ${#numbers.sequence(startPage, endPage)}"><a class="page-link" href="#"
+                            th:href="@{/board/list(page=${i - 1})}" th:text="${i}">1</a></li>
+                    <li class="page-item"
+                        th:classappend="${boards.pageable.pageNumber + 1 == boards.totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/board/list(page=${boards.pageable.pageNumber + 1})}"
+                            href="#">Next</a>
+                    </li>
                 </ul>
-              </nav>
+            </nav>
             <div class="nav justify-content-end">
-                <a type="button" class="btn btn-primary" th:href="@{/board/form}">write</a>
+                <a type="button" class="btn btn-outline-primary" th:href="@{/board/form}">write</a>
             </div>
         </div>
     </main>
