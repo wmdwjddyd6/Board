@@ -24,10 +24,10 @@
         <div class="container mt-5">
             <h2>게시판</h2>
             <p> 총 건수 : <span th:text="${boards.totalElements}"></span></p>
-            <form class="row g-3 justify-content-end">
+            <form class="row g-3 justify-content-end" method="GET" th:action="@{/board/list}">
                 <div class="col-auto">
                     <label for="searchText" class="visually-hidden"></label>
-                    <input type="text" class="form-control" id="searchText" name="searchText">
+                    <input type="text" class="form-control" id="searchText" name="searchText" th:value=${param.searchText}>
                 </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-outline-secondary mb-3">Search</button>
