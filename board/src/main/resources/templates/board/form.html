@@ -35,9 +35,9 @@
                 <div class="mb-3">
                     <label for="content" class="form-label">content</label>
                     <textarea class="form-control" id="content" rows="3" 
-                        th:classappend="${#fields.hasErrors('contents')} ? 'is-invalid'" th:field="*{contents}"></textarea>
-                        <div th:if="${#fields.hasErrors('contents')}" th:errors="*{contents}" id="validationServer03Feedback" class="invalid-feedback">
-                            Contents Error
+                        th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'" th:field="*{content}"></textarea>
+                        <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" id="validationServer03Feedback" class="invalid-feedback">
+                            Content Error
                         </div>
                 </div>
                 <div class="nav justify-content-end">

@@ -17,7 +17,7 @@ public class Board {
 
     @NotNull
     @Size(min = 1, message = "내용을 입력하세요.")
-    private String contents;
+    private String content;
     private String image;
 
     public String getImage() {
@@ -44,11 +44,11 @@ public class Board {
         this.title = title;
     }
 
-    public String getContents() {
-        return contents;
+    public String getContent() {
+        return content;
     }
 
-    public void setContents(String contents) {
-        this.contents = contents;
+    public void setContent(String content) {
+        this.content = content;
     }
 }
