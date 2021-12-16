@@ -20,12 +20,10 @@ class MyMemberRepositoryTest {
     public void save_테스트(){
         Member member = new Member();
 
-        member.setUserName("김광민");
-        member.setUserId("wmdwjdd");
-        member.setPassword("123456");
+        member.setUsername("김광민");
+        member.setPassword("wmdwjdd");
+        member.setRole("admin");
 
         mr.save(member);
-
-        System.out.println(member.toString());
     }
 }
