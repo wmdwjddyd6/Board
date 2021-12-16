@@ -1,10 +1,13 @@
 package com.min.board.repository;
 
 import com.min.board.model.Member;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
 
+// 구현체
+@Repository
 public class MyMemberRepository implements MemberRepository{
 
     private final DataSource dataSource;
@@ -18,7 +21,7 @@ public class MyMemberRepository implements MemberRepository{
         String sql = "insert into `board`.`tb_userinfo` (username, password, role) value (?,?,?)";
         Connection conn = null;
         PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        ResultSet rs = null; // select 때만 필요
 
         try {
             conn = getConnection();

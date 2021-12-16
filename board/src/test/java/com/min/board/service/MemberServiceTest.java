@@ -1,6 +1,7 @@
 package com.min.board.service;
 
 import com.min.board.model.Member;
+import com.min.board.repository.JpaMemberRepository;
 import com.min.board.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberServiceTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    JpaMemberRepository jpaMemberRepository;
 
     @Autowired
     MemberService memberService;
