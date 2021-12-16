@@ -14,7 +14,7 @@ public class MemberService {
     public String join(Member member){
         MemberRepository.save(member);
 
-        return member.getUserName(); //test
+        return member.getUsername(); //test
     }
 
 }

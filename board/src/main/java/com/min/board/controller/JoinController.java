@@ -26,13 +26,12 @@ public class JoinController {
     public String createMember(@ModelAttribute MemberForm memberForm){
         Member member = new Member();
 
-        member.setUserName(memberForm.getUserName());
-        member.setUserId(memberForm.getUserId());
+        member.setUsername(memberForm.getUsername());
         member.setPassword(memberForm.getPassword());
+        member.setRole(memberForm.getRole());
 
         memberService.join(member);
 
-        System.out.println(member.getUserId());
         return "redirect:/";
     }
 

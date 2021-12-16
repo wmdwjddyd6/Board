@@ -15,7 +15,7 @@ public class MyMemberRepository implements MemberRepository{
 
     @Override
     public Member save(Member member) {
-        String sql = "insert into `board`.`tb_userinfo` (username, userid, password) value (?,?,?)";
+        String sql = "insert into `board`.`tb_userinfo` (username, password, role) value (?,?,?)";
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -24,18 +24,18 @@ public class MyMemberRepository implements MemberRepository{
             conn = getConnection();
             pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            pstmt.setString(1, member.getUserName());
-            pstmt.setString(2, member.getUserId());
-            pstmt.setString(3, member.getPassword());
+            pstmt.setString(1, member.getUsername());
+            pstmt.setString(2, member.getPassword());
+            pstmt.setString(3, member.getRole());
 
             pstmt.executeUpdate();
-            rs = pstmt.getGeneratedKeys();
-
-            if (rs.next()) {
-                member.setUserName(rs.getString(1));
-                member.setUserId(rs.getString(2));
-                member.setPassword(rs.getString(3));
-            }
+//            rs = pstmt.getGeneratedKeys();
+//
+//            if (rs.next()) {
+//                member.setUsername(rs.getString(1));
+//                member.setPassword(rs.getString(2));
+//                member.setRole(rs.getString(3));
+//            }
             return member;
         } catch (Exception e) {
             throw new IllegalStateException(e);
