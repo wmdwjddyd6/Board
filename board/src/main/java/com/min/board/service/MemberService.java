@@ -5,16 +5,15 @@ import com.min.board.repository.MemberRepository;
 
 public class MemberService {
 
-    private final MemberRepository MemberRepository;
+    private final MemberRepository memberRepository;
 
-    public MemberService(MemberRepository MemberRepository) {
-        this.MemberRepository = MemberRepository;
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
     public String join(Member member){
-        MemberRepository.save(member);
+        memberRepository.save(member);
 
         return member.getUsername(); //test
     }
-
 }

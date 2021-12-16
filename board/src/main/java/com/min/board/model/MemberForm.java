@@ -1,4 +1,4 @@
-package com.min.board.controller;
+package com.min.board.model;
 
 public class MemberForm {
 

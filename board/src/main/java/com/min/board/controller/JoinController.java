@@ -1,6 +1,7 @@
 package com.min.board.controller;
 
 import com.min.board.model.Member;
+import com.min.board.model.MemberForm;
 import com.min.board.service.MemberService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

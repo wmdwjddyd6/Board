@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberServiceTest {
 
     @Autowired
-    MemberRepository MemberRepository;
+    MemberRepository memberRepository;
 
     @Autowired
     MemberService memberService;
