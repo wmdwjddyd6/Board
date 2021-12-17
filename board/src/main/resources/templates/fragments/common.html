@@ -26,9 +26,10 @@
                 <a class="nav-link" href="#" th:href="@{/board/list}" th:classappend="${menu} == 'board' ? 'active'">게시판</a>
               </li>
             </ul>
-            <form class="d-flex">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <a href="/admin" class="btn btn-outline-success" type="submit">Search</a>
+            <a th:href="@{/loginForm}" class="btn btn-secondary fw-bolder me-4" sec:authorize="!isAuthenticated()">Login</a>
+            <form class="d-flex me-4" th:action="@{/logout}" sec:authorize="isAuthenticated()">
+              <span class="text-white me-4 mt-2 fw-bolder" sec:authentication="name">사용자</span>
+              <button th:href="@{/logout}" class="btn btn-secondary fw-bolder">Logout</button>
             </form>
           </div>
         </div>
