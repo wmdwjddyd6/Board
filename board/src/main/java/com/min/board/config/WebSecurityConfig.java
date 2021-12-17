@@ -28,27 +28,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/css/**").permitAll()
                     .antMatchers("/board/**").authenticated() // antMatchers에 적힌 주소는 로그인 필요
-                    .antMatchers("/admin").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')") // 권한 설정
+                    .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // 권한 설정
                     .anyRequest().permitAll() // 그 외 요청은 허용
                     .and()
                 .formLogin()
                     .loginPage("/loginForm") // 로그인 페이지
+                    .loginProcessingUrl("/login") // 시큐리티에서 로그인을 대신 진행하도록 정의 -> 컨트롤러에 안만들어도 됨.
+                    .defaultSuccessUrl("/")
                     .and()
                 .logout()
                     .permitAll();
     }
-
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("password")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
 }
 
