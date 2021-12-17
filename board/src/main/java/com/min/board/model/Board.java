@@ -1,9 +1,12 @@
 package com.min.board.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 @Entity
+@Data
 @Table(name = "tb_board")
 public class Board {
 
@@ -18,37 +21,15 @@ public class Board {
     @NotNull
     @Size(min = 1, message = "내용을 입력하세요.")
     private String content;
+
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @JoinColumns({
+            @JoinColumn(name = "writer", referencedColumnName = "username"),
+            @JoinColumn(name = "writer_id", referencedColumnName = "id")
+    })
+    private Member member;
+
+//    @NotNull
+//    private String writer;
     private String image;
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }
