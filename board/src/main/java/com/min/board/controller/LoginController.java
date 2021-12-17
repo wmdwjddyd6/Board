@@ -10,13 +10,18 @@ import javax.validation.Valid;
 @Controller
 public class LoginController {
 
-    @GetMapping("/login")
+    @GetMapping("/loginForm")
     public String loginForm() {
         return "/account/loginForm";
     }
 
-//    @PostMapping
-//    public String login() {
-//        // 로그인 처리
-//    }
+    @PostMapping("/login")
+    public void login() {
+        int a;
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "/admin";
+    }
 }
