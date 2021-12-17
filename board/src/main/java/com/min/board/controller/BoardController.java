@@ -2,6 +2,7 @@ package com.min.board.controller;
 
 import com.min.board.model.Board;
 import com.min.board.repository.BoardRepository;
+import com.min.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,17 +23,21 @@ public class BoardController {
     @Autowired
     private BoardRepository boardRepository;
 
+    @Autowired
+    private BoardService boardService;
+
+    // 게시판 리스트 페이징 및 검색 리스트
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(size = 2) Pageable pageable,
                        @RequestParam(required = false, defaultValue = "") String searchText){
-//        Page<Board> boards = boardRepository.findAll(pageable);
-        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(searchText, searchText, pageable);
+        Page<Board> boards = boardService.search(searchText, searchText, pageable);
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
 
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("boards", boards);
+
         return "board/list";
     }
 
@@ -41,7 +46,7 @@ public class BoardController {
         if(id == null) {
             model.addAttribute("board", new Board());
         } else {
-            Board board = boardRepository.findById(id).orElse(null);
+            Board board = boardService.contentLoad(id);
             model.addAttribute("board", board);
         }
         return "board/form";
@@ -52,7 +57,7 @@ public class BoardController {
         if(bindingResult.hasErrors()) {
             return "board/form";
         }
-        boardRepository.save(board);
+        boardService.save(board);
         return "redirect:/board/list";
     }
 }
