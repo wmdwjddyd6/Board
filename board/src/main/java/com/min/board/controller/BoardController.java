@@ -1,11 +1,9 @@
 package com.min.board.controller;
 
 import com.min.board.model.Board;
-import com.min.board.repository.BoardRepository;
 import com.min.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -14,12 +12,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-    
+
     @Autowired
     private BoardService boardService;
 
