@@ -11,16 +11,16 @@
 </head>
 <body class="text-center">
     <main class="form-signin">
-        <form>
+        <form th:action="@{/login}" method="post">
           <img class="mb-2" src="https://cdn-icons.flaticon.com/png/512/2604/premium/2604013.png?token=exp=1639622665~hmac=34100795639e38fce307d0d3588611a6" alt="" width="120" height="100">
           <h1 class="h3 mb-3 fw-normal">Login</h1>
-      
+          
           <div class="form-floating">
             <input type="text" class="form-control" id="floatingInput" placeholder="Username">
             <label for="floatingInput">Username</label>
           </div>
           <div class="form-floating">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input type="password" class="form-control mt-2" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
           </div>
       
@@ -30,6 +30,7 @@
             </label>
           </div>
           <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+          <a th:href="@{/joinForm}" class="mt-2 w-100 btn btn-lg btn-primary" type="submit">Join</a>
           <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
       </main>
