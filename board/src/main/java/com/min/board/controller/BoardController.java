@@ -19,10 +19,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-
-    @Autowired
-    private BoardRepository boardRepository;
-
+    
     @Autowired
     private BoardService boardService;
 
