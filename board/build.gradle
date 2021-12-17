@@ -28,6 +28,7 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '2.4.5'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 }
 
 test {
