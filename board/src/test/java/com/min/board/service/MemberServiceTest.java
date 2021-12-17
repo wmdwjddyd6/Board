@@ -6,10 +6,12 @@ import com.min.board.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class MemberServiceTest {
 
     @Autowired
@@ -24,7 +26,7 @@ class MemberServiceTest {
 
         member.setUsername("22김광민");
         member.setPassword("d22fklsjfd");
-        member.setRole("admin");
+        member.setEmail("wmdwjdd@naver.com");
 
         memberService.join(member);
     }
