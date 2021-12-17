@@ -2,6 +2,8 @@ package com.min.board.controller;
 
 import com.min.board.model.Member;
 import com.min.board.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,30 +11,24 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class JoinController {
 
+    @Autowired
     private MemberService memberService;
 
-    public JoinController(MemberService memberService) {
-        this.memberService = memberService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @GetMapping("/joinForm")
+    public String joinForm() {
+        return "/account/joinForm";
     }
 
-    @GetMapping("/member/join")
-    public String createForm(Model model){
-        model.addAttribute("memberForm", new MemberForm());
-        return "join";
-    }
-
-    //password null로 찍힘
-    @PostMapping("/member/join")
-    public String createMember(@ModelAttribute MemberForm memberForm){
-        Member member = new Member();
-
-        member.setUsername(memberForm.getUsername());
-        member.setPassword(memberForm.getPassword());
-        member.setRole(memberForm.getRole());
+    @PostMapping("/join")
+    public String join(Member member){ // view의 form->input 의 name과 매핑됨.
+        String encPwd = bCryptPasswordEncoder.encode(member.getPassword());
+        member.setPassword(encPwd);
 
         memberService.join(member);
 
-        return "redirect:/";
+        return "redirect:/loginForm";
     }
-
 }
