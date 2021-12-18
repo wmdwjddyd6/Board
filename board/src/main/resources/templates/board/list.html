@@ -50,7 +50,7 @@
                 <tbody>
                     <tr th:each="board : ${boards}">
                         <th class="mt-5" scope="row" th:text="${board.id}">1</th>
-                        <td><a th:text="${board.title}" th:href="@{/board/form(id=${board.id})}" style="text-decoration:none; color:black;">제목</a></td>
+                        <td><a th:text="${board.title}" th:href="@{/board/post(id=${board.id})}" style="text-decoration:none; color:black;">제목</a></td>
                         <td th:text="${board.member.username}">작성자</td>
                         <td>
                             <form th:action="@{/board/delete}" method="post">
@@ -86,7 +86,7 @@
                 </ul>
             </nav>
             <div class="nav justify-content-end">
-                <a type="button" class="btn btn-outline-primary" th:href="@{/board/form}">write</a>
+                <a type="button" class="btn btn-primary" th:href="@{/board/form}">write</a>
             </div>
         </div>
     </main>

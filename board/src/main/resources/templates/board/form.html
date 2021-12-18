@@ -34,7 +34,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="content" class="form-label">content</label>
-                    <textarea class="form-control" id="content" rows="3" 
+                    <textarea class="form-control" id="content" rows="13" 
                         th:classappend="${#fields.hasErrors('content')} ? 'is-invalid'" th:field="*{content}"></textarea>
                         <div th:if="${#fields.hasErrors('content')}" th:errors="*{content}" id="validationServer03Feedback" class="invalid-feedback">
                             Content Error
@@ -42,7 +42,7 @@
                 </div>
                 <!-- button -->
                 <div class="nav justify-content-end">
-                    <button type="submit" class="ms-1 btn btn-primary">write</button>
+                    <button type="submit" class="ms-2 btn btn-primary">write</button>
                     <a type="button" class="btn btn-primary" th:href="@{/board/list}">exit</a>
                 </div>
             </form>
