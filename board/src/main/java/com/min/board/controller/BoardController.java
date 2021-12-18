@@ -52,6 +52,14 @@ public class BoardController {
         return "board/form";
     }
 
+    // 포스트 조회
+    @GetMapping("/post")
+    public String readPost(Model model, @RequestParam(required = false) Long id) {
+        Board board = boardService.contentLoad(id);
+        model.addAttribute("board", board);
+        return "board/post";
+    }
+
     // 게시글 작성
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult) {
