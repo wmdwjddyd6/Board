@@ -33,4 +33,9 @@ public class BoardService {
     public void save(Board board) {
         boardRepository.save(board);
     }
+
+    // 글 삭제
+    public void delete(Long boardId) {
+        boardRepository.deleteById(boardId);
+    }
 }

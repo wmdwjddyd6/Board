@@ -1,11 +1,13 @@
 package com.min.board.controller;
 
 import com.min.board.model.Board;
+import com.min.board.model.Member;
 import com.min.board.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,15 +45,32 @@ public class BoardController {
             Board board = boardService.contentLoad(id);
             model.addAttribute("board", board);
         }
+
         return "board/form";
     }
 
+    // 게시글 작성
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "board/form";
         }
+
         boardService.save(board);
+
         return "redirect:/board/list";
     }
+
+    // 게시글 삭제
+    @PostMapping("/delete")
+    public String boardDelete(Long boardId) {
+        boardService.delete(boardId);
+        
+        return "redirect:/board/list";
+    }
+
+//    @GetMapping("/user")
+//    public void userInfo(@AuthenticationPrincipal Member member) {
+//        System.out.println(member);
+//    }
 }
