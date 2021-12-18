@@ -1,8 +1,8 @@
 package com.min.board.controller;
 
 import com.min.board.model.Board;
-import com.min.board.model.Member;
 import com.min.board.service.BoardService;
+import com.min.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +23,9 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @Autowired
+    private MemberService memberService;
+
     // 게시판 리스트 페이징 및 검색 리스트
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(size = 2) Pageable pageable,
@@ -38,7 +41,7 @@ public class BoardController {
         return "board/list";
     }
 
-    // 게시글 작성 & 기존 게시글 불러오기
+    // 게시글 신규 작성 폼 진입 & 기존 게시글 불러오기
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long boardId) {
         if(boardId == null) {
@@ -51,13 +54,16 @@ public class BoardController {
         return "board/form";
     }
 
-
     // 게시글 작성 & 수정
     @PostMapping("/form")
-    public String boardSubmit(@Valid Board board, BindingResult bindingResult) {
+    public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal) {
         if(bindingResult.hasErrors()) {
             return "board/form";
         }
+        String loginUsername = principal.getName();
+
+        board.getMember().setId(memberService.getUserId(loginUsername));
+        board.getMember().setUsername(loginUsername);
 
         boardService.save(board);
 
