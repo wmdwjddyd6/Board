@@ -28,8 +28,5 @@ public class Board {
             @JoinColumn(name = "writer_id", referencedColumnName = "id")
     })
     private Member member;
-
-//    @NotNull
-//    private String writer;
     private String image;
 }
