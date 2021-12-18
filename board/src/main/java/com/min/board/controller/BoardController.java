@@ -38,29 +38,21 @@ public class BoardController {
         return "board/list";
     }
 
-    // 게시글 작성 폼 & 게시글 불러와서 수정
+    // 게시글 작성 & 기존 게시글 불러오기
     @GetMapping("/form")
-    public String form(Model model, @RequestParam(required = false) Long id) {
-        if(id == null) {
+    public String form(Model model, @RequestParam(required = false) Long boardId) {
+        if(boardId == null) {
             model.addAttribute("board", new Board());
         } else {
-            Board board = boardService.contentLoad(id);
-            System.out.println(board.getMember().getUsername());
+            Board board = boardService.contentLoad(boardId);
             model.addAttribute("board", board);
         }
 
         return "board/form";
     }
 
-    // 포스트 조회
-    @GetMapping("/post")
-    public String readPost(Model model, @RequestParam(required = false) Long id) {
-        Board board = boardService.contentLoad(id);
-        model.addAttribute("board", board);
-        return "board/post";
-    }
 
-    // 게시글 작성
+    // 게시글 작성 & 수정
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
@@ -72,6 +64,14 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    // 포스트 조회
+    @GetMapping("/post")
+    public String readPost(Model model, @RequestParam(required = false) Long id) {
+        Board board = boardService.contentLoad(id);
+        model.addAttribute("board", board);
+        return "board/post";
+    }
+
     // 게시글 삭제
     @PostMapping("/delete")
     public String boardDelete(Long boardId) {
@@ -79,12 +79,4 @@ public class BoardController {
 
         return "redirect:/board/list";
     }
-
-//    @GetMapping("/userinfo")
-//    public String test(Model model, Principal principal){
-//        String loginUsername = principal.getName();
-//        model.addAttribute("loginUsername", loginUsername);
-//
-//        return "board/list";
-//    }
 }
