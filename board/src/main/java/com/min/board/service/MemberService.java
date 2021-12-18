@@ -26,4 +26,8 @@ public class MemberService {
     public void join(Member member){
         jpaMemberRepository.save(member);
     }
+
+    public Long getUserId(String username) {
+        return jpaMemberRepository.findByUsername(username).getId();
+    }
 }
