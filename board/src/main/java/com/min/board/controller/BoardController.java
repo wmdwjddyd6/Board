@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/board")
@@ -25,7 +26,7 @@ public class BoardController {
     // 게시판 리스트 페이징 및 검색 리스트
     @GetMapping("/list")
     public String list(Model model, @PageableDefault(size = 2) Pageable pageable,
-                       @RequestParam(required = false, defaultValue = "") String searchText){
+                       @RequestParam(required = false, defaultValue = "") String searchText) {
         Page<Board> boards = boardService.search(searchText, searchText, pageable);
         int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
         int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
@@ -37,12 +38,14 @@ public class BoardController {
         return "board/list";
     }
 
+    // 게시글 작성 폼 & 게시글 불러와서 수정
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long id) {
         if(id == null) {
             model.addAttribute("board", new Board());
         } else {
             Board board = boardService.contentLoad(id);
+            System.out.println(board.getMember().getUsername());
             model.addAttribute("board", board);
         }
 
@@ -65,12 +68,15 @@ public class BoardController {
     @PostMapping("/delete")
     public String boardDelete(Long boardId) {
         boardService.delete(boardId);
-        
+
         return "redirect:/board/list";
     }
 
-//    @GetMapping("/user")
-//    public void userInfo(@AuthenticationPrincipal Member member) {
-//        System.out.println(member);
+//    @GetMapping("/userinfo")
+//    public String test(Model model, Principal principal){
+//        String loginUsername = principal.getName();
+//        model.addAttribute("loginUsername", loginUsername);
+//
+//        return "board/list";
 //    }
 }
