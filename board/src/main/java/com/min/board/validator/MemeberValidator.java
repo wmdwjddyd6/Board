@@ -26,9 +26,5 @@ public class MemeberValidator implements Validator {
         if(memberService.checkUsername(member.getUsername())) {
             errors.rejectValue("username", "key", "이미 존재하는 아이디입니다.");
         }
-
-//        if(member.getUsername().matches(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*")) {
-//            errors.rejectValue("username", "key", "영문과 숫자만 입력가능합니다.");
-//        }
     }
 }
