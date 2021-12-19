@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/loginForm") // 로그인 페이지
                     .loginProcessingUrl("/login") // 시큐리티에서 로그인을 대신 진행하도록 정의 -> 컨트롤러에 안만들어도 됨.
                     .defaultSuccessUrl("/")
-                    .failureHandler(customFailureHandler)
+                    .failureForwardUrl("/fail_login")
                     .and()
                 .logout()
                     .permitAll();
