@@ -5,16 +5,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록된다.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private AuthenticationFailureHandler customFailureHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -35,6 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/loginForm") // 로그인 페이지
                     .loginProcessingUrl("/login") // 시큐리티에서 로그인을 대신 진행하도록 정의 -> 컨트롤러에 안만들어도 됨.
                     .defaultSuccessUrl("/")
+                    .failureHandler(customFailureHandler)
                     .and()
                 .logout()
                     .permitAll();
