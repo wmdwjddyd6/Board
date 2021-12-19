@@ -3,9 +3,11 @@ package com.min.board.model;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
@@ -23,17 +25,18 @@ public class Member {
     private long id;
 
     @Id
-    @NotNull(message = "username을 입력하세요.")
-    @Size(min = 1, max = 20, message = "username은 1자 이상 20자 이하입니다.")
+    @NotNull
+    @UniqueElements
+    @Size(min = 5, max = 20, message = "username은 5자 이상 20자 이하입니다.")
     private String username;
 
-    @NotNull(message = "암호를 입력하세요.")
+    @NotNull
     @Size(min = 6, max = 100, message = "암호는 6자 이상 100자 이하 입니다.")
     private String password;
 
     @NotNull
-    @Size(min = 6, max = 45, message = "이메일은 6자 이상 45자 이하 입니다.")
-    @Email
+    @Size(min = 6, max = 45, message = "올바른 이메일을 입력하세요.")
+    @Email(message = "이메일 형식을 맞춰주세요.")
     private String email;
 
     @Column

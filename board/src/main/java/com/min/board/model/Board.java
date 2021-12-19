@@ -19,7 +19,7 @@ public class Board {
     private String title;
 
     @NotNull
-    @Size(min = 1, message = "내용을 입력하세요.")
+    @NotBlank(message = "내용을 입력하세요.")
     private String content;
 
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
