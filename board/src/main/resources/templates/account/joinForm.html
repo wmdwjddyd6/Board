@@ -11,29 +11,37 @@
 </head>
 <body class="text-center">
     <main class="form-signin">
-        <form th:action="@{/join}" method="post">
-          <img class="mb-2" src="https://cdn-icons.flaticon.com/png/512/2604/premium/2604013.png?token=exp=1639622665~hmac=34100795639e38fce307d0d3588611a6" alt="" width="120" height="100">
+        <form th:action="@{/join}" method="post" th:object="${member}">
+          <a href="/"><img class="mb-2" src="https://cdn-icons.flaticon.com/png/512/2604/premium/2604013.png?token=exp=1639622665~hmac=34100795639e38fce307d0d3588611a6" alt="" width="120" height="100"></a>
           <h1 class="h3 mb-3 fw-normal">Create account</h1>
           
           <div class="form-floating">
-            <input type="text" class="form-control" name="username" id="floatingInput" placeholder="Username">
+            <input type="text" class="form-control" th:field="*{username}" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" id="floatingInput" placeholder="Username">
             <label for="floatingInput">Username</label>
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" id="validationServer03Feedback" class="invalid-feedback text-start">
+              Username Error
+            </div>
           </div>
           <div class="form-floating">
-            <input type="password" class="form-control mt-2" name="password" id="floatingPassword" placeholder="Password">
+            <input type="password" class="form-control mt-2" th:field="*{password}" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" id="validationServer03Feedback" class="invalid-feedback text-start" style="margin-bottom: 8px;">
+              Password Error
+            </div>
           </div>
           <div class="form-floating">
-            <input type="email" class="form-control" name="email" id="floatingPassword" placeholder="Email">
+            <input type="email" class="form-control" th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" id="floatingPassword" placeholder="Email">
             <label for="floatingPassword">example@board.com</label>
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="validationServer03Feedback" class="invalid-feedback text-start" style="margin-top: 8px;">
+              Email Error
+            </div>
           </div>
-          
       
           <div class="checkbox mb-3">
           </div>
           <button class="w-100 btn btn-lg btn-primary" type="submit">Get started!</button>
-          <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
+          <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
       </main>
 </body>
 </html>
