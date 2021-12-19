@@ -6,10 +6,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 @Data
@@ -26,7 +23,7 @@ public class Member {
 
     @Id
     @NotNull
-    @UniqueElements
+    @Pattern(regexp = "^[a-z0-9]*$", message = "username은 영문(소문자)과 숫자만 가능합니다.")
     @Size(min = 5, max = 20, message = "username은 5자 이상 20자 이하입니다.")
     private String username;
 
