@@ -38,4 +38,8 @@ public class MemberService {
     public Long getUserId(String username) {
         return jpaMemberRepository.findByUsername(username).getId();
     }
+
+    public boolean checkUsername(String username) {
+        return jpaMemberRepository.existsByUsername(username);
+    }
 }
