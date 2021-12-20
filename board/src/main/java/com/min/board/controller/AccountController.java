@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
@@ -34,18 +35,16 @@ public class AccountController {
 
     // 회원탈퇴 진행
     @PostMapping("/secession")
-    public String secession(Principal principal, String password) {
-       String username = principal.getName();
+    public String secession(Principal principal, String password, @RequestBody(required = false) String check) {
+        String username = principal.getName();
 
-       if(memberService.checkPassword(username, password)) {
+        if(memberService.checkPassword(username, password) && !check.isEmpty()) {
            memberService.secession(username);
            SecurityContextHolder.clearContext(); // 회원탈퇴 시 로그아웃
 
            return "redirect:/";
-       } else {
-           System.out.println("진행실패");
+        } else {
            return "redirect:/account/secessionForm?error=true";
-       }
+        }
     }
-
 }
