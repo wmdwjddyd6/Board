@@ -31,4 +31,9 @@ class MemberServiceTest {
         memberService.join(member);
     }
 
+    @Test
+    public void secession_회원탈퇴() {
+        String username = "tlgjadyd";
+    }
+
 }
