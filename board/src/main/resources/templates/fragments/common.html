@@ -28,7 +28,7 @@
             </ul>
             <a th:href="@{/loginForm}" class="btn btn-secondary fw-bolder me-4" sec:authorize="!isAuthenticated()">Login</a>
             <form class="d-flex me-4" th:action="@{/logout}" sec:authorize="isAuthenticated()">
-              <span class="text-white me-4 mt-2 fw-bolder" sec:authentication="name">사용자</span>
+              <a class="text-white me-4 mt-2 fw-bolder" th:href=@{/account/userMenu} sec:authentication="name">사용자</a>
               <button th:href="@{/logout}" class="btn btn-secondary fw-bolder">Logout</button>
             </form>
           </div>
