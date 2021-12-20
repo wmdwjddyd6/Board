@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import java.util.Locale;
 
 @Controller
+@RequestMapping("/account")
 public class JoinController {
 
     @Autowired
