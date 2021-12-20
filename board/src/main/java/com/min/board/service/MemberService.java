@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+
 @Service
 public class MemberService {
         // 일반 dataSource를 사용한 JDBC
@@ -58,13 +60,22 @@ public class MemberService {
         return jpaMemberRepository.existsByUsername(username);
     }
 
-    public boolean checkPassword(String username, String password) {
-        Member member = jpaMemberRepository.findByUsername(username);
+    // 비밀번호 체크
+    public boolean checkPassword(String loginUsername, String password) {
+        Member member = jpaMemberRepository.findByUsername(loginUsername);
 
         if(bCryptPasswordEncoder.matches(password, member.getPassword())) {
             return true;
         }
-
         return false;
+    }
+
+    // 비밀번호 변경
+    public void changePassword(String loginUsername, String newPassword) {
+        String encPassword = pwdEncoding(newPassword);
+        Member member = jpaMemberRepository.findByUsername(loginUsername);
+        member.setPassword(encPassword);
+
+        jpaMemberRepository.save(member);
     }
 }

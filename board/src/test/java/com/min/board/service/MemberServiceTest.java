@@ -1,6 +1,7 @@
 package com.min.board.service;
 
 import com.min.board.model.Member;
+import com.min.board.model.MemberID;
 import com.min.board.repository.JpaMemberRepository;
 import com.min.board.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
+//@Transactional
 class MemberServiceTest {
 
     @Autowired
@@ -24,16 +25,24 @@ class MemberServiceTest {
     public void join_회원가입() {
         Member member = new Member();
 
-        member.setUsername("22김광민");
-        member.setPassword("d22fklsjfd");
+        member.setUsername("rhkdrhkd");
+        member.setPassword("123456");
         member.setEmail("wmdwjdd@naver.com");
 
         memberService.join(member);
     }
 
     @Test
-    public void secession_회원탈퇴() {
-        String username = "tlgjadyd";
+    public void changePassword_비밀번호변경() {
+        Member member = new Member();
+
+        member.setUsername("rhkdrhkd");
+        member.setPassword("123456");
+        member.setEmail("wmdwjdd@naver.com");
+
+        memberService.join(member);
+
+        memberService.changePassword(member.getUsername(), "789456123");
     }
 
 }
