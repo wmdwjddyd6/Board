@@ -21,12 +21,14 @@ public class JoinController {
     @Autowired
     private MemeberValidator memeberValidator;
 
+    // 회원가입 폼
     @GetMapping("/joinForm")
     public String joinForm(Model model) {
         model.addAttribute("member", new Member());
         return "/account/joinForm";
     }
 
+    // 회원가입
     @PostMapping("/join")
     public String join(@Valid Member member, BindingResult bindingResult){ // view의 form->input 의 name과 매핑됨.
         memeberValidator.validate(member, bindingResult);
