@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class MemberID implements Serializable {
 
     @Column(name = "id")
-    private long id;
+    private Long id;
 
     @Column(name = "username")
     private String username;
