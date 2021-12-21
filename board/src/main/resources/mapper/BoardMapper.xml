@@ -14,6 +14,7 @@
         ,image
     </sql>
 
+
     <select id="selectBoardById" resultType="Board">
         SELECT
             <include refid="boardColumns"/>
@@ -23,6 +24,7 @@
             id = #{id}
     </select>
 
+    <!--모든 게시글 조회-->
     <select id="selectAllBoards" resultType="Board">
         SELECT
             <include refid="boardColumns"/>
@@ -30,6 +32,7 @@
             tb_board
     </select>
 
+    <!--게시글 작성-->
     <insert id="insertBoard" parameterType="Board">
         INSERT INTO
             tb_board (title, content, writer_id)
@@ -37,6 +40,7 @@
             (#{title}, #{content}, #{writerId})
     </insert>
 
+    <!--게시글 업데이트-->
     <update id="updateBoard" parameterType="Board">
         UPDATE
             tb_board
@@ -47,6 +51,7 @@
             id = #{id}
     </update>
 
+    <!--특정 아이디 게시글 조회-->
     <select id="findById" resultType="Board">
         SELECT
             <include refid="boardColumns"/>
@@ -56,6 +61,7 @@
             id = #{id}
     </select>
 
+    <!--임시 삭제 게시글 조회-->
     <update id="temporaryDeleteById" parameterType="Long">
         UPDATE
             tb_board
