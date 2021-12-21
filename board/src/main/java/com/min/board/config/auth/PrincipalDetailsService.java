@@ -2,6 +2,7 @@ package com.min.board.config.auth;
 
 import com.min.board.model.Member;
 import com.min.board.repository.JpaMemberRepository;
+import com.min.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,12 +14,12 @@ import org.springframework.stereotype.Service;
 public class PrincipalDetailsService implements UserDetailsService {
 
     @Autowired
-    private JpaMemberRepository jpaMemberRepository;
+    private MemberService memberService;
 
     // 리턴되는 순간 시큐리티 session(내부 Authentication(내부 UserDetails))
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member memberEntity = jpaMemberRepository.findByUsername(username);
+        Member memberEntity = memberService.getMember(username);
 
         if(memberEntity != null) {
             return new PrincipalDetails(memberEntity);
