@@ -23,10 +23,9 @@ public class Board {
     private String content;
 
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
-    @JoinColumns({
-            @JoinColumn(name = "writer", referencedColumnName = "username"),
-            @JoinColumn(name = "writer_id", referencedColumnName = "id")
-    })
-    private Member member;
+    @JoinColumn(name = "writer_id", referencedColumnName = "id")
+    private Long writerId;
+
+    private String deleteYN;
     private String image;
 }

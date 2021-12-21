@@ -9,19 +9,18 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
+//@IdClass(MemberID.class)
 @Data
 @Entity
 @DynamicUpdate
 @DynamicInsert
 @Table(name = "tb_userinfo")
-@IdClass(MemberID.class)
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id
     @NotNull
     @Pattern(regexp = "^[a-z0-9]*$", message = "username은 영문(소문자)과 숫자만 가능합니다.")
     @Size(min = 5, max = 20, message = "username은 5자 이상 20자 이하입니다.")
