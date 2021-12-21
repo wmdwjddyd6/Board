@@ -16,6 +16,7 @@ class MyMemberRepositoryTest {
     @Autowired
     private MemberService ms;
 
+    // 회원가입 테스트
     @Test
     public void save_테스트(){
         Member member = new Member();
