@@ -1,7 +1,6 @@
 package com.min.board.service;
 
 import com.min.board.model.Member;
-import com.min.board.model.MemberID;
 import com.min.board.repository.JpaMemberRepository;
 import com.min.board.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
@@ -21,6 +20,7 @@ class MemberServiceTest {
     @Autowired
     MemberService memberService;
 
+    // 회원가입 테스트
     @Test
     public void join_회원가입() {
         Member member = new Member();
@@ -32,6 +32,7 @@ class MemberServiceTest {
         memberService.join(member);
     }
 
+    // 비밀번호 변경 테스트
     @Test
     public void changePassword_비밀번호변경() {
         Member member = new Member();
