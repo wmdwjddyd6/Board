@@ -29,7 +29,6 @@ class MemberServiceTest {
 
         try {
             memberService.join(member);
-            System.out.println("회원가입 완료");
         } catch (Exception e) {
             System.out.println("회원가입 실패");
         }
@@ -39,7 +38,15 @@ class MemberServiceTest {
     @Test
     public void changePassword_비밀번호변경() {
         Member member = memberService.getMember("rhkdrhkd"); // 회원 객체 받기
-        String loginUsername = member.getUsername();
+        String loginUsername = "";
+
+        try{
+            loginUsername = member.getUsername();
+        } catch (Exception e) {
+            System.out.println("멤버 객체가 없습니다.");
+            return;
+        }
+
         String oldPassword = "123456";
         String newPassword = "789456123";
 
