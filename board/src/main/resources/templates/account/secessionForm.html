@@ -10,6 +10,17 @@
     <!-- Custom styles for this template -->
     <title>회원탈퇴</title>
     <link type="text/css" href="/css/signin.css" rel="stylesheet">
+    <script type="text/javascript">
+        // 체크박스 체크여부 확인
+        function CheckForm(secession) {
+            var chk=document.secessionForm.check.checked;
+    
+            if(!chk){
+                alert("체크박스를 체크해주세요.");
+                return false;
+            }
+        }
+    </script>
 </head>
 
 <body class="text-center">
@@ -19,7 +30,7 @@
                 alt="" width="120" height="100"></a>
         <h1 sec:authentication="name" class="mb-3 fw-normal">Username</h1>
 
-        <form th:action="@{/account/secession}" method="post">
+        <form th:action="@{/account/secession}" method="post" name="secessionForm" onsubmit="return CheckForm(this)">
             <div class="form-floating">
                 <input type="password" class="form-control mt-2" name="password" id="floatingPassword"
                     placeholder="Password">
