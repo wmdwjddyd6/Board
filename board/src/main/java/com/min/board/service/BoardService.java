@@ -1,19 +1,9 @@
 package com.min.board.service;
 
 import com.min.board.model.Board;
-import com.min.board.model.Member;
 import com.min.board.repository.BoardMapper;
-import com.min.board.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityManager;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BoardService {

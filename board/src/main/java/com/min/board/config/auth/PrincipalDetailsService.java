@@ -1,7 +1,6 @@
 package com.min.board.config.auth;
 
 import com.min.board.model.Member;
-import com.min.board.repository.JpaMemberRepository;
 import com.min.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

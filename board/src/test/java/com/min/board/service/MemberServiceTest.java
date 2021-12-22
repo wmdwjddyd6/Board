@@ -1,15 +1,9 @@
 package com.min.board.service;
 
 import com.min.board.model.Member;
-import com.min.board.repository.JpaMemberRepository;
-import com.min.board.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 //@Transactional

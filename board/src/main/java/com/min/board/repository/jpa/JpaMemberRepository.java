@@ -1,4 +1,4 @@
-package com.min.board.repository;
+package com.min.board.repository.jpa;
 
 import com.min.board.model.Member;
 //import com.min.board.model.MemberID;

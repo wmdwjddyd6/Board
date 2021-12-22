@@ -1,6 +1,6 @@
 //package com.min.board.config;
 //
-//import com.min.board.repository.BoardRepository;
+//import com.min.board.repository.jpa.BoardRepository;
 //import com.min.board.repository.MemberRepository;
 //import com.min.board.repository.MyMemberRepository;
 //import com.min.board.service.MemberService;

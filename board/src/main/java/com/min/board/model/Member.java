@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
-//@IdClass(MemberID.class)
 @Data
 @Entity
 @DynamicUpdate

@@ -1,16 +1,9 @@
 package com.min.board.service;
 
 import com.min.board.model.Board;
-import com.min.board.model.Member;
-import com.min.board.repository.BoardRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-
-import java.util.Collection;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class BoardServiceTest {
