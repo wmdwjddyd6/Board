@@ -1,5 +1,6 @@
 package com.min.board.controller;
 
+import com.min.board.model.Member;
 import com.min.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,7 +24,9 @@ public class AccountController {
     // 유저 메뉴 탭으로 이동
     @GetMapping("/userMenu")
     public String userMenu(Model model, Principal principal) {
-        model.addAttribute("userEmail", memberService.getUserEmail(principal.getName()));
+        Member member = memberService.getMember(principal.getName());
+        String userEmail = member.getEmail();
+        model.addAttribute("userEmail", userEmail);
 
         return "/account/userMenu";
     }
@@ -36,11 +39,10 @@ public class AccountController {
 
     // 회원탈퇴 진행
     @PostMapping("/secession")
-    public String secession(Principal principal, String password,
-                            @RequestBody(required = false) String check) {
+    public String secession(Principal principal, String password) {
         String loginUsername = principal.getName();
 
-        if(memberService.checkPassword(loginUsername, password) && !check.isEmpty()) { // 패스워드, 체크박스 확인
+        if(memberService.checkPassword(loginUsername, password)) { // 패스워드, 체크박스 확인
            memberService.secession(loginUsername); // 회원탈퇴
            SecurityContextHolder.clearContext(); // 회원탈퇴 시 로그아웃
 
