@@ -18,7 +18,7 @@ class MemberServiceTest {
         Member member = new Member();
 
         member.setUsername("rhkdrhkd");
-        member.setPassword(memberService.pwdEncoding("123456"));
+        member.setPassword("123456");
         member.setEmail("wmdwjdd@naver.com");
 
         try {

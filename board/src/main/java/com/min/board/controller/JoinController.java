@@ -10,6 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/account")
@@ -36,9 +38,6 @@ public class JoinController {
         if(bindingResult.hasErrors()) {
             return "/account/joinForm";
         }
-
-        String encPwd = memberService.pwdEncoding(member.getPassword());
-        member.setPassword(encPwd);
 
         memberService.join(member);
 

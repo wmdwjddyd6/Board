@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Service
 public class MemberService {
         // 일반 dataSource를 사용한 JDBC
@@ -34,6 +37,8 @@ public class MemberService {
             System.out.println("memberService.join() : 이미 존재하는 아이디입니다.");
         } else {
             try {
+                member.setPassword(pwdEncoding(member.getPassword()));
+                member.setCreateDate(Timestamp.valueOf(LocalDateTime.now())); // 회원가입 시간
                 memberRepository.save(member);
                 System.out.println("memberService.join() : 회원가입 완료");
             } catch (Exception e) {
@@ -92,9 +97,9 @@ public class MemberService {
         try{
             member = memberRepository.findByUsername(username);
             System.out.println("memberService.getMember() : 멤버 객체 초기화 완료");
-            return member;
         } catch (Exception e) {
             System.out.println("memberService.getMember() .. error : " + e.getMessage());
+        } finally {
             return member;
         }
     }

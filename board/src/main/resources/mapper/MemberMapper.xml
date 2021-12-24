@@ -11,6 +11,7 @@
         ,password
         ,email
         ,role
+        ,create_date
     </sql>
 
     <!--모든 회원정보 받아오기-->
@@ -24,19 +25,19 @@
     <!--아이디로 회원정보 받기-->
     <select id="findByUsername" resultType="Member">
         SELECT
-        <include refid="memberColumns"/>
+            <include refid="memberColumns"/>
         FROM
-        tb_userinfo
+            tb_userinfo
         WHERE
-        username = #{username}
+            username = #{username}
     </select>
 
     <!--회원가입-->
-    <insert id="save" parameterType="String">
+    <insert id="save" parameterType="Member">
         INSERT INTO
-            tb_userinfo (username, password, email)
+            tb_userinfo (username, password, email, create_date)
         VALUES
-            (#{username}, #{password}, #{email})
+            (#{username}, #{password}, #{email}, #{createDate})
     </insert>
 
     <!--회원탈퇴-->

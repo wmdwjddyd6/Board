@@ -37,6 +37,5 @@ public class Member {
     @Column
     private String role;
 
-//    @CreationTimestamp
-//    private Timestamp createDate;
+    private Timestamp createDate;
 }
