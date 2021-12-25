@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<body>
+	<nav aria-label="Page navigation example" th:fragment="pagination(pagination)">
+		<ul class="pagination justify-content-center">
+			<th:block th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
+				<li class="page-item" th:classappend="${pagination.prev == false} ? 'disabled'">
+					<a class="page-link" th:href="@{/board/list(page=${start - 1}, range=${pagination.range - 1}, 
+					searchText=${param.searchText})}">Previous</a>
+				</li>
+
+				<li class="page-item" th:classappend="${i == pagination.page} ? 'disabled'"
+					th:each="i : ${#numbers.sequence(start, end)}"><a class="page-link" href="#" th:href="@{/board/list(page=${i}, 
+					range=${pagination.range}, searchText=${param.searchText})}" th:text="${i}">1</a></li>
+
+				<li class="page-item" th:classappend="${pagination.next == false} ? 'disabled'">
+					<a class="page-link" th:href="@{/board/list(page=${end + 1}, range=${pagination.range + 1}, 
+					searchText=${param.searchText})}" href="#">Next</a>
+				</li>
+			</th:block>
+		</ul>
+	</nav>
+</body>
+
+</html>
