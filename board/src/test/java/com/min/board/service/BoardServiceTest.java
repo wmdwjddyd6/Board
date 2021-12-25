@@ -1,9 +1,12 @@
 package com.min.board.service;
 
 import com.min.board.model.Board;
+import com.min.board.paging.Pagination;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 class BoardServiceTest {
@@ -15,14 +18,17 @@ class BoardServiceTest {
     public MemberService memberService;
 
     @Test
-    public void save_게시글생성() {
+    public void save_게시글n개생성() {
         Board board = new Board();
-        Long id = 1l; // 작성자 ID
+        Long id = 14l; // 작성자 ID
         board.setWriterId(id);
-        board.setTitle("하이하이ㅣ");
-        board.setContent("안녕하세요");
+        for(int i = 0; i < 6; i ++) {
+            board.setTitle(i + "번째 제목입니다.");
+            board.setContent(i + "번째 내용이에요.");
 
-        boardService.save(board);
+            boardService.save(board);
+        }
+
     }
 
     @Test
@@ -31,7 +37,24 @@ class BoardServiceTest {
     }
 
     @Test
-    public void deleteBoard_게시글임시삭제() {
-        boardService.temporaryDelete(5l);
+    public void deleteBoard_게시글휴지통으로() {
+        boardService.temporaryDelete(6l);
+    }
+
+    @Test
+    public void getBoardList_메인게시판리스트() {
+        int page = 62;
+        int range = (page / 10) + 1;
+        int listCount = boardService.getBoardListCnt();
+
+        Pagination pagination = new Pagination();
+        pagination.pageInfo(page, range, listCount);
+
+        List<Board> boards = boardService.getBoardList(pagination);
+        for(int i = 0; i < boards.size(); i ++) {
+            System.out.println("board : " + boards.get(i)); // for test
+        }
+        System.out.println(pagination.getStartPage());
+        System.out.println(pagination.getEndPage());
     }
 }
