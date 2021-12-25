@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.sql.Timestamp;
 
 @Entity
 @Data
@@ -27,5 +28,7 @@ public class Board {
     private Long writerId;
 
     private String deleteYN;
+    private Timestamp createDate;
+
     private String image;
 }
