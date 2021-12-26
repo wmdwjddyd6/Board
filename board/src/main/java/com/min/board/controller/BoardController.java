@@ -43,11 +43,8 @@ public class BoardController {
 
         List<Board> boards = boardService.getBoardList(pagination);
 
-        List<Member> member = memberService.getBoardMatchMember(boards);
-
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
-        model.addAttribute("member", member);
 
         return "board/list";
     }
