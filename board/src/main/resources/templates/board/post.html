@@ -21,7 +21,7 @@
 
 
     <main class="flex-shrink-0">
-        <div class="container mt-5">
+        <div class="container mt-3">
             <div class="ms-3 mt-4">
                 <div class="mb-3">
                     <h2>제목 : <span th:text="${board.title}">글 제목</span></h2>
@@ -37,11 +37,11 @@
                 <form th:if="${board.writer == #httpServletRequest.remoteUser}" th:action="@{/board/delete}"
                     method="post">
                     <input type="hidden" th:name="boardId" th:value="${board.id}">
-                    <button class="btn btn-danger me-2" name="${board.id}" type="submit">delete</button>
+                    <button class="btn btn-danger me-2" type="submit">Delete</button>
                 </form>
                 <a type="button" class="btn btn-primary" th:if="${board.writer == #httpServletRequest.remoteUser}"
-                    th:href="@{/board/form(boardId=${board.id})}">change</a>
-                <a type="button" class="btn btn-primary ms-2" th:href="@{/board/list}">exit</a>
+                    th:href="@{/board/form(boardId=${board.id})}">Change</a>
+                <a type="button" class="btn btn-primary ms-2" th:href="@{/board/list}">Exit</a>
             </div>
         </div>
     </main>

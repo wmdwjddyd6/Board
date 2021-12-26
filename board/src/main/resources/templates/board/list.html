@@ -22,7 +22,7 @@
 
     <main class="flex-shrink-0">
         <!-- head -->
-        <div class="container mt-5">
+        <div class="container mt-3">
             <h2>게시판</h2>
             <p> 총 건수 : <span th:text="${pagination.listCnt}"></span></p>
             <form class="row g-3 justify-content-end" method="GET" th:action="@{/board/list}" name="searchForm">
@@ -51,7 +51,7 @@
 
                 <tbody>
                     <tr th:each="board : ${boardList}">
-                        <th class="mt-5 text-center" scope="row" th:text="${board.id}">1</th>
+                        <td class="mt-5 text-center" scope="row" th:text="${board.id}">1</td>
                         <td><a th:text="${board.title}" th:href="@{/board/post(id=${board.id})}" style="text-decoration:none; color:black;">제목</a></td>
                         <td class="text-center" th:text="${#dates.format(board.createDate, 'yyyy/MM/dd HH:mm')}">작성일</td>
                         <td class="text-center" th:text="${board.writer}">작성자</td>
