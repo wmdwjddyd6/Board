@@ -75,7 +75,7 @@ public class BoardController {
         if(id == null) {
             boardService.save(board, loginUsername); // Insert
         } else {
-            boardService.update(board, loginUsername, id); // Update
+            boardService.update(board, id); // Update
         }
 
         return "redirect:/board/list";
@@ -86,7 +86,7 @@ public class BoardController {
     public String readPost(Model model, @RequestParam(required = false) Long id) {
         Board board = boardService.contentLoad(id);
         model.addAttribute("board", board);
-        
+
         return "board/post";
     }
 

@@ -93,7 +93,7 @@ public class BoardService {
         }
     }
 
-    public void update(Board board, String loginUsername, Long boardId) {
+    public void update(Board board, Long boardId) {
         board.setId(boardId);
 
         try {
