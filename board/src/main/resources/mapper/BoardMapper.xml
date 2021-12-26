@@ -62,9 +62,9 @@
     <!--게시글 작성-->
     <insert id="insertBoard" parameterType="Board">
         INSERT INTO
-            tb_board (title, content, writer_id, create_date)
+            tb_board (title, content, writer_id, writer, create_date)
         VALUES
-            (#{title}, #{content}, #{writerId}, #{createDate})
+            (#{title}, #{content}, #{writerId}, #{writer}, #{createDate})
     </insert>
 
     <!--게시글 업데이트-->
