@@ -1,6 +1,7 @@
 package com.min.board.service;
 
 import com.min.board.model.Board;
+import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,13 +21,13 @@ class BoardServiceTest {
     @Test
     public void save_게시글n개생성() {
         Board board = new Board();
-        Long id = 14l; // 작성자 ID
-        board.setWriterId(id);
+        String username = "rhkdrhkd";
+
         for(int i = 0; i < 6; i ++) {
             board.setTitle(i + "번째 제목입니다.");
             board.setContent(i + "번째 내용이에요.");
 
-            boardService.save(board);
+            boardService.save(board, username);
         }
 
     }

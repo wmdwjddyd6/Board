@@ -1,6 +1,7 @@
 package com.min.board.service;
 
 import com.min.board.model.Board;
+import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.repository.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ import java.util.List;
 public class BoardService {
 
     private final BoardMapper boardRepository;
+
+    @Autowired
+    private MemberService memberService;
 
     @Autowired
     public BoardService(BoardMapper boardMapper) {
@@ -41,15 +45,7 @@ public class BoardService {
         int boardTotalCount = 0;
 
         try {
-            boardTotalCount = boardRepository.selectBoardTotalCount(); // 파라미터 안넘겨도 될 듯??
-
-//            PaginationInfo paginationInfo = new PaginationInfo(board);
-//            paginationInfo.setTotalRecordCount(boardTotalCount);
-//
-//            board.setPaginationInfo(paginationInfo);
-//
-//            if(boardTotalCount > 0) {
-//                boards = boardRepository.selectBoardList(board);
+            boardTotalCount = boardRepository.selectBoardTotalCount();
 //            }
         } catch (Exception e) {
             System.out.println("boardRepository.getBoardListCnt() .. error : " + e.getMessage());
@@ -83,9 +79,15 @@ public class BoardService {
     }
 
     // 글 등록
-    public void save(Board board) {
+    public void save(Board board, String loginUsername) {
         board.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+
         try {
+            Member member = memberService.getMember(loginUsername);
+
+            board.setWriterId(member.getId());
+            board.setWriter(member.getUsername());
+
             boardRepository.insertBoard(board);
         } catch (Exception e) {
             System.out.println("boardService.save() .. error : " + e.getMessage());
@@ -100,6 +102,4 @@ public class BoardService {
             System.out.println("boardService.temporaryDelete() .. error : " + e.getMessage());
         }
     }
-
-
 }

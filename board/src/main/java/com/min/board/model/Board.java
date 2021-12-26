@@ -27,6 +27,7 @@ public class Board {
     @JoinColumn(name = "writer_id", referencedColumnName = "id")
     private Long writerId;
 
+    private String writer;
     private String deleteYN;
     private Timestamp createDate;
 

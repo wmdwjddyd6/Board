@@ -10,6 +10,7 @@
         ,title
         ,content
         ,writer_id
+        ,writer
         ,delete_yn
         ,create_date
         ,image

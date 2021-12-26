@@ -15,6 +15,7 @@ public interface BoardMapper {
     // 삭제된 글 제외 모두 조회
     List<Board> selectBoardList(Pagination pagination);
 
+    // 총 게시글 개수 반환
     int selectBoardTotalCount();
 
     // 게시글 수정

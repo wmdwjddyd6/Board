@@ -41,8 +41,13 @@ public class BoardController {
         Pagination pagination = new Pagination();
         pagination.pageInfo(page, range, listCount);
 
+        List<Board> boards = boardService.getBoardList(pagination);
+
+        List<Member> member = memberService.getBoardMatchMember(boards);
+
         model.addAttribute("pagination", pagination);
-        model.addAttribute("boardList", boardService.getBoardList(pagination));
+        model.addAttribute("boardList", boards);
+        model.addAttribute("member", member);
 
         return "board/list";
     }
@@ -67,12 +72,8 @@ public class BoardController {
             return "board/form";
         }
         String loginUsername = principal.getName();
-        Member member = memberService.getMember(loginUsername);
-        Long id = member.getId();
 
-        board.setWriterId(id);
-
-        boardService.save(board); // 이 부분 업데이트랑 인서트 분리해야함 ~~~~~~~~~~~~~~~~~~~~~~~~~~~현재는 인서트임~~~~~~~~~
+        boardService.save(board, loginUsername); // 이 부분 업데이트랑 인서트 분리해야함 ~~~~~~~~~~~~~~~~~~~~~~~~~~~현재는 인서트임~~~~~~~~~
 
         return "redirect:/board/list";
     }
