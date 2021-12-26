@@ -16,7 +16,7 @@ public interface BoardMapper {
     List<Board> selectBoardList(Pagination pagination);
 
     // 총 게시글 개수 반환
-    int selectBoardTotalCount();
+    int selectBoardTotalCount(String searchText);
 
     // 게시글 수정
     void updateBoard(Board board);

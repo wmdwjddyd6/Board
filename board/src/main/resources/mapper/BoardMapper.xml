@@ -34,11 +34,11 @@
             tb_board
         WHERE
             delete_yn = 'N'
+            <include refid="CommonMapper.search"/>
         ORDER BY
             id DESC,
             create_date
-        LIMIT
-            #{startList}, #{listSize}
+        <include refid="CommonMapper.paging"/>
     </select>
 
     <!--(페이징을 위한 카운트) 게시글 갯수 카운트-->
@@ -49,6 +49,7 @@
             tb_board
         WHERE
             delete_yn = 'N'
+        <include refid="CommonMapper.search"/>
     </select>
     
     <!--모든 게시글 조회-->

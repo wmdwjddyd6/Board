@@ -3,7 +3,7 @@ package com.min.board.paging;
 import lombok.Data;
 
 @Data
-public class Pagination {
+public class Pagination extends Common{
 
     private int listSize = 10;  // 초기값으로 목록개수를 10으로 셋팅
     private int rangeSize = 10; // 초기값으로 페이지범위를 10으로 셋팅

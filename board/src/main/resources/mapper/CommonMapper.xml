@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CommonMapper">
+    <sql id="paging">
+        LIMIT
+            #{startList}, #{listSize}
+    </sql>
+
+    <sql id="search">
+        <if test="searchText != null and searchText !=''">
+            AND
+            (
+                title LIKE CONCAT('%', #{searchText}, '%')
+                OR content LIKE CONCAT('%', #{searchText}, '%')
+            )
+        </if>
+    </sql>
+</mapper>
