@@ -36,10 +36,11 @@ public class BoardController {
                        @RequestParam(required = false, defaultValue = "1") int page,
                        @RequestParam(required = false, defaultValue = "1") int range,
                        String searchText) {
-        int listCount = boardService.getBoardListCnt();
+        int listCount = boardService.getBoardListCnt(searchText);
 
         Pagination pagination = new Pagination();
         pagination.pageInfo(page, range, listCount);
+        pagination.setSearchText(searchText);
 
         List<Board> boards = boardService.getBoardList(pagination);
 

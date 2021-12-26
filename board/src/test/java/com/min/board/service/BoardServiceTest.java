@@ -46,7 +46,8 @@ class BoardServiceTest {
     public void getBoardList_메인게시판리스트() {
         int page = 62;
         int range = (page / 10) + 1;
-        int listCount = boardService.getBoardListCnt();
+        String searchText = "검색 데이터";
+        int listCount = boardService.getBoardListCnt(searchText);
 
         Pagination pagination = new Pagination();
         pagination.pageInfo(page, range, listCount);

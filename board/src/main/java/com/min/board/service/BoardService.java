@@ -41,12 +41,11 @@ public class BoardService {
 //    }
 
     // 전체 게시글 개수 리턴
-    public int getBoardListCnt() {
+    public int getBoardListCnt(String searchText) {
         int boardTotalCount = 0;
 
         try {
-            boardTotalCount = boardRepository.selectBoardTotalCount();
-//            }
+            boardTotalCount = boardRepository.selectBoardTotalCount(searchText);
         } catch (Exception e) {
             System.out.println("boardRepository.getBoardListCnt() .. error : " + e.getMessage());
         } finally {
