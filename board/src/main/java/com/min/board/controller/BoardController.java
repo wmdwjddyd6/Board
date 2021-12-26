@@ -53,7 +53,13 @@ public class BoardController {
     // 게시글 신규 작성 폼 진입 & 기존 게시글 불러오기
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long boardId) {
-        model.addAttribute("board", new Board());
+        if(boardId == null) {
+            model.addAttribute("board", new Board());
+        } else {
+            Board board = boardService.contentLoad(boardId);
+            model.addAttribute("board", board);
+        }
+
         return "board/form";
     }
 
