@@ -12,11 +12,17 @@ public interface BoardMapper {
     // 모든 글 조회
     List<Board> selectAllBoards();
 
-    // 삭제된 글 제외 모두 조회
+    // 메인 게시판 - 삭제된 글 제외 모두 조회
     List<Board> selectBoardList(Pagination pagination);
 
-    // 총 게시글 개수 반환
+    // 메인 게시판 - 총 게시글 개수 반환
     int selectBoardTotalCount(String searchText);
+
+    // 글 관리 - 삭제된 글 제외 모두 조회
+    List<Board> selectMyBoardList(Pagination pagination);
+
+    // 글 관리 - 총 게시글 개수 반환
+    int selectMyBoardTotalCount(String writer);
 
     // 게시글 수정
     void updateBoard(Board board);

@@ -26,7 +26,7 @@
             id = #{id}
     </select>
 
-    <!--(페이징) 삭제된 글 제외 모두 조회-->
+    <!--(페이징) 메인 게시판 - 삭제된 글 제외 모두 조회-->
     <select id="selectBoardList" resultType="Board">
         SELECT
             <include refid="boardColumns"/>
@@ -50,6 +50,32 @@
         WHERE
             delete_yn = 'N'
         <include refid="CommonMapper.search"/>
+    </select>
+
+    <!--(페이징) 내 글 관리 - 삭제된 글 제외 모두 조회-->
+    <select id="selectMyBoardList" resultType="Board">
+        SELECT
+            <include refid="boardColumns"/>
+        FROM
+            tb_board
+        WHERE
+            delete_yn = 'N'
+            AND writer = #{writer}
+        ORDER BY
+            id DESC,
+            create_date
+            <include refid="CommonMapper.paging"/>
+    </select>
+
+    <!--(페이징) 내 글 관리 - 게시글 갯수 카운트-->
+    <select id="selectMyBoardTotalCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            tb_board
+        WHERE
+            delete_yn = 'N'
+            AND writer = #{writer}
     </select>
     
     <!--모든 게시글 조회-->

@@ -9,6 +9,7 @@ import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -92,27 +93,46 @@ public class BoardController {
 
     // 게시글 삭제
     @PostMapping("/delete")
-    public String boardDelete(Long boardId) {
+    public String boardDelete(@RequestParam(required = false) Long boardId) {
         boardService.temporaryDelete(boardId);
 
         return "redirect:/board/list";
     }
 
-//    // 내가 쓴 글 화면 이동
-//    @GetMapping("/myPost")
-//    public String myPost(Model model, Principal principal, @PageableDefault(size = 5) Pageable pageable) {
-//        Member member = memberService.getMember(principal.getName());
-//        Page<Board> boards = boardService.possessionContentLoad(pageable, member);
-//
-//        int startPage = Math.max(1, boards.getPageable().getPageNumber() - 4);
-//        int endPage = Math.min(boards.getTotalPages(), boards.getPageable().getPageNumber() + 4);
-//
-//        model.addAttribute("startPage", startPage);
-//        model.addAttribute("endPage", endPage);
-//        model.addAttribute("boards", boards);
-//
-//        return "/board/myPost";
-//    }
+    // 내가 쓴 글 화면 이동
+    @GetMapping("/myPost")
+    public String myPost(Model model,
+                       @RequestParam(required = false, defaultValue = "1") int page,
+                       @RequestParam(required = false, defaultValue = "1") int range,
+                       Principal principal) {
+
+        String loginUser = principal.getName();
+        int listCount = boardService.getMyBoardListCnt(loginUser);
+
+        Pagination pagination = new Pagination();
+        pagination.setWriter(loginUser);
+        pagination.pageInfo(page, range, listCount);
+
+        List<Board> boards = boardService.getMyBoardList(pagination);
+
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("boardList", boards);
+
+        return "board/myPost";
+    }
+
+    // 글 관리에서 삭제
+    @PostMapping("/myPost/delete")
+    public String boardDelete(@RequestParam(required = false) List<String> boardIdList) {
+        if(boardIdList == null) return "redirect:/board/myPost";
+        if(boardIdList.size() > 0) {
+            for(int i = 0; i < boardIdList.size(); i ++) {
+                boardService.temporaryDelete(Long.parseLong(boardIdList.get(i)));
+            }
+        }
+
+        return "redirect:/board/myPost";
+    }
 
     // 휴지통 화면 이동
     @GetMapping("/trash")

@@ -13,8 +13,8 @@
         <if test="searchText != null and searchText !=''">
             AND
             (
-                title LIKE CONCAT('%', #{searchText}, '%')
-                OR content LIKE CONCAT('%', #{searchText}, '%')
+            title LIKE CONCAT('%', #{searchText}, '%')
+            OR content LIKE CONCAT('%', #{searchText}, '%')
             )
         </if>
     </sql>

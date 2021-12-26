@@ -27,12 +27,6 @@ public class BoardService {
         this.boardRepository = boardMapper;
     }
 
-//    // 검색 : 제목과 내용으로 검색
-//    public Page<Board> search(String title, String content, Pageable pageable) {
-//        Page<Board> boards = boardRepository.findByTitleContainingOrContentContaining(title, content, pageable);
-//        return boards;
-//    }
-
 //    // 내가 쓴 글 리스트 뽑기
 //    public Page<Board> possessionContentLoad(Pageable pageable, Member member) {
 //        EntityManager entityManager = null;
@@ -53,13 +47,40 @@ public class BoardService {
         }
     }
 
+    // 전체 게시글 리스트로 리턴
     public List<Board> getBoardList(Pagination pagination) {
         List<Board> boards = Collections.emptyList();
 
         try {
             boards = boardRepository.selectBoardList(pagination);
         } catch (Exception e) {
-            System.out.println("boardRepository.getBoardList() .. error : " + e.getMessage());
+            System.out.println("boardRepository.getMyBoardList() .. error : " + e.getMessage());
+        } finally {
+            return boards;
+        }
+    }
+
+    // 내 글 관리 - 전체 게시글 개수 리턴
+    public int getMyBoardListCnt(String writer) {
+        int boardTotalCount = 0;
+
+        try {
+            boardTotalCount = boardRepository.selectMyBoardTotalCount(writer);
+        } catch (Exception e) {
+            System.out.println("boardRepository.getMyBoardListCnt() .. error : " + e.getMessage());
+        } finally {
+            return boardTotalCount;
+        }
+    }
+
+    // 내 글 관리 - 전체 게시글 리스트로 리턴
+    public List<Board> getMyBoardList(Pagination pagination) {
+        List<Board> boards = Collections.emptyList();
+
+        try {
+            boards = boardRepository.selectMyBoardList(pagination);
+        } catch (Exception e) {
+            System.out.println("boardRepository.getMyBoardList() .. error : " + e.getMessage());
         } finally {
             return boards;
         }

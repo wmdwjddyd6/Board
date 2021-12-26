@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class Common {
     private String searchText;
+    private String writer;
 }
