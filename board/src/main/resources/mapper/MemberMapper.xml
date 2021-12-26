@@ -22,7 +22,17 @@
             tb_userinfo
     </select>
 
-    <!--아이디로 회원정보 받기-->
+    <!--이름으로 회원정보 받기-->
+    <select id="findByMatchList" resultType="Member">
+        SELECT
+            <include refid="memberColumns"/>
+        FROM
+            tb_userinfo
+        WHERE
+            id = #{id}
+    </select>
+
+    <!--이름으로 회원정보 받기-->
     <select id="findByUsername" resultType="Member">
         SELECT
             <include refid="memberColumns"/>
