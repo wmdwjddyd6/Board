@@ -30,7 +30,7 @@ public class BoardController {
     @Autowired
     private MemberService memberService;
 
-    // 게시판 리스트      게시글 페이징 및 검색 리스트
+    // 게시판 리스트 (게시글 페이징 및 검색 리스트)
     @GetMapping("/list")
     public String list(Model model,
                        @RequestParam(required = false, defaultValue = "1") int page,
@@ -65,13 +65,18 @@ public class BoardController {
 
     // 게시글 작성 & 수정
     @PostMapping("/form")
-    public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal) {
+    public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal, Long id) {
         if(bindingResult.hasErrors()) {
             return "board/form";
         }
+
         String loginUsername = principal.getName();
 
-        boardService.save(board, loginUsername); // 이 부분 업데이트랑 인서트 분리해야함 ~~~~~~~~~~~~~~~~~~~~~~~~~~~현재는 인서트임~~~~~~~~~
+        if(id == null) {
+            boardService.save(board, loginUsername); // Insert
+        } else {
+            boardService.update(board, loginUsername, id); // Update
+        }
 
         return "redirect:/board/list";
     }
@@ -81,6 +86,7 @@ public class BoardController {
     public String readPost(Model model, @RequestParam(required = false) Long id) {
         Board board = boardService.contentLoad(id);
         model.addAttribute("board", board);
+        
         return "board/post";
     }
 

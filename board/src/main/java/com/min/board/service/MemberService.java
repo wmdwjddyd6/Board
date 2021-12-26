@@ -1,5 +1,6 @@
 package com.min.board.service;
 
+import com.min.board.model.Board;
 import com.min.board.model.Member;
 //import com.min.board.model.MemberID;
 import com.min.board.repository.MemberMapper;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class MemberService {
@@ -91,6 +94,7 @@ public class MemberService {
         return bCryptPasswordEncoder.encode(password);
     }
 
+    // 이름으로 멤버 저장
     public Member getMember(String username) {
         Member member = new Member();
 

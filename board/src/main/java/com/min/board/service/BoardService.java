@@ -93,6 +93,17 @@ public class BoardService {
         }
     }
 
+    public void update(Board board, String loginUsername, Long boardId) {
+        board.setId(boardId);
+
+        try {
+            boardRepository.updateBoard(board);
+        } catch (Exception e) {
+            System.out.println("boardService.update() .. error : " + e.getMessage());
+        }
+
+    }
+
     // 글 임시 삭제 (업데이트 로직 실행)
     public void temporaryDelete(Long boardId) {
         try {
