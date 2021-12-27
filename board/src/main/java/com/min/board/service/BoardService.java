@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,19 +25,12 @@ public class BoardService {
         this.boardRepository = boardMapper;
     }
 
-//    // 내가 쓴 글 리스트 뽑기
-//    public Page<Board> possessionContentLoad(Pageable pageable, Member member) {
-//        EntityManager entityManager = null;
-//        Page<Board> boards = (Page) entityManager.find(Board.class, member);
-//        return boards;
-//    }
-
     // 전체 게시글 개수 리턴
-    public int getBoardListCnt(String searchText) {
+    public int getBoardListCnt(Pagination pagination) {
         int boardTotalCount = 0;
 
         try {
-            boardTotalCount = boardRepository.selectBoardTotalCount(searchText);
+            boardTotalCount = boardRepository.selectBoardTotalCount(pagination);
         } catch (Exception e) {
             System.out.println("boardRepository.getBoardListCnt() .. error : " + e.getMessage());
         } finally {
@@ -61,26 +52,26 @@ public class BoardService {
     }
 
     // 내 글 관리 - 전체 게시글 개수 리턴
-    public int getMyBoardListCnt(String writer) {
+    public int getMyDeleteBoardListCnt(String writer) {
         int boardTotalCount = 0;
 
         try {
-            boardTotalCount = boardRepository.selectMyBoardTotalCount(writer);
+            boardTotalCount = boardRepository.selectDeleteMyBoardTotalCount(writer);
         } catch (Exception e) {
-            System.out.println("boardRepository.getMyBoardListCnt() .. error : " + e.getMessage());
+            System.out.println("boardRepository.selectDeleteMyBoardTotalCount() .. error : " + e.getMessage());
         } finally {
             return boardTotalCount;
         }
     }
 
     // 내 글 관리 - 전체 게시글 리스트로 리턴
-    public List<Board> getMyBoardList(Pagination pagination) {
+    public List<Board> getMyDeleteBoardList(Pagination pagination) {
         List<Board> boards = Collections.emptyList();
 
         try {
-            boards = boardRepository.selectMyBoardList(pagination);
+            boards = boardRepository.selectDeleteMyBoardList(pagination);
         } catch (Exception e) {
-            System.out.println("boardRepository.getMyBoardList() .. error : " + e.getMessage());
+            System.out.println("boardRepository.selectDeleteMyBoardTotalCount() .. error : " + e.getMessage());
         } finally {
             return boards;
         }

@@ -6,4 +6,5 @@ import lombok.Data;
 public class Common {
     private String searchText;
     private String writer;
+    private String type;
 }

@@ -10,12 +10,19 @@
     </sql>
 
     <sql id="search">
+        delete_yn = 'N'
         <if test="searchText != null and searchText !=''">
             AND
             (
             title LIKE CONCAT('%', #{searchText}, '%')
             OR content LIKE CONCAT('%', #{searchText}, '%')
             )
+        </if>
+    </sql>
+    <sql id="myPost">
+        delete_yn = 'N'
+        <if test="writer != null and writer !=''">
+            AND writer = #{writer}
         </if>
     </sql>
 </mapper>

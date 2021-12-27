@@ -37,11 +37,13 @@ public class BoardController {
                        @RequestParam(required = false, defaultValue = "1") int page,
                        @RequestParam(required = false, defaultValue = "1") int range,
                        String searchText) {
-        int listCount = boardService.getBoardListCnt(searchText);
+        int listCount = 0;
 
         Pagination pagination = new Pagination();
-        pagination.pageInfo(page, range, listCount);
         pagination.setSearchText(searchText);
+        pagination.setType("list");
+        listCount = boardService.getBoardListCnt(pagination);
+        pagination.pageInfo(page, range, listCount);
 
         List<Board> boards = boardService.getBoardList(pagination);
 
@@ -105,15 +107,16 @@ public class BoardController {
                        @RequestParam(required = false, defaultValue = "1") int page,
                        @RequestParam(required = false, defaultValue = "1") int range,
                        Principal principal) {
-
         String loginUser = principal.getName();
-        int listCount = boardService.getMyBoardListCnt(loginUser);
+        int listCount = 0;
 
         Pagination pagination = new Pagination();
         pagination.setWriter(loginUser);
+        pagination.setType("myPost");
+        listCount = boardService.getBoardListCnt(pagination);
         pagination.pageInfo(page, range, listCount);
 
-        List<Board> boards = boardService.getMyBoardList(pagination);
+        List<Board> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
@@ -134,9 +137,25 @@ public class BoardController {
         return "redirect:/board/myPost";
     }
 
-    // 휴지통 화면 이동
-    @GetMapping("/trash")
-    public String trashList() {
-        return "/board/trash";
-    }
+//    // 휴지통 화면 이동
+//    @GetMapping("/trash")
+//    public String trash(Model model,
+//                         @RequestParam(required = false, defaultValue = "1") int page,
+//                         @RequestParam(required = false, defaultValue = "1") int range,
+//                         Principal principal) {
+//
+//        String loginUser = principal.getName();
+//        int listCount = boardService.getBoardListCnt(loginUser);
+//
+//        Pagination pagination = new Pagination();
+//        pagination.setWriter(loginUser);
+//        pagination.pageInfo(page, range, listCount);
+//
+//        List<Board> boards = boardService.getBoardList(pagination);
+//
+//        model.addAttribute("pagination", pagination);
+//        model.addAttribute("boardList", boards);
+//
+//        return "board/trash";
+//    }
 }

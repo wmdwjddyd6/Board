@@ -47,16 +47,16 @@ class BoardServiceTest {
         int page = 62;
         int range = (page / 10) + 1;
         String searchText = "검색 데이터";
-        int listCount = boardService.getBoardListCnt(searchText);
 
         Pagination pagination = new Pagination();
+        pagination.setSearchText(searchText);
+        pagination.setType("list");
+        int listCount = boardService.getBoardListCnt(pagination);
         pagination.pageInfo(page, range, listCount);
 
         List<Board> boards = boardService.getBoardList(pagination);
         for(int i = 0; i < boards.size(); i ++) {
             System.out.println("board : " + boards.get(i)); // for test
         }
-        System.out.println(pagination.getStartPage());
-        System.out.println(pagination.getEndPage());
     }
 }
