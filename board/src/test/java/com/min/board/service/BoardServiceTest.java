@@ -59,4 +59,22 @@ class BoardServiceTest {
             System.out.println("board : " + boards.get(i)); // for test
         }
     }
+
+    @Test
+    public void getBoardList_휴지통() {
+        int page = 2;
+        int range = (page / 10) + 1;
+
+        String loginUser = "rhkdrhkd";
+        Pagination pagination = new Pagination();
+        pagination.setType("trash");
+        pagination.setWriter(loginUser);
+        int listCount = boardService.getBoardListCnt(pagination);
+        pagination.pageInfo(page, range, listCount);
+
+        List<Board> boards = boardService.getBoardList(pagination);
+        for(int i = 0; i < boards.size(); i ++) {
+            System.out.println("board : " + boards.get(i)); // for test
+        }
+    }
 }

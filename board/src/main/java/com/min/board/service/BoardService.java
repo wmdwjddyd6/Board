@@ -51,32 +51,6 @@ public class BoardService {
         }
     }
 
-    // 내 글 관리 - 전체 게시글 개수 리턴
-    public int getMyDeleteBoardListCnt(String writer) {
-        int boardTotalCount = 0;
-
-        try {
-            boardTotalCount = boardRepository.selectDeleteMyBoardTotalCount(writer);
-        } catch (Exception e) {
-            System.out.println("boardRepository.selectDeleteMyBoardTotalCount() .. error : " + e.getMessage());
-        } finally {
-            return boardTotalCount;
-        }
-    }
-
-    // 내 글 관리 - 전체 게시글 리스트로 리턴
-    public List<Board> getMyDeleteBoardList(Pagination pagination) {
-        List<Board> boards = Collections.emptyList();
-
-        try {
-            boards = boardRepository.selectDeleteMyBoardList(pagination);
-        } catch (Exception e) {
-            System.out.println("boardRepository.selectDeleteMyBoardTotalCount() .. error : " + e.getMessage());
-        } finally {
-            return boards;
-        }
-    }
-
     // id를 이용해서 해당 글 수정
     public Board contentLoad(Long id) {
         Board board = new Board();
