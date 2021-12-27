@@ -159,4 +159,17 @@ public class BoardController {
 
         return "board/trash";
     }
+
+    // 휴지통에서 삭제
+    @PostMapping("/trash/delete")
+    public String emptyTrash(@RequestParam(required = false) List<String> boardIdList) {
+        if(boardIdList == null) return "redirect:/board/trash";
+        if(boardIdList.size() > 0) {
+            for(int i = 0; i < boardIdList.size(); i ++) {
+                boardService.clearBoard(Long.parseLong(boardIdList.get(i)));
+            }
+        }
+
+        return "redirect:/board/trash";
+    }
 }

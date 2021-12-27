@@ -16,16 +16,6 @@
         ,image
     </sql>
 
-
-    <select id="selectBoardById" resultType="Board">
-        SELECT
-            <include refid="boardColumns"/>
-        FROM
-            tb_board
-        WHERE
-            id = #{id}
-    </select>
-
     <!--(페이징) 게시글 모두 조회-->
     <select id="selectBoardList" resultType="Board">
         SELECT
@@ -112,4 +102,11 @@
         WHERE
             id = #{id}
     </update>
+
+    <delete id="permanentlyDeleteById">
+        DELETE FROM
+            tb_board
+        WHERE
+            id = #{id}
+    </delete>
 </mapper>
