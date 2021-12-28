@@ -133,7 +133,7 @@ public class BoardController {
                 boardService.temporaryDelete(Long.parseLong(boardIdList.get(i)));
             }
         }
-
+        
         return "redirect:/board/myPost";
     }
 

@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Controller
-@RequestMapping("/account")
+@RequestMapping("/register")
 public class JoinController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class JoinController {
     @GetMapping("/joinForm")
     public String joinForm(Model model) {
         model.addAttribute("member", new Member());
-        return "/account/joinForm";
+        return "/register/joinForm";
     }
 
     // 회원가입
@@ -36,7 +36,7 @@ public class JoinController {
         memberValidator.validate(member, bindingResult);
 
         if(bindingResult.hasErrors()) {
-            return "/account/joinForm";
+            return "/register/joinForm";
         }
 
         memberService.join(member);

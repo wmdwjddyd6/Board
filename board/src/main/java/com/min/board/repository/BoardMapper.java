@@ -15,7 +15,7 @@ public interface BoardMapper {
     // 게시글 개수 반환 (메인 게시글, 글 관리, 휴지통)
     int selectBoardTotalCount(Pagination pagination);
 
-    // 삭제된 글 제외 모두 조회 (메인 게시글, 글 관리, 휴지통)
+    // 게시글 리스트 반환 (메인 게시글, 글 관리, 휴지통)
     List<Board> selectBoardList(Pagination pagination);
 
     // 게시글 수정

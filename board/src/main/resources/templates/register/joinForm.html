@@ -11,7 +11,7 @@
 </head>
 <body class="text-center">
     <main class="form-signin">
-        <form th:action="@{/account/join}" method="post" th:object="${member}">
+        <form th:action="@{/register/join}" method="post" th:object="${member}">
           <a href="/"><img class="mb-2" src="https://cdn-icons.flaticon.com/png/512/2604/premium/2604013.png?token=exp=1639622665~hmac=34100795639e38fce307d0d3588611a6" alt="" width="120" height="100"></a>
           <h1 class="h3 mb-3 fw-normal">Create account</h1>
           
@@ -39,10 +39,10 @@
       
           <div class="checkbox mb-3">
           </div>
-          <button class="w-100 btn btn-lg btn-primary mt-2" type="submit">Get started!</button>
-          <a type="button" class="w-100 btn btn-lg btn-primary mt-2" th:href="@{/}">exit</a>
+          <button class="w-100 btn btn-lg btn-primary mt-2" type="submit">가입하기</button>
+          <a type="button" class="w-100 btn btn-lg btn-primary mt-2" th:href="@{/}">Exit</a>
         </form>
-          <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+          <p class="mt-3 mb-3 text-muted">&copy; 2017–2021</p>
       </main>
 </body>
 </html>

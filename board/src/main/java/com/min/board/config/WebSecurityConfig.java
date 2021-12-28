@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                     .antMatchers("/css/**").permitAll()
-                    .antMatchers("/board/**").authenticated() // antMatchers에 적힌 주소는 로그인 필요
+                    .antMatchers("/board/**", "/account/**").authenticated() // antMatchers에 적힌 주소는 로그인 필요
                     .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // 권한 설정
                     .anyRequest().permitAll() // 그 외 요청은 허용
                     .and()
