@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 //@Transactional
 class MemberServiceTest {
@@ -78,5 +80,19 @@ class MemberServiceTest {
         }else {
             System.out.println("없는 아이디입니다.");
         }
+    }
+
+    // ID 찾기 테스트
+    @Test
+    public void getMemberByEmail() {
+        Member member = new Member();
+        member.setEmail("test@nate.com");
+
+        String resultUsername = "";
+        List<Member> memberList = memberService.getMemberByEmail(member.getEmail());
+
+        member.setUsername(resultUsername);
+
+        System.out.println(resultUsername);
     }
 }
