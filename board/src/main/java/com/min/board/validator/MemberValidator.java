@@ -10,7 +10,7 @@ import org.thymeleaf.util.StringUtils;
 
 // 회원가입 조건 검사
 @Component
-public class JoinValidator implements Validator {
+public class MemberValidator implements Validator {
 
     @Autowired
     private MemberService memberService;
