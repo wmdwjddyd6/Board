@@ -110,18 +110,45 @@ public class MemberService {
 
     // 아이디 중복 체크
     public boolean checkUsername(String username) {
-        // true 반환 시 중복 아이디 있음
         Member member = getMember(username);
 
         try {
-            if(member.getUsername().equals(username)) {
+            if(member.getUsername().equals(username)) {     // true 반환 시 중복 아이디 있음
                 return true;
             } else {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println("error : " + e.getMessage()); // DB 조회 결과가 없을 때 error : null 출력
+            System.out.println("memberService.checkUsername() .. error : " + e.getMessage()); // DB 조회 결과가 없을 때 error : null 출력
             return false;
+        }
+    }
+
+    // ID 찾기 Email 체크
+    public boolean checkEmail(String email) {
+        List<Member> member = getMemberByEmail(email);
+
+        try {
+            if(member.get(0).getEmail().equals(email)) {       // true 반환 시 존재하는 이메일
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("memberService.checkEmail() .. error : " + e.getMessage());
+            return false;
+        }
+    }
+
+    public List<Member> getMemberByEmail(String email) {
+        List<Member> member = Collections.emptyList();
+
+        try {
+            member = memberRepository.findByEmail(email);
+        } catch (Exception e) {
+            System.out.println("memberService.getMemberByEmail() .. error : " + e.getMessage());
+        } finally {
+            return member;
         }
     }
 }

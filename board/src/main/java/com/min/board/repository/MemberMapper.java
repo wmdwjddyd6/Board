@@ -21,4 +21,7 @@ public interface MemberMapper {
 
     // 비밀번호 변경
     void pwdChange(Member member);
+
+    // 이메일로 유저 정보 받기
+    List<Member> findByEmail(String email);
 }

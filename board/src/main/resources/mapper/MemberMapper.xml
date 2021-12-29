@@ -57,4 +57,14 @@
         WHERE
             id = #{id}
     </update>
+
+    <!--이메일로 회원정보 받기-->
+    <select id="findByEmail" resultType="Member">
+        SELECT
+            <include refid="memberColumns"/>
+        FROM
+            tb_userinfo
+        WHERE
+            email = #{email}
+    </select>
 </mapper>
