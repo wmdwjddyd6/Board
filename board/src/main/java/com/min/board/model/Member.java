@@ -1,23 +1,13 @@
 package com.min.board.model;
 
 import lombok.Data;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.UniqueElements;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 @Data
-@Entity
-@DynamicUpdate
-@DynamicInsert
-@Table(name = "tb_userinfo")
 public class Member {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -31,11 +21,7 @@ public class Member {
 
     @NotNull
     @Size(min = 6, max = 45, message = "올바른 이메일을 입력하세요.")
-    @Email(message = "이메일 형식을 맞춰주세요.")
     private String email;
-
-    @Column
     private String role;
-
     private Timestamp createDate;
 }
