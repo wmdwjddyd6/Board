@@ -1,4 +1,4 @@
-# Board
+# Board Project
 SpringBoot를 이용한 게시판 만들기 <br/><br/>
 
 # Server <br/>
