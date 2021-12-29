@@ -20,8 +20,6 @@
           alt="" width="120" height="100"></a>
       <h1 class="h3 mb-3 fw-normal">ID 찾기</h1>
       
-      <div class="checkbox mb-2">
-      </div>
       <div th:if="${param.email == null}">
         <div class="form-floating">
           <input type="email" class="form-control mt-2" name="email" id="floatingEmail" placeholder="Email">
@@ -41,7 +39,7 @@
         <a class="w-100 btn btn-lg btn-primary mt-2" th:href="@{/loginForm}" type="submit">login</a>
       </div>
       
-      <a type="button" class="w-100 btn btn-lg btn-primary mt-2" th:href="@{/passwordReset}">비밀번호를 잊어버리셨나요?</a>
+      <a type="button" class="w-100 btn btn-lg btn-primary mt-2" th:href="@{/passwordResetForm}">비밀번호를 잊어버리셨나요?</a>
       <a type="button" class="w-100 btn btn-lg btn-primary mt-2" th:href="@{/}">Exit</a>
       
     </form>

@@ -47,8 +47,6 @@ public class LoginController {
     @PostMapping("/findId")
     public String findId(String email, Model model){ // view의 form->input 의 name과 매핑됨.
         if(memberService.checkEmail(email)) {
-            String resultUsername = "";
-
             return "redirect:/findIdForm?email=" + email;
         } else {
             return "redirect:/findIdForm?error=true";
@@ -56,10 +54,9 @@ public class LoginController {
     }
 
 
-    // PW 찾기
-    @GetMapping("passwordReset")
-    public String passwordReset(Model model) {
-        model.addAttribute("member", new Member());
-        return "/account/passwordReset";
+    // PW 찾기 폼 진입
+    @GetMapping("passwordResetForm")
+    public String passwordReset() {
+        return "/account/passwordResetForm";
     }
 }

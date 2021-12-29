@@ -23,9 +23,6 @@
             <input type="password" class="form-control mt-2" name="password" id="floatingPassword" placeholder="Password">
             <label for="floatingPassword">Password</label>
           </div>
-          <!-- <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="validationServer03Feedback" class="invalid-feedback text-start" style="margin-top: 8px;">
-            username or password Error
-          </div> -->
           <div th:if="${param.error}">
             <p class="alert alert-danger">정보가 일치하지 않습니다.</p>
           </div>
