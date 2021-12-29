@@ -1,6 +1,7 @@
 package com.min.board.controller;
 
 import com.min.board.model.Member;
+import com.min.board.service.MailService;
 import com.min.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class LoginController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private MailService mailService;
 
     // 로그인 폼
     @GetMapping("/loginForm")
@@ -59,12 +63,15 @@ public class LoginController {
         return "/account/passwordResetForm";
     }
 
-    // PW 리셋 & 이메일 전송
+    // PW 리셋 & 비밀번호 이메일 전송
     @PostMapping("passwordReset")
     public String passwordReset(String username, String email) {
-        if(memberService.compareEmailUsername(username, email)) {
+        if(username.isEmpty() || email.isEmpty()) {
+            return "redirect:/passwordResetForm?error=true";
+        }else if(memberService.compareEmailUsername(username, email)) {
             String temporaryPassword = memberService.getRandomPassword(username);
-            // 이 줄에 메일 보내는 서비스 추가하기
+            mailService.sendMail(username, email, temporaryPassword);
+
             return "redirect:/passwordResetForm?email=" + email;
         } else {
             return "redirect:/passwordResetForm?error=true";
