@@ -95,4 +95,10 @@ class MemberServiceTest {
 
         System.out.println(resultUsername);
     }
+
+    @Test
+    public void getRandomPassword() {
+        String password = memberService.getRandomPassword("rhkdrhkd");
+        System.out.println(password);
+    }
 }

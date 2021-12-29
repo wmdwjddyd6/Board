@@ -53,10 +53,21 @@ public class LoginController {
         }
     }
 
-
     // PW 찾기 폼 진입
     @GetMapping("passwordResetForm")
-    public String passwordReset() {
+    public String passwordResetForm() {
         return "/account/passwordResetForm";
+    }
+
+    // PW 리셋 & 이메일 전송
+    @PostMapping("passwordReset")
+    public String passwordReset(String username, String email) {
+        if(memberService.compareEmailUsername(username, email)) {
+            String temporaryPassword = memberService.getRandomPassword(username);
+            // 이 줄에 메일 보내는 서비스 추가하기
+            return "redirect:/passwordResetForm?email=" + email;
+        } else {
+            return "redirect:/passwordResetForm?error=true";
+        }
     }
 }

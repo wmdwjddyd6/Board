@@ -77,4 +77,5 @@ class BoardServiceTest {
             System.out.println("board : " + boards.get(i)); // for test
         }
     }
+
 }

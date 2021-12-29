@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -76,9 +78,9 @@ public class MemberService {
     }
 
     // 비밀번호 변경
-    public void changePassword(String loginUsername, String newPassword) {
+    public void changePassword(String username, String newPassword) {
         String encPassword = pwdEncoding(newPassword);
-        Member member = getMember(loginUsername);
+        Member member = getMember(username);
         member.setPassword(encPassword);
 
         try{
@@ -140,6 +142,7 @@ public class MemberService {
         }
     }
 
+    // 등록된 Email의 유저 리스트 받기
     public List<Member> getMemberByEmail(String email) {
         List<Member> member = Collections.emptyList();
 
@@ -150,5 +153,45 @@ public class MemberService {
         } finally {
             return member;
         }
+    }
+
+    // password 리셋을 위한 email, username 비교
+    public boolean compareEmailUsername(String username, String email) {
+        Member member = getMember(username);
+
+        if(member.getEmail().equals(email)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // 임시 비밀번호 발급 & DB에 저장
+    public String getRandomPassword(String username) {
+        char[] charSet = new char[] {
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+                'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd',
+                'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+                'y', 'z', '!', '@', '#', '$', '%', '^', '&' };
+        StringBuffer sb = new StringBuffer();
+        SecureRandom sr = new SecureRandom();
+        sr.setSeed(new Date().getTime());
+
+        int index = 0;
+        int len = charSet.length;
+
+        for (int i = 0; i<10; i++) {
+            index = sr.nextInt(len);
+            sb.append(charSet[index]);
+        }
+
+        String temporaryPassword = sb.toString(); // 임시 비밀번호
+
+        changePassword(username, temporaryPassword);
+
+        return temporaryPassword;
     }
 }
