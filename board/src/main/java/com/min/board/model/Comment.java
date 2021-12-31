@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 
 @Data
 public class Comment {
-    private Long cid;
-    private Long bid;
+    private Long id;
+    private Long boardId;
     private String content;
     private Long writer_id;
     private String writer;

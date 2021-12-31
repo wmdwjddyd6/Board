@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.min.board.repository.mapper.CommentMapper">
+
+    <sql id="commentColumns">
+        id
+        ,board_id
+        ,content
+        ,writer_id
+        ,writer
+        ,create_date
+    </sql>
+
+    <select id="commentCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            tb_comment
+    </select>
+
+    <select id="commentList" resultType="Comment">
+        SELECT
+            <include refid="commentColumns"/>
+        FROM
+            tb_comment
+    </select>
+
+
+    <insert id="commentInsert">
+        INSERT INTO
+            tb_comment (board_id, content, writer_id, writer, create_date)
+        VALUES
+            (#{boardId}, #{content}, #{writerId}, #{writer}, #{createDate})
+    </insert>
+
+    <update id="commentUpdate">
+        UPDATE
+            tb_comment
+        SET
+            content = #{content}
+        WHERE
+            id = #{id}
+    </update>
+
+    <delete id="commentDelete" parameterType="int">
+        DELETE FROM
+            tb_comment
+        WHERE
+            id = #{id}
+    </delete>
+</mapper>
