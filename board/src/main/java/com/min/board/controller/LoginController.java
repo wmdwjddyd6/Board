@@ -68,7 +68,7 @@ public class LoginController {
     public String passwordReset(String username, String email) {
         if(username.isEmpty() || email.isEmpty()) {
             return "redirect:/passwordResetForm?error=true";
-        }else if(memberService.compareEmailUsername(username, email)) {
+        } else if(memberService.compareEmailUsername(username, email)) {
             String temporaryPassword = memberService.getRandomPassword(username);
             mailService.sendMail(username, email, temporaryPassword);
 
