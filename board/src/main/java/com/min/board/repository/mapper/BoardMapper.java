@@ -1,4 +1,4 @@
-package com.min.board.repository;
+package com.min.board.repository.mapper;
 
 import com.min.board.model.Board;
 import com.min.board.paging.Pagination;

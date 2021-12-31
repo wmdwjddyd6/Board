@@ -3,7 +3,7 @@ package com.min.board.service;
 import com.min.board.model.Board;
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
-import com.min.board.repository.BoardMapper;
+import com.min.board.repository.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

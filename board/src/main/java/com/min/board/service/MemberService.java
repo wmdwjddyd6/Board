@@ -1,9 +1,8 @@
 package com.min.board.service;
 
-import com.min.board.model.Board;
 import com.min.board.model.Member;
 //import com.min.board.model.MemberID;
-import com.min.board.repository.MemberMapper;
+import com.min.board.repository.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
