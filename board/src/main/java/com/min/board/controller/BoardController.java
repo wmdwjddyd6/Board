@@ -111,13 +111,6 @@ public class BoardController {
         return "redirect:/board/post?id=" + boardId;
     }
 
-    @GetMapping("/comment/list")
-    public List<Comment> commentList(@RequestParam(required = false) Long boardId) throws Exception {
-        List<Comment> comments = commentService.getCommentList(boardId);
-
-        return comments;
-    }
-
     // 게시글 삭제
     @PostMapping("/delete")
     public String boardDelete(@RequestParam(required = false) Long boardId) {
