@@ -14,14 +14,14 @@
         ,create_date
     </sql>
 
-    <select id="commentCount" resultType="int">
+    <select id="countComment" resultType="int">
         SELECT
             COUNT(*)
         FROM
             tb_comment
     </select>
 
-    <select id="commentList" resultType="Comment">
+    <select id="selectCommentList" resultType="Comment">
         SELECT
             <include refid="commentColumns"/>
         FROM
@@ -31,14 +31,14 @@
     </select>
 
 
-    <insert id="commentInsert">
+    <insert id="insertComment">
         INSERT INTO
             tb_comment (board_id, content, writer_id, writer, create_date)
         VALUES
             (#{boardId}, #{content}, #{writerId}, #{writer}, #{createDate})
     </insert>
 
-    <update id="commentUpdate">
+    <update id="updateComment">
         UPDATE
             tb_comment
         SET
@@ -47,7 +47,7 @@
             id = #{id}
     </update>
 
-    <delete id="commentDelete">
+    <delete id="deleteComment">
         DELETE FROM
             tb_comment
         WHERE

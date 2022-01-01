@@ -37,12 +37,12 @@ public class CommentService {
         comment.setWriterId(member.getId());
         comment.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
 
-        commentRepository.commentInsert(comment);
+        commentRepository.insertComment(comment);
     }
 
     // 댓글 조회
     public List<Comment> getCommentList(Long boardId) throws Exception {
-        return commentRepository.commentList(boardId);
+        return commentRepository.selectCommentList(boardId);
     }
 
 }
