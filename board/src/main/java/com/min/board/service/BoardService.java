@@ -79,6 +79,7 @@ public class BoardService {
         }
     }
 
+    // 글 수정
     public void update(Board board, Long boardId) {
         board.setId(boardId);
 
@@ -87,7 +88,6 @@ public class BoardService {
         } catch (Exception e) {
             System.out.println("boardService.update() .. error : " + e.getMessage());
         }
-
     }
 
     // 글 임시 삭제 (업데이트 로직 실행)

@@ -10,8 +10,8 @@ public interface CommentMapper {
     // 댓글 개수
     public int commentCount() throws Exception;
 
-    // 댓글 목록
-    public List<Comment> commentList() throws Exception;
+    // 댓글 리스트
+    public List<Comment> commentList(Long boardId) throws Exception;
 
     // 댓글 작성
     public int commentInsert(Comment comment) throws Exception;

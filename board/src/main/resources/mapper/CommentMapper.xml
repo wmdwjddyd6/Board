@@ -26,6 +26,8 @@
             <include refid="commentColumns"/>
         FROM
             tb_comment
+        WHERE
+            board_id = #{boardId}
     </select>
 
 

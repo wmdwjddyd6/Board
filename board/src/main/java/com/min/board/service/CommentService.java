@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -37,6 +38,11 @@ public class CommentService {
         comment.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
 
         commentRepository.commentInsert(comment);
+    }
+
+    // 댓글 조회
+    public List<Comment> commentList(Long boardId) throws Exception {
+        return commentRepository.commentList(boardId);
     }
 
 }
