@@ -1,6 +1,7 @@
 package com.min.board.controller;
 
 import com.min.board.model.Board;
+import com.min.board.model.Comment;
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.service.BoardService;
@@ -90,9 +91,12 @@ public class BoardController {
 
     // 포스트 조회
     @GetMapping("/post")
-    public String readPost(Model model, @RequestParam(required = false) Long id) {
+    public String readPost(Model model, @RequestParam(required = false) Long id) throws Exception {
         Board board = boardService.contentLoad(id);
+        List<Comment> comments = commentService.getCommentList(id);
+
         model.addAttribute("board", board);
+        model.addAttribute("comments", comments);
 
         return "board/post";
     }
@@ -105,6 +109,13 @@ public class BoardController {
         commentService.write(boardId, content, username);
 
         return "redirect:/board/post?id=" + boardId;
+    }
+
+    @GetMapping("/comment/list")
+    public List<Comment> commentList(@RequestParam(required = false) Long boardId) throws Exception {
+        List<Comment> comments = commentService.getCommentList(boardId);
+
+        return comments;
     }
 
     // 게시글 삭제

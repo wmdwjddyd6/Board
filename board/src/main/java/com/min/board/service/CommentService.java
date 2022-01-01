@@ -41,7 +41,7 @@ public class CommentService {
     }
 
     // 댓글 조회
-    public List<Comment> commentList(Long boardId) throws Exception {
+    public List<Comment> getCommentList(Long boardId) throws Exception {
         return commentRepository.commentList(boardId);
     }
 
