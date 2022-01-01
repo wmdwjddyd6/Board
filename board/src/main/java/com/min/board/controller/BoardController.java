@@ -4,6 +4,7 @@ import com.min.board.model.Board;
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.service.BoardService;
+import com.min.board.service.CommentService;
 import com.min.board.service.MemberService;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,9 @@ public class BoardController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private CommentService commentService;
 
     // 게시판 리스트 (게시글 페이징 및 검색 리스트)
     @GetMapping("/list")
@@ -91,6 +95,16 @@ public class BoardController {
         model.addAttribute("board", board);
 
         return "board/post";
+    }
+
+    // 댓글 작성
+    @PostMapping("/comment/write")
+    public String commentWrite(@RequestParam(required = false) Long boardId, String content,
+                               Principal principal) throws Exception {
+        String username = principal.getName();
+        commentService.write(boardId, content, username);
+
+        return "redirect:/board/post?id=" + boardId;
     }
 
     // 게시글 삭제
