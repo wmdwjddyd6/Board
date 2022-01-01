@@ -9,7 +9,7 @@ public class Comment {
     private Long id;
     private Long boardId;
     private String content;
-    private Long writer_id;
+    private Long writerId;
     private String writer;
     private Timestamp createDate;
 }

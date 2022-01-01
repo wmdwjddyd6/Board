@@ -45,7 +45,7 @@
             id = #{id}
     </update>
 
-    <delete id="commentDelete" parameterType="int">
+    <delete id="commentDelete">
         DELETE FROM
             tb_comment
         WHERE
