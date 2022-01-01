@@ -91,12 +91,14 @@ public class BoardController {
 
     // 포스트 조회
     @GetMapping("/post")
-    public String readPost(Model model, @RequestParam(required = false) Long id) throws Exception {
+    public String readPost(Model model, @RequestParam(required = false) Long id, Principal principal) throws Exception {
         Board board = boardService.contentLoad(id);
         List<Comment> comments = commentService.getCommentList(id);
+        String loginUser = principal.getName();
 
         model.addAttribute("board", board);
         model.addAttribute("comments", comments);
+        model.addAttribute("loginUser", loginUser);
 
         return "board/post";
     }
