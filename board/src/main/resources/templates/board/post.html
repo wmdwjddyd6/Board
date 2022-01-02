@@ -27,7 +27,7 @@
                     <div class="nav justify-content-end">
                         <form th:if="${board.writer == #httpServletRequest.remoteUser}" th:action="@{/board/delete}"
                             method="post">
-                            <input type="hidden" id="boardId" name="boardId" th:value="${board.id}">
+                            <input type="hidden" name="boardId" th:value="${board.id}">
                             <button class="btn btn-danger me-2" type="submit">Delete</button>
                         </form>
                         <a type="button" class="btn btn-primary"
@@ -45,24 +45,10 @@
                 </div>
 
                 <!-- Comment -->
-                <h4>댓글 (<span th:text=${comments.size}></span>)</h4>
+                <h4>댓글<span>(<span id="count"></span>)</span></h4>
                 <div class="mb-5">
-                    <div th:each="comment : ${comments}">
-                        <hr />
-                        <input type="hidden" id="commentId" name="commentId" th:value="${comment.id}">
-                        <span id="writer" style=" font-weight: bold;" th:text="${comment.writer}">작성자</span>
-                        <ul style="display: inline;" th:if="${comment.writer} == ${loginUser}">
-                            <li id="commentUpdate" type="button"
-                                style="display: inline; opacity: 0.7; font-size: small;" onclick="">수정</li>
-                            <li id="commentDelete" type="button"
-                                style="display: inline; opacity: 0.7; font-size: small;" th:onclick="deleteComment([[${comment.id}]])">삭제</li>
-                        </ul>
-                        <p id="comment" style="margin-bottom: 5px; font-size: large;" th:text="${comment.content}">댓글내용
-                        </p>
-                        <p id="createDate" style="margin-bottom: 5px; opacity: 0.5; font-size: small;"
-                            th:text="${#dates.format(comment.createDate, 'yyyy/MM/dd HH:mm')}">작성날짜</p>
+                    <div id="comment">
                     </div>
-
 
                     <form action="#" th:action="@{/board/comment/write}" method="post">
                         <input type="hidden" name="boardId" th:value="${board.id}">
@@ -82,25 +68,40 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
+    <script th:inline="javascript">
         $(document).ready(function () {
             getComments();
         })
 
         function getComments() {
-            var boardId = $('input#boardId').val();
+            var loginUsername = [[${ loginUser }]]
+            var boardId = $('input[name=boardId]').val()
+
             $.ajax({
                 type: 'GET',
                 url: '/board/comment/getCommentList',
                 data: { boardId },
                 success: function (response) {
-                    for (var i = 0; i < response.length; i++) {
-                        document.getElementById('writer').innerHTML(response.writer)
-                        document.getElementById('comment').innerHTML(response.content)
-                    }
+                    var a = '';
+                    var size = 0;
+                    $.each(response, function (key, value) {
+                        size = size + 1;
+                        a += '<hr /><div>'
+                        a += '<input type="hidden" id="commentId" name="commentId" value="' + value.id + '">'
+                        a += '<span id="writer" style="font-weight: bold;">' + value.writer + '</span>'
+                        if (value.writer == loginUsername) {
+                            a += '<ul class="justify-content-end" style="display: inline;">'
+                            a += '<li id="commentUpdate" type="button" style="display: inline; opacity: 0.7; font-size: small; margin-right: 5px" onclick="">수정</li>'
+                            a += '<li id="commentDelete" type="button" style="display: inline; opacity: 0.7; font-size: small;" onclick="deleteComment(' + value.id + ')">삭제</li></ul>'
+                        }
+                        a += '<p id="comment" style="margin-bottom: 5px; font-size: large;">' + value.content + '</p>'
+                        a += '<p id="createDate" style="margin-bottom: 5px; opacity: 0.5; font-size: small;">' + value.createDate.substring(0, 10) + ' ' + value.createDate.substring(11, 19) + '</p></div>'
+                    });
+                    $("#count").html(size)
+                    $("#comment").html(a)
                 },
                 error: function (response) {
-                    console.log(response)
+                    console.log("error : " + response)
                 },
                 complete: function () { }
             })
@@ -114,10 +115,10 @@
                     url: '/board/comment/delete/',
                     data: { commentId },
                     success: function (response) {
-                        window.location.reload();
+                        getComments()
                     },
                     error: function (response) {
-                        console.log(response)
+                        console.log("error : " + response)
                     },
                     complete: function () { }
                 })
