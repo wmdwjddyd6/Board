@@ -20,5 +20,5 @@ public interface CommentMapper {
     public int updateComment(Comment comment) throws Exception;
 
     // 댓글 삭제
-    public int deleteComment(int id) throws Exception;
+    public void deleteComment(Long id) throws Exception;
 }

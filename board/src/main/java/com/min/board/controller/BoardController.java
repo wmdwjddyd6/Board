@@ -103,16 +103,6 @@ public class BoardController {
         return "board/post";
     }
 
-    // 댓글 작성
-    @PostMapping("/comment/write")
-    public String commentWrite(@RequestParam(required = false) Long boardId, String content,
-                               Principal principal) throws Exception {
-        String username = principal.getName();
-        commentService.write(boardId, content, username);
-
-        return "redirect:/board/post?id=" + boardId;
-    }
-
     // 게시글 삭제
     @PostMapping("/delete")
     public String boardDelete(@RequestParam(required = false) Long boardId) {

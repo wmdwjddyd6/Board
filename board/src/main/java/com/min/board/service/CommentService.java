@@ -45,4 +45,8 @@ public class CommentService {
         return commentRepository.selectCommentList(boardId);
     }
 
+    // 댓글 삭제
+    public void delete(Long commentId) throws Exception {
+        commentRepository.deleteComment(commentId);
+    }
 }
