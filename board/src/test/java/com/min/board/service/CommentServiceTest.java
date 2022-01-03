@@ -34,4 +34,13 @@ class CommentServiceTest {
             System.out.println(comments.get(i));
         }
     }
+
+    // 댓글 수정
+    @Test
+    public void commentUpdate() throws Exception {
+        Long commentId = 16l;
+        String content = "수정 내용";
+
+        commentService.update(commentId, content);
+    }
 }

@@ -13,7 +13,6 @@ import java.util.List;
 @Service
 public class CommentService {
 
-    @Autowired
     private final CommentMapper commentRepository;
 
     @Autowired
@@ -22,6 +21,7 @@ public class CommentService {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
     public CommentService(CommentMapper commentMapper) {
         this.commentRepository = commentMapper;
     }
@@ -43,6 +43,16 @@ public class CommentService {
     // 댓글 조회
     public List<Comment> getCommentList(Long boardId) throws Exception {
         return commentRepository.selectCommentList(boardId);
+    }
+
+    // 댓글 수정
+    public void update(Long commentId, String content) throws Exception {
+        Comment comment = new Comment();
+
+        comment.setId(commentId);
+        comment.setContent(content);
+
+        commentRepository.updateComment(comment);
     }
 
     // 댓글 삭제
