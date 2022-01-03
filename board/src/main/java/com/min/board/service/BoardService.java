@@ -74,16 +74,14 @@ public class BoardService {
                             HttpServletResponse response) throws Exception {
         Cookie[] cookies = request.getCookies();
         Map<String, String> mapCookie = new HashMap<>();
+
         if(request.getCookies() != null) {
             for(int i = 0; i < cookies.length; i ++) {
-                System.out.println("cookies Name : " + i  + " = " + cookies[i].getName());
-                System.out.println("cookies Value : " + i  + " = " + cookies[i].getValue());
                 mapCookie.put(cookies[i].getName(), cookies[i].getValue());
             }
 
             String viewsCookie = mapCookie.get("views");
             String newCookie = "|" + id;
-            System.out.println(viewsCookie);
 
             // 쿠키가 없을 경우 쿠키 생성 후 조회수 증가
             if(viewsCookie == null || !viewsCookie.contains(Long.toString(id))) {

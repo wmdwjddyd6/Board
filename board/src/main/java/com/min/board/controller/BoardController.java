@@ -7,6 +7,7 @@ import com.min.board.paging.Pagination;
 import com.min.board.service.BoardService;
 import com.min.board.service.CommentService;
 import com.min.board.service.MemberService;
+import com.min.board.service.PagingService;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,20 +39,17 @@ public class BoardController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private PagingService pagingService;
+
     // 게시판 리스트 (게시글 페이징 및 검색 리스트)
     @GetMapping("/list")
     public String list(Model model,
                        @RequestParam(required = false, defaultValue = "1") int page,
                        @RequestParam(required = false, defaultValue = "1") int range,
                        String searchText) {
-        int listCount = 0;
 
-        Pagination pagination = new Pagination();
-        pagination.setSearchText(searchText);
-        pagination.setType("list");
-        listCount = boardService.getBoardListCnt(pagination);
-        pagination.pageInfo(page, range, listCount);
-
+        Pagination pagination = pagingService.getCommonPagination(page, range, searchText, "list");
         List<Board> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
@@ -98,6 +96,7 @@ public class BoardController {
                            HttpServletResponse response) throws Exception {
         String loginUser = principal.getName();
         Board board = boardService.contentLoad(id);
+
         boardService.updateViews(id, loginUser, request, response);
 
         model.addAttribute("board", board);
@@ -121,14 +120,8 @@ public class BoardController {
                        @RequestParam(required = false, defaultValue = "1") int range,
                        Principal principal) {
         String loginUser = principal.getName();
-        int listCount = 0;
 
-        Pagination pagination = new Pagination();
-        pagination.setWriter(loginUser);
-        pagination.setType("myPost");
-        listCount = boardService.getBoardListCnt(pagination);
-        pagination.pageInfo(page, range, listCount);
-
+        Pagination pagination = pagingService.getCommonPagination(page, range, loginUser, "myPost");
         List<Board> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
@@ -157,14 +150,8 @@ public class BoardController {
                          @RequestParam(required = false, defaultValue = "1") int range,
                          Principal principal) {
         String loginUser = principal.getName();
-        int listCount = 0;
 
-        Pagination pagination = new Pagination();
-        pagination.setWriter(loginUser);
-        pagination.setType("trash");
-        listCount = boardService.getBoardListCnt(pagination);
-        pagination.pageInfo(page, range, listCount);
-
+        Pagination pagination = pagingService.getCommonPagination(page, range, loginUser, "trash");
         List<Board> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
