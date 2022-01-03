@@ -19,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
@@ -91,9 +93,12 @@ public class BoardController {
 
     // 포스트 조회
     @GetMapping("/post")
-    public String readPost(Model model, @RequestParam(required = false) Long id, Principal principal) throws Exception {
-        Board board = boardService.contentLoad(id);
+    public String readPost(Model model, @RequestParam(required = false) Long id,
+                           Principal principal, HttpServletRequest request,
+                           HttpServletResponse response) throws Exception {
         String loginUser = principal.getName();
+        Board board = boardService.contentLoad(id);
+        boardService.updateViews(id, loginUser, request, response);
 
         model.addAttribute("board", board);
         model.addAttribute("loginUser", loginUser);

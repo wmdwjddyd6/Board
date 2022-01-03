@@ -44,8 +44,9 @@
                     <tr>
                         <th class="text-center" width="50" scope="col">No</th>
                         <th class="text-center" width="950" scope="col">제목</th>
-                        <th class="text-center" width="200" scope="col">작성일</th>
                         <th class="text-center" width="180" scope="col">작성자</th>
+                        <th class="text-center" width="200" scope="col">작성일</th>
+                        <th class="text-center" width="150" scope="col">조회수</th>
                     </tr>
                 </thead>
 
@@ -53,8 +54,9 @@
                     <tr th:each="board : ${boardList}">
                         <td class="mt-5 text-center" scope="row" th:text="${board.id}">1</td>
                         <td><a th:text="${board.title}" th:href="@{/board/post(id=${board.id})}" style="text-decoration:none; color:black;">제목</a></td>
-                        <td class="text-center" th:text="${#dates.format(board.createDate, 'yyyy/MM/dd HH:mm')}">작성일</td>
                         <td class="text-center" th:text="${board.writer}">작성자</td>
+                        <td class="text-center" th:text="${#dates.format(board.createDate, 'yyyy/MM/dd HH:mm')}">작성일</td>
+                        <td class="text-center" th:text="${board.views}">작성자</td>
                     </tr>
                 </tbody>
             </table>

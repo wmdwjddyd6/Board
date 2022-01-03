@@ -21,6 +21,8 @@ public interface BoardMapper {
     // 게시글 수정
     void updateBoard(Board board);
 
+    void updateViews(Long id) throws Exception;
+
     // 아이디로 글 찾기
     Board findById(Long id);
 

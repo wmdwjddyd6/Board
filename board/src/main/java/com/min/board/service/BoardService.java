@@ -5,12 +5,18 @@ import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.repository.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BoardService {
@@ -60,6 +66,32 @@ public class BoardService {
             System.out.println("boardService.contentLoad() .. error : " + e.getMessage());
         } finally {
             return board;
+        }
+    }
+
+    // 조회수 증가
+    public void updateViews(Long id, String username, HttpServletRequest request,
+                            HttpServletResponse response) throws Exception {
+        Cookie[] cookies = request.getCookies();
+        Map<String, String> mapCookie = new HashMap<>();
+        if(request.getCookies() != null) {
+            for(int i = 0; i < cookies.length; i ++) {
+                System.out.println("cookies Name : " + i  + " = " + cookies[i].getName());
+                System.out.println("cookies Value : " + i  + " = " + cookies[i].getValue());
+                mapCookie.put(cookies[i].getName(), cookies[i].getValue());
+            }
+
+            String viewsCookie = mapCookie.get("views");
+            String newCookie = "|" + id;
+            System.out.println(viewsCookie);
+
+            // 쿠키가 없을 경우 쿠키 생성 후 조회수 증가
+            if(viewsCookie == null || !viewsCookie.contains(Long.toString(id))) {
+                Cookie cookie = new Cookie("views", viewsCookie + newCookie);
+                response.addCookie(cookie);
+
+                boardRepository.updateViews(id);
+            }
         }
     }
 

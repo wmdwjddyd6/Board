@@ -13,6 +13,7 @@
         ,writer
         ,delete_yn
         ,create_date
+        ,views
         ,image
     </sql>
 
@@ -79,6 +80,16 @@
         SET
             title = #{title}
             ,content = #{content}
+        WHERE
+            id = #{id}
+    </update>
+
+    <!--게시글 조회수 업데이트-->
+    <update id="updateViews">
+        UPDATE
+            tb_board
+        SET
+            views = views + 1
         WHERE
             id = #{id}
     </update>
