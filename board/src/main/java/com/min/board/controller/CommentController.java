@@ -19,12 +19,12 @@ public class CommentController {
 
     // 댓글 작성
     @PostMapping("/write")
-    public String commentWrite(@RequestParam(required = false) Long boardId, String content,
+    @ResponseBody
+    public void commentWrite(@RequestParam(name = "boardId", required = false) Long boardId,
+                               @RequestParam(name = "content") String content,
                                Principal principal) throws Exception {
         String username = principal.getName();
         commentService.write(boardId, content, username);
-
-        return "redirect:/board/post?id=" + boardId;
     }
 
     // 댓글 조회

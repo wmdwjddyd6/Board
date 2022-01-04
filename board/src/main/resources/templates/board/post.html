@@ -50,14 +50,14 @@
                     <div id="comment">
                     </div>
 
-                    <form action="#" th:action="@{/board/comment/write}" method="post">
+                    <form>
                         <input type="hidden" name="boardId" th:value="${board.id}">
                         <div class="mb-3">
                             <label for="content" class="form-label"></label>
                             <textarea class="form-control" id="content" name="content" rows="4"
                                 placeholder="댓글을 작성해주세요."></textarea>
                         </div>
-                        <button type="submit" class="me-2 btn btn-primary">write</button>
+                        <button type="submit" class="me-2 btn btn-primary" onclick="insertComment()">write</button>
                     </form>
                 </div>
             </div>
@@ -101,10 +101,36 @@
                     $("#comment").html(a)
                 },
                 error: function (response) {
-                    console.log("error : " + response)
+                    console.log("getComments error : " + response)
                 },
                 complete: function () { }
             })
+        }
+
+        function insertComment() {
+            var boardId = $('input[name=boardId]').val()
+            var content = document.getElementById("content").value;
+
+            if (isEmpty(content) == true) {
+                alert('댓글을 입력해주세요.')
+                return false;
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/board/comment/write',
+                    data: {
+                        boardId: boardId,
+                        content: content
+                    },
+                    success: function (response) {
+                        getComments()
+                        console.log("insert success")
+                    },
+                    error: function (response) {
+                        console.log("insertComment error : " + response)
+                    },
+                })
+            }
         }
 
         function updateCommentForm(id) {
@@ -121,21 +147,26 @@
             var commentId = id;
             var content = document.getElementById("newComment").value;
 
-            $.ajax({
-                type: 'POST',
-                url: '/board/comment/update',
-                data: { 
-                    commentId:commentId,
-                    content:content 
-                },
-                success: function (response) {
-                    getComments()
-                },
-                error: function (response) {
-                    console.log("update error : " + response)
-                },
-                complete: function () { }
-            })
+            if (isEmpty(content) == true) {
+                alert('댓글을 입력해주세요.')
+                return false;
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/board/comment/update',
+                    data: {
+                        commentId: commentId,
+                        content: content
+                    },
+                    success: function (response) {
+                        getComments()
+                    },
+                    error: function (response) {
+                        console.log("updateComment error : " + response)
+                    },
+                    complete: function () { }
+                })
+            }
         }
 
         function deleteComment(id) {
@@ -150,12 +181,26 @@
                         getComments()
                     },
                     error: function (response) {
-                        console.log("delete error : " + response)
+                        console.log("deleteComment error : " + response)
                     },
                     complete: function () { }
                 })
             } else {
                 return;
+            }
+        }
+        function isEmpty(strIn) {
+            if (strIn === undefined) {
+                return true;
+            }
+            else if (strIn == null) {
+                return true;
+            }
+            else if (strIn == "") {
+                return true;
+            }
+            else {
+                return false;
             }
         }
     </script>
