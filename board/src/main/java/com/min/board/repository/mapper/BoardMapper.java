@@ -21,6 +21,7 @@ public interface BoardMapper {
     // 게시글 수정
     void updateBoard(Board board);
 
+    // 조회수 증가
     void updateViews(Long id) throws Exception;
 
     // 아이디로 글 찾기

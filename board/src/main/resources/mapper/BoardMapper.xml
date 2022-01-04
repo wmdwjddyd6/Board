@@ -114,6 +114,7 @@
             id = #{id}
     </update>
 
+    <!--휴지통에서 삭제-->
     <delete id="permanentlyDeleteById">
         DELETE FROM
             tb_board

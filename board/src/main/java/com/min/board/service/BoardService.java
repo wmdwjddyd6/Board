@@ -134,7 +134,7 @@ public class BoardService {
         try {
             boardRepository.permanentlyDeleteById(boardId);
         } catch (Exception e) {
-            System.out.println("boardService.temporaryDelete() .. error : " + e.getMessage());
+            System.out.println("boardService.clearBoard() .. error : " + e.getMessage());
         }
     }
 }
