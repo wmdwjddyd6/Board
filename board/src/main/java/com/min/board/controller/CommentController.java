@@ -10,40 +10,39 @@ import java.security.Principal;
 import java.util.List;
 
 // 댓글 관련 컨트롤러
-@Controller
-@RequestMapping("/board/comment")
+@RequestMapping("/comments")
 @RestController
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
-    // 댓글 작성
-    @PostMapping("/write")
-    public void commentWrite(@RequestParam(name = "boardId", required = false) Long boardId,
-                               @RequestParam(name = "content") String content,
-                               Principal principal) throws Exception {
-        String username = principal.getName();
-        commentService.write(boardId, content, username);
-    }
-
     // 댓글 조회
-    @GetMapping("/getCommentList")
-    public List<Comment> getCommentList(@RequestParam(name = "boardId") Long boardId) throws Exception {
+    @GetMapping("/{boardId}")
+    public List<Comment> getCommentList(@PathVariable(value = "boardId") Long boardId) throws Exception {
         List<Comment> comments = commentService.getCommentList(boardId);
         return comments;
     }
 
+    // 댓글 작성
+    @PostMapping("/{boardId}")
+    public void commentWrite(@PathVariable(value = "boardId") Long boardId,
+                             @RequestBody Comment comment,
+                               Principal principal) throws Exception {
+        String username = principal.getName();
+        commentService.write(boardId, comment.getContent(), username);
+    }
+
     // 댓글 수정
-    @PostMapping("/update")
-    public void updateComment(@RequestParam(name = "commentId") Long commentId,
-                              @RequestParam(name = "content") String content) throws Exception {
-        commentService.update(commentId, content);
+    @PatchMapping("/{commentId}")
+    public void updateComment(@PathVariable(value = "commentId") Long commentId,
+                              @RequestBody Comment comment) throws Exception {
+        commentService.update(commentId, comment.getContent());
     }
 
     // 댓글 삭제
-    @PostMapping("/delete")
-    public void deleteComment(@RequestParam(name = "commentId") Long commentId) throws Exception {
+    @DeleteMapping("/{commentId}")
+    public void deleteComment(@PathVariable(value = "commentId") Long commentId) throws Exception {
         commentService.delete(commentId);
     }
 }
