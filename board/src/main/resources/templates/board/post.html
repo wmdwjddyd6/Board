@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments/common :: head('게시글 상세페이지')">
+<head th:replace="fragments/common :: head('게시글')">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -68,6 +68,7 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script th:inline="javascript">
         $(document).ready(function () {
             getComments()
@@ -81,7 +82,6 @@
             $.ajax({
                 type: 'GET',
                 url: url,
-                data: { boardId },
                 success: function (response) {
                     var a = ''
                     var size = 0
@@ -96,7 +96,7 @@
                             a += '<li name="commentDelete" type="button" style="display: inline; opacity: 0.7; font-size: small;" onclick="deleteComment(' + value.id + ')">삭제</li></ul>'
                         }
                         a += '<pre id="' + value.id + '" name="comment' + value.id + '" style="margin-bottom: 5px; font-size: large;">' + value.content + '</pre>'
-                        a += '<p name="createDate' + value.id + '" style="margin-bottom: 5px; opacity: 0.5; font-size: small;">' + value.createDate.substring(0, 10) + ' ' + value.createDate.substring(11, 19) + '</p></div>'
+                        a += '<p name="createDate' + value.id + '" style="margin-bottom: 5px; opacity: 0.5; font-size: small;">' + moment(value.createDate).format("YYYY-MM-DD HH:mm") + '</p></div>'
                     });
                     $("#count").html(size)
                     $("#comment").html(a)
