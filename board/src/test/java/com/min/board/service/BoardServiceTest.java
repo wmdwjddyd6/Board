@@ -18,6 +18,9 @@ class BoardServiceTest {
     @Autowired
     public MemberService memberService;
 
+    @Autowired
+    public PagingService pagingService;
+
     @Test
     public void save_게시글n개생성() {
         Board board = new Board();
@@ -29,7 +32,6 @@ class BoardServiceTest {
 
             boardService.save(board, username);
         }
-
     }
 
     @Test
@@ -48,13 +50,9 @@ class BoardServiceTest {
         int range = (page / 10) + 1;
         String searchText = "검색 데이터";
 
-        Pagination pagination = new Pagination();
-        pagination.setSearchText(searchText);
-        pagination.setType("list");
-        int listCount = boardService.getBoardListCnt(pagination);
-        pagination.pageInfo(page, range, listCount);
-
+        Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "list");
         List<Board> boards = boardService.getBoardList(pagination);
+
         for(int i = 0; i < boards.size(); i ++) {
             System.out.println("board : " + boards.get(i)); // for test
         }
