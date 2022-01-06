@@ -29,7 +29,7 @@ public class TrashController {
                         Principal principal) {
         String loginUser = principal.getName();
 
-        Pagination pagination = pagingService.getCommonPagination(page, range, loginUser, "trash");
+        Pagination pagination = pagingService.getBoardPagination(page, range, loginUser, "trash");
         List<Board> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
@@ -39,8 +39,8 @@ public class TrashController {
     }
 
     // 휴지통 게시글 복원
-    @PatchMapping("/trash")
     @ResponseBody
+    @PatchMapping("/trash")
     public void restoreBoards(@RequestParam(name = "boardIdList[]", required = false) List<String> boardIdList) {
         for(int i = 0; i < boardIdList.size(); i ++) {
             boardService.restore(Long.parseLong(boardIdList.get(i)));
@@ -48,8 +48,8 @@ public class TrashController {
     }
 
     // 휴지통 게시글 영구 삭제
-    @DeleteMapping("/trash")
     @ResponseBody
+    @DeleteMapping("/trash")
     public void clearBoards(@RequestParam(name = "boardIdList[]", required = false) List<String> boardIdList) {
         for(int i = 0; i < boardIdList.size(); i ++) {
             boardService.clear(Long.parseLong(boardIdList.get(i)));

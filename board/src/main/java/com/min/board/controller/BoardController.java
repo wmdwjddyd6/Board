@@ -49,7 +49,7 @@ public class BoardController {
                        @RequestParam(required = false, defaultValue = "1") int range,
                        String searchText) {
 
-        Pagination pagination = pagingService.getCommonPagination(page, range, searchText, "list");
+        Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "list");
         List<Board> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
@@ -121,7 +121,7 @@ public class BoardController {
                        Principal principal) {
         String loginUser = principal.getName();
 
-        Pagination pagination = pagingService.getCommonPagination(page, range, loginUser, "myPost");
+        Pagination pagination = pagingService.getBoardPagination(page, range, loginUser, "myPost");
         List<Board> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
