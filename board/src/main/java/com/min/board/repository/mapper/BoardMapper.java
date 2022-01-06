@@ -33,6 +33,9 @@ public interface BoardMapper {
     // 글 작성
     void insertBoard(Board board);
 
+    // 휴지통 복원
+    void restoreDeleteById(Long boardId);
+
     // 휴지통 비우기
     void permanentlyDeleteById(Long boardId);
 }

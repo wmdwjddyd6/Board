@@ -74,6 +74,7 @@
             getComments()
         })
 
+        // 댓글 리스트 불러오기
         function getComments() {
             var loginUsername = [[${ loginUser }]]
             var boardId = $('input[name=boardId]').val()
@@ -108,6 +109,7 @@
             })
         }
 
+        // 댓글 작성
         function insertComment() {
             var boardId = $('input[name=boardId]').val()
             var content = document.getElementById("content").value
@@ -133,6 +135,7 @@
             }
         }
 
+        // 댓글 수정 폼
         function updateCommentForm(id) {
             var commentId = id
             var content = document.getElementById(id).innerText
@@ -143,6 +146,7 @@
             $('input[name=update]').after("<button class=\"me-2 mt-2 btn btn-primary\" onclick=\"getComments()\">취소</button>")
         }
 
+        // 댓글 수정
         function updateComment(id) {
             var commentId = id
             var content = document.getElementById("newComment").value
@@ -169,6 +173,7 @@
             }
         }
 
+        // 댓글 삭제
         function deleteComment(id) {
             var commentId = id
             var url = '/comments/' + commentId
@@ -189,6 +194,8 @@
                 return;
             }
         }
+
+        // 빈 값 체크
         function isEmpty(strIn) {
             if (strIn === undefined) {
                 return true;

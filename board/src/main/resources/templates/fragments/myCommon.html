@@ -23,7 +23,7 @@
                 <a class="nav-link" aria-current="page" href="#" th:href="@{/board/myPost}" th:classappend="${menu} == 'myPost' ? 'active'">내가 쓴 글</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/board/trash}" th:classappend="${menu} == 'trash' ? 'active'">휴지통</a>
+                <a class="nav-link" href="#" th:href="@{/trash}" th:classappend="${menu} == 'trash' ? 'active'">휴지통</a>
               </li>
             </ul>
             <a th:href="@{/loginForm}" class="btn btn-secondary fw-bolder me-4" sec:authorize="!isAuthenticated()">Login</a>

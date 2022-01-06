@@ -129,12 +129,21 @@ public class BoardService {
         }
     }
 
+    // 휴지통 복원
+    public void restore(Long boardId) {
+        try {
+            boardRepository.restoreDeleteById(boardId);
+        } catch (Exception e) {
+            System.out.println("boardService.restore() .. error : " + e.getMessage());
+        }
+    }
+
     // 휴지통 비우기
-    public void clearBoard(Long boardId) {
+    public void clear(Long boardId) {
         try {
             boardRepository.permanentlyDeleteById(boardId);
         } catch (Exception e) {
-            System.out.println("boardService.clearBoard() .. error : " + e.getMessage());
+            System.out.println("boardService.clear() .. error : " + e.getMessage());
         }
     }
 }

@@ -114,6 +114,16 @@
             id = #{id}
     </update>
 
+    <!--휴지통에서 게시글 복원-->
+    <update id="restoreDeleteById">
+        UPDATE
+            tb_board
+        SET
+            delete_yn = 'N'
+        WHERE
+            id = #{id}
+    </update>
+
     <!--휴지통에서 삭제-->
     <delete id="permanentlyDeleteById">
         DELETE FROM

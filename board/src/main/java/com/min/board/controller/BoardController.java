@@ -142,34 +142,4 @@ public class BoardController {
         
         return "redirect:/board/myPost";
     }
-
-    // 휴지통 화면 이동
-    @GetMapping("/trash")
-    public String trash(Model model,
-                         @RequestParam(required = false, defaultValue = "1") int page,
-                         @RequestParam(required = false, defaultValue = "1") int range,
-                         Principal principal) {
-        String loginUser = principal.getName();
-
-        Pagination pagination = pagingService.getCommonPagination(page, range, loginUser, "trash");
-        List<Board> boards = boardService.getBoardList(pagination);
-
-        model.addAttribute("pagination", pagination);
-        model.addAttribute("boardList", boards);
-
-        return "board/trash";
-    }
-
-    // 휴지통에서 삭제
-    @PostMapping("/trash/delete")
-    public String emptyTrash(@RequestParam(required = false) List<String> boardIdList) {
-        if(boardIdList == null) return "redirect:/board/trash";
-        if(boardIdList.size() > 0) {
-            for(int i = 0; i < boardIdList.size(); i ++) {
-                boardService.clearBoard(Long.parseLong(boardIdList.get(i)));
-            }
-        }
-
-        return "redirect:/board/trash";
-    }
 }
