@@ -1,6 +1,8 @@
 package com.min.board.service;
 
+import com.min.board.model.Board;
 import com.min.board.model.Comment;
+import com.min.board.paging.Pagination;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,7 +16,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class CommentServiceTest {
 
     @Autowired
-    CommentService commentService;
+    public CommentService commentService;
+
+    @Autowired
+    public PagingService pagingService;
 
     // 댓글 작성 테스트
     @Test
@@ -42,5 +47,20 @@ class CommentServiceTest {
         String content = "수정 내용";
 
         commentService.update(commentId, content);
+    }
+
+    // 댓글 리스트
+    @Test
+    public void getBoardList_메인게시판리스트() throws Exception {
+        int page = 1;
+        int range = (page / 10) + 1;
+        String loginUser = "rhkdals";
+
+        Pagination pagination = pagingService.getCommentPagination(page, range, loginUser);
+        List<Comment> comments = commentService.userCommentList(pagination);
+
+        for(int i = 0; i < comments.size(); i ++) {
+            System.out.println("comment : " + comments.get(i)); // for test
+        }
     }
 }

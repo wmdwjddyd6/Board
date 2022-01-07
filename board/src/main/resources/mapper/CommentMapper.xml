@@ -19,6 +19,21 @@
             COUNT(*)
         FROM
             tb_comment
+        WHERE
+            writer = #{writer}
+    </select>
+
+    <select id="userCommentList" resultType="Comment">
+        SELECT
+            <include refid="commentColumns"/>
+        FROM
+            tb_comment
+        WHERE
+            writer = #{writer}
+        ORDER BY
+            id DESC,
+            create_date
+            <include refid="CommonMapper.paging"/>
     </select>
 
     <select id="selectCommentList" resultType="Comment">

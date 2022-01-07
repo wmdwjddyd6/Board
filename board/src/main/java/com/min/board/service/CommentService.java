@@ -2,6 +2,7 @@ package com.min.board.service;
 
 import com.min.board.model.Comment;
 import com.min.board.model.Member;
+import com.min.board.paging.Pagination;
 import com.min.board.repository.mapper.CommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,16 @@ public class CommentService {
     @Autowired
     public CommentService(CommentMapper commentMapper) {
         this.commentRepository = commentMapper;
+    }
+
+    // 내가 쓴 댓글 리스트 (페이징)
+    public List<Comment> userCommentList(Pagination pagination) throws Exception{
+        return commentRepository.userCommentList(pagination);
+    }
+
+    // 내가 쓴 댓글 개수 카운트 (페이징)
+    public int countComment(Pagination pagination) throws Exception {
+        return commentRepository.countComment(pagination);
     }
 
     // 댓글 작성

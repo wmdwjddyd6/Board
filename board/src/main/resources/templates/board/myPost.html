@@ -49,7 +49,7 @@
                                 </div>
                             </td>
                             <td class="mt-5 text-center" scope="row" th:text="${board.id}">1</td>
-                            <td><a th:text="${board.title}" th:href="@{/board/post(id=${board.id})}"
+                            <td><a th:text="${board.title}" th:href="@{/board/post(boardId=${board.id})}"
                                     style="text-decoration:none; color:black;">제목</a></td>
                             <td class="text-center" th:text="${#dates.format(board.createDate, 'yyyy/MM/dd HH:mm')}">작성일
                             </td>
