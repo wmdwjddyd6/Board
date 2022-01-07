@@ -14,6 +14,7 @@
         ,create_date
     </sql>
 
+    <!--댓글 개수 (댓글 관리)-->
     <select id="countComment" resultType="int">
         SELECT
             COUNT(*)
@@ -23,6 +24,7 @@
             writer = #{writer}
     </select>
 
+    <!--댓글 리스트 (댓글 관리)-->
     <select id="userCommentList" resultType="Comment">
         SELECT
             <include refid="commentColumns"/>
@@ -36,6 +38,7 @@
             <include refid="CommonMapper.paging"/>
     </select>
 
+    <!--게시글 내 댓글 조회-->
     <select id="selectCommentList" resultType="Comment">
         SELECT
             <include refid="commentColumns"/>
@@ -45,7 +48,7 @@
             board_id = #{boardId}
     </select>
 
-
+    <!--댓글 작성-->
     <insert id="insertComment">
         INSERT INTO
             tb_comment (board_id, content, writer_id, writer, create_date)
@@ -53,6 +56,7 @@
             (#{boardId}, #{content}, #{writerId}, #{writer}, #{createDate})
     </insert>
 
+    <!--댓글 수정-->
     <update id="updateComment">
         UPDATE
             tb_comment
@@ -62,6 +66,7 @@
             id = #{id}
     </update>
 
+    <!--댓글 삭제-->
     <delete id="deleteComment">
         DELETE FROM
             tb_comment
