@@ -33,7 +33,9 @@
                     <caption>List</caption>
                     <thead>
                         <tr>
-                            <th class="text-center" width="50" scope="col"></th>
+                            <th class="text-center" width="50" scope="col">
+                                <input type="checkbox" onclick="selectAll(this)">
+                            </th>
                             <th class="text-center" width="50" scope="col">No</th>
                             <th class="text-center" width="950" scope="col">제목</th>
                             <th class="text-center" width="200" scope="col">작성일</th>
@@ -139,6 +141,15 @@
             }
 
             return false;
+        }
+
+        // 체크박스 전체 선택
+        function selectAll(selectAll) {
+            var checkboxs = document.querySelectorAll(['input[type="checkbox"]'])
+
+            checkboxs.forEach((checkbox) => {
+                checkbox.checked = selectAll.checked
+            })
         }
     </script>
 
