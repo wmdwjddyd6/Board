@@ -13,7 +13,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" th:fragment="menu(menu)">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#" th:href="@{/}">Home</a>
+          <a class="navbar-brand" style="font-weight: bold" href="#" th:href="@{/}">Home</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -23,16 +23,16 @@
                 <a class="nav-link" style="font-weight: bold" aria-current="page" href="#" th:href="@{/board/myPost}" th:classappend="${menu} == 'myPost' ? 'active'">글 관리</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" aria-current="page" href="#" th:href="@{/board/comments}" th:classappend="${menu} == 'comment' ? 'active'">댓글 관리</a>
+                <a class="nav-link" style="font-weight: bold" aria-current="page" href="#" th:href="@{/board/comments}" th:classappend="${menu} == 'comment' ? 'active'">댓글 관리</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#" th:href="@{/trash}" th:classappend="${menu} == 'trash' ? 'active'">휴지통</a>
+                <a class="nav-link" style="font-weight: bold" href="#" th:href="@{/trash}" th:classappend="${menu} == 'trash' ? 'active'">휴지통</a>
               </li>
             </ul>
-            <a th:href="@{/loginForm}" class="btn btn-secondary fw-bolder me-4" sec:authorize="!isAuthenticated()">Login</a>
+            <a th:href="@{/loginForm}" style="font-weight: bold" class="btn btn-secondary fw-bolder me-4" sec:authorize="!isAuthenticated()">Login</a>
             <form class="d-flex me-4" th:action="@{/logout}" sec:authorize="isAuthenticated()">
-              <a class="text-white me-4 mt-2 fw-bolder" th:href=@{/account/userMenu} sec:authentication="name">사용자</a>
-              <button th:href="@{/logout}" class="btn btn-secondary fw-bolder">Logout</button>
+              <a class="text-white me-4 mt-2 fw-bolder" style="font-weight: bold" th:href=@{/account/userMenu} sec:authentication="name">사용자</a>
+              <button th:href="@{/logout}" class="btn btn-secondary fw-bolder" style="font-weight: bold">Logout</button>
             </form>
           </div>
         </div>
