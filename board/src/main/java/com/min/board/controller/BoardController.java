@@ -19,10 +19,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -73,9 +76,16 @@ public class BoardController {
 
     // 게시글 작성 & 수정
     @PostMapping("/form")
-    public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal, Long id) {
+    public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal,
+                              HttpServletRequest request, MultipartFile file, Long id) throws IOException {
         if(bindingResult.hasErrors()) {
             return "board/form";
+        }
+
+        String path = request.getSession().getServletContext().getRealPath("/");
+
+        if (!file.getOriginalFilename().isEmpty()) {
+            file.transferTo(new File(path + file.getOriginalFilename()));
         }
 
         String loginUsername = principal.getName();
