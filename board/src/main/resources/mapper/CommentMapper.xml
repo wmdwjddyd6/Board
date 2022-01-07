@@ -15,23 +15,23 @@
     </sql>
 
     <!--댓글 개수 (댓글 관리)-->
-    <select id="countComment" resultType="int">
+    <select id="countJoinComment" resultType="int">
         SELECT
             COUNT(*)
         FROM
-            tb_comment
-        WHERE
-            writer = #{writer}
+            tb_board b Join tb_comment c
+        ON
+            b.delete_yn = 'N' AND b.id = c.board_id AND c.writer = #{writer}
     </select>
 
     <!--댓글 리스트 (댓글 관리)-->
-    <select id="userCommentList" resultType="Comment">
+    <select id="joinCommentList" resultType="Comment">
         SELECT
-            <include refid="commentColumns"/>
+            c.*
         FROM
-            tb_comment
-        WHERE
-            writer = #{writer}
+            tb_board b Join tb_comment c
+        ON
+            b.delete_yn = 'N' AND b.id = c.board_id AND c.writer = #{writer}
         ORDER BY
             id DESC,
             create_date

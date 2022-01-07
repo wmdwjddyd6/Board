@@ -27,14 +27,14 @@ public class CommentService {
         this.commentRepository = commentMapper;
     }
 
-    // 내가 쓴 댓글 리스트 (페이징)
+    // 댓글 관리 리스트 (페이징)
     public List<Comment> userCommentList(Pagination pagination) throws Exception{
-        return commentRepository.userCommentList(pagination);
+        return commentRepository.joinCommentList(pagination);
     }
 
-    // 내가 쓴 댓글 개수 카운트 (페이징)
+    // 댓글 관리 카운트 (페이징)
     public int countComment(Pagination pagination) throws Exception {
-        return commentRepository.countComment(pagination);
+        return commentRepository.countJoinComment(pagination);
     }
 
     // 댓글 작성
