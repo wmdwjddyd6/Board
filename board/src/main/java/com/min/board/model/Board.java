@@ -22,6 +22,4 @@ public class Board {
     private String deleteYN;
     private Timestamp createDate;
     private Long views;
-
-    private String image;
 }
