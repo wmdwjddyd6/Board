@@ -16,7 +16,7 @@ public class Member {
     private String username;
 
     @NotNull
-    @Size(min = 6, max = 100, message = "암호는 6자 이상 100자 이하 입니다.")
+    @Size(min = 6, max = 30, message = "암호는 6자 이상 30자 이하 입니다.")
     private String password;
 
     @NotNull
