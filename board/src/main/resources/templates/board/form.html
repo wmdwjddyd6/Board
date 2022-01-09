@@ -46,10 +46,14 @@
                         Content Error
                     </div>
                 </div>
+
+                <div id="imageThumbnail">
+                </div>
+
                 <!-- button -->
-                <button id="uploadButton" class="btn btn-outline-primary" type="button">파일첨부</button>
-                <input id="uploadInput" type="file" class="btn btn-outline-primary" name="file" style="display:none">
-                <div class="nav justify-content-end">
+                <input id="uploadInput" type="file" class="btn btn-outline-primary" name="files" accept="image/*"
+                    onchange="setThumbnail(event);" multiple /> <span style="font-size: small;"> * jpeg / png 타입의 이미지를 등록해주세요.</span>
+                <div class="nav justify-content-end mb-5">
                     <button type="submit" class="me-2 btn btn-primary">write</button>
                     <a type="button" class="btn btn-primary" th:href="@{/board/list}">exit</a>
                 </div>
@@ -62,12 +66,21 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        $(function () {
-            $('#uploadButton').click(function (e) {
-                e.preventDefault();
-                $('#uploadInput').click();
-            });
-        });
+        function setThumbnail(event) {
+            for (var image of event.target.files) {
+                var reader = new FileReader();
+                reader.onload = function (event) {
+                    var img = document.createElement("img");
+                    img.className = 'img-thumbnail mb-3 me-3';
+                    img.style = 'inline';
+                    img.width = 200;
+                    img.height = 200;
+                    img.setAttribute("src", event.target.result);
+                    document.querySelector("div#imageThumbnail").appendChild(img);
+                };
+                reader.readAsDataURL(image);
+            }
+        } 
     </script>
 </body>
 
