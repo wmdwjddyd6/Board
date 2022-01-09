@@ -14,7 +14,6 @@
         ,delete_yn
         ,create_date
         ,views
-        ,image
     </sql>
 
     <!--(페이징) 게시글 모두 조회-->
@@ -66,7 +65,7 @@
     </select>
 
     <!--게시글 작성-->
-    <insert id="insertBoard" parameterType="Board">
+    <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
             tb_board (title, content, writer_id, writer, create_date)
         VALUES
@@ -74,7 +73,7 @@
     </insert>
 
     <!--게시글 업데이트-->
-    <update id="updateBoard" parameterType="Board">
+    <update id="updateBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="id">
         UPDATE
             tb_board
         SET

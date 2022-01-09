@@ -10,6 +10,7 @@ import com.min.board.service.MemberService;
 import com.min.board.service.PagingService;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.relational.core.sql.In;
@@ -64,7 +65,7 @@ public class BoardController {
     // 게시글 신규 작성 폼 진입 & 기존 게시글 불러오기
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long boardId) {
-        if(boardId == null) {
+        if (boardId == null) {
             model.addAttribute("board", new Board());
         } else {
             Board board = boardService.contentLoad(boardId);
@@ -77,25 +78,23 @@ public class BoardController {
     // 게시글 작성 & 수정
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal,
-                              HttpServletRequest request, MultipartFile file, Long id) throws IOException {
-        if(bindingResult.hasErrors()) {
+                              HttpServletRequest request, MultipartFile file, Long id) {
+        if (bindingResult.hasErrors()) {
             return "board/form";
         }
 
-        String path = request.getSession().getServletContext().getRealPath("/");
-
-        if (!file.getOriginalFilename().isEmpty()) {
-            file.transferTo(new File(path + file.getOriginalFilename()));
-        }
-
         String loginUsername = principal.getName();
+        Long newBoardId = 0l;
 
-        if(id == null) {
-            boardService.save(board, loginUsername); // Insert
+        if (id == null) {
+            newBoardId = boardService.save(board, loginUsername); // Insert
         } else {
-            boardService.update(board, id); // Update
+            newBoardId = boardService.update(board, id); // Update
         }
 
+        if(!file.isEmpty()) {
+            // 파일이 있을 때
+        }
         return "redirect:/board/list";
     }
 
@@ -126,9 +125,9 @@ public class BoardController {
     // 내가 쓴 글 화면 이동
     @GetMapping("/myPost")
     public String myPost(Model model,
-                       @RequestParam(required = false, defaultValue = "1") int page,
-                       @RequestParam(required = false, defaultValue = "1") int range,
-                       Principal principal) {
+                         @RequestParam(required = false, defaultValue = "1") int page,
+                         @RequestParam(required = false, defaultValue = "1") int range,
+                         Principal principal) {
         String loginUser = principal.getName();
 
         Pagination pagination = pagingService.getBoardPagination(page, range, loginUser, "myPost");
@@ -143,13 +142,13 @@ public class BoardController {
     // 글 관리에서 삭제
     @PostMapping("/myPost/delete")
     public String boardDelete(@RequestParam(required = false) List<String> boardIdList) {
-        if(boardIdList == null) return "redirect:/board/myPost";
-        if(boardIdList.size() > 0) {
-            for(int i = 0; i < boardIdList.size(); i ++) {
+        if (boardIdList == null) return "redirect:/board/myPost";
+        if (boardIdList.size() > 0) {
+            for (int i = 0; i < boardIdList.size(); i++) {
                 boardService.temporaryDelete(Long.parseLong(boardIdList.get(i)));
             }
         }
-        
+
         return "redirect:/board/myPost";
     }
 }

@@ -94,7 +94,7 @@ public class BoardService {
     }
 
     // 글 등록
-    public void save(Board board, String loginUsername) {
+    public Long save(Board board, String loginUsername) {
         board.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
 
         try {
@@ -107,10 +107,11 @@ public class BoardService {
         } catch (Exception e) {
             System.out.println("boardService.save() .. error : " + e.getMessage());
         }
+        return board.getId();
     }
 
     // 글 수정
-    public void update(Board board, Long boardId) {
+    public Long update(Board board, Long boardId) {
         board.setId(boardId);
 
         try {
@@ -118,6 +119,7 @@ public class BoardService {
         } catch (Exception e) {
             System.out.println("boardService.update() .. error : " + e.getMessage());
         }
+        return board.getId();
     }
 
     // 글 임시 삭제 (업데이트 로직 실행)
