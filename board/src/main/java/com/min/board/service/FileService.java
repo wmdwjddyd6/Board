@@ -29,8 +29,15 @@ public class FileService {
         Long fileSize = file.getSize() / 1024; // kb
 
         String path = "C:/Temp/";
-        String newName = uuid + StringUtils.substring(originName, originName.lastIndexOf(".")); //확장자명 포함
+        String newName = "";
 
+        if(originName.lastIndexOf(".") < 0) {
+            newName = uuid + originName; // 확장자명이 없을 때
+        } else {
+            newName = uuid + StringUtils.substring(originName, originName.lastIndexOf(".")); //확장자명 포함
+        }
+
+        System.out.println(file.getContentType());
         FileDTO fileDTO = new FileDTO(boardId, originName, uuid, fileSize, path + newName);
         fileRepository.insertFile(fileDTO);
 

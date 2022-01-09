@@ -79,7 +79,8 @@ public class BoardController {
     // 게시글 작성 & 수정
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal,
-                              HttpServletRequest request, MultipartFile file, Long id) throws IOException, SQLException {
+                              HttpServletRequest request,
+                              List<MultipartFile> files, Long id) throws IOException, SQLException {
         if (bindingResult.hasErrors()) {
             return "board/form";
         }
@@ -93,10 +94,17 @@ public class BoardController {
             newBoardId = boardService.update(board, id); // Update
         }
 
-        if(!file.isEmpty()) {
-            // 첨부파일이 있을 때
-            fileService.saveFile(file, newBoardId);
+        // 첨부파일 있을 때
+        if(!files.get(0).getOriginalFilename().isEmpty()) {
+            for(int i = 0; i < files.size(); i ++) {
+                if(files.get(i).getContentType().contains("image/")) {
+                    fileService.saveFile(files.get(i), newBoardId);
+                } else {
+                    System.out.println("이미지 타입이 아닙니다");
+                }
+            }
         }
+        
         return "redirect:/board/list";
     }
 
