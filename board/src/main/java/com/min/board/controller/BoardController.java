@@ -4,10 +4,7 @@ import com.min.board.model.Board;
 import com.min.board.model.Comment;
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
-import com.min.board.service.BoardService;
-import com.min.board.service.CommentService;
-import com.min.board.service.MemberService;
-import com.min.board.service.PagingService;
+import com.min.board.service.*;
 import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +25,7 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.sql.SQLException;
 import java.util.List;
 
 @Controller
@@ -36,6 +34,9 @@ public class BoardController {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private FileService fileService;
 
     @Autowired
     private MemberService memberService;
@@ -78,7 +79,7 @@ public class BoardController {
     // 게시글 작성 & 수정
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal,
-                              HttpServletRequest request, MultipartFile file, Long id) {
+                              HttpServletRequest request, MultipartFile file, Long id) throws IOException, SQLException {
         if (bindingResult.hasErrors()) {
             return "board/form";
         }
@@ -93,7 +94,8 @@ public class BoardController {
         }
 
         if(!file.isEmpty()) {
-            // 파일이 있을 때
+            // 첨부파일이 있을 때
+            fileService.saveFile(file, newBoardId);
         }
         return "redirect:/board/list";
     }
