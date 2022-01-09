@@ -51,10 +51,16 @@
                 </div>
 
                 <!-- button -->
-                <input id="uploadInput" type="file" class="btn btn-outline-primary" name="files" accept="image/*"
-                    onchange="setThumbnail(event);" multiple /> <span style="font-size: small;"> * jpeg / png 타입의 이미지를 등록해주세요.</span>
+                <div id="uploadElement">
+                    <input id="uploadInput" type="file" class="btn btn-outline-primary" name="files" accept="image/*"
+                        onchange="setThumbnail(event);" multiple /> <span style="font-size: small;"> * jpeg / png 타입의
+                        이미지를
+                        7개까지
+                        등록해주세요.</span>
+                </div>
+                <a id="reset" class="mt-3 btn btn-danger" onclick="resetImg()">Reset</a>
                 <div class="nav justify-content-end mb-5">
-                    <button type="submit" class="me-2 btn btn-primary">write</button>
+                    <button id="submit" type="submit" class="me-2 btn btn-primary">write</button>
                     <a type="button" class="btn btn-primary" th:href="@{/board/list}">exit</a>
                 </div>
             </form>
@@ -66,21 +72,40 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
+        document.getElementById('submit').addEventListener('click', imageCounting)
+
+        function resetImg() {
+            var fileUpload = document.getElementById('uploadInput')
+            var img = document.querySelectorAll('img')
+            fileUpload.value = null
+            $('#imageThumbnail').children().remove()
+        }
+
+        function imageCounting() {
+            var fileUpload = $("input[type='file']")
+            console.log(fileUpload.get(0).files.length)
+            if (parseInt(fileUpload.get(0).files.length) > 7) {
+                alert("이미지는 최대 7개까지 등록 가능합니다.")
+            }
+        }
+
         function setThumbnail(event) {
             for (var image of event.target.files) {
-                var reader = new FileReader();
+                var reader = new FileReader()
+
                 reader.onload = function (event) {
-                    var img = document.createElement("img");
-                    img.className = 'img-thumbnail mb-3 me-3';
-                    img.style = 'inline';
-                    img.width = 200;
-                    img.height = 200;
-                    img.setAttribute("src", event.target.result);
-                    document.querySelector("div#imageThumbnail").appendChild(img);
-                };
-                reader.readAsDataURL(image);
+                    var img = document.createElement("img")
+                    img.className = "img-thumbnail mb-3 me-3"
+                    img.name = "thumbnail"
+                    img.style = "inline"
+                    img.width = 200
+                    img.height = 200
+                    img.setAttribute("src", event.target.result)
+                    document.querySelector("div#imageThumbnail").appendChild(img)
+                }
+                reader.readAsDataURL(image)
             }
-        } 
+        }
     </script>
 </body>
 

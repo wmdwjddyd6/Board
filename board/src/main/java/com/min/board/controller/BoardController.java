@@ -81,16 +81,16 @@ public class BoardController {
     public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal,
                               HttpServletRequest request,
                               List<MultipartFile> files, Long id) throws IOException, SQLException {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || files.size() > 7) {
             return "board/form";
         }
 
         String loginUsername = principal.getName();
         Long newBoardId = 0l;
 
-        if (id == null) {
+        if (id == null) { // 새 글 작성
             newBoardId = boardService.save(board, loginUsername); // Insert
-        } else {
+        } else { // 기존 글 수정
             newBoardId = boardService.update(board, id); // Update
         }
 
@@ -104,7 +104,7 @@ public class BoardController {
                 }
             }
         }
-        
+
         return "redirect:/board/list";
     }
 
