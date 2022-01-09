@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.min.board.repository.mapper.FileMapper">
+
+    <sql id="fileColumns">
+        id
+        ,board_id
+        ,original_file_name
+        ,stored_file_name
+        ,size
+        ,path
+    </sql>
+
+    <!--게시글 작성-->
+    <insert id="insertFile" parameterType="FileDTO">
+        INSERT INTO
+            tb_file (board_id, original_file_name, stored_file_name, size, path)
+        VALUES
+            (#{boardId}, #{originalFileName}, #{storedFileName}, #{size}, #{path})
+    </insert>
+</mapper>
