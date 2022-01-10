@@ -7,9 +7,9 @@ public class FileDTO {
     private Long id;
     private Long boardId;
     private String originalFileName;
-    private String storedFileName;
     private Long size;
     private String path;
+    private String storedFileName;
 
     public FileDTO(Long boardId, String originalFileName, String storedFileName, Long size, String path) {
         this.boardId = boardId;
