@@ -9,12 +9,22 @@
         id
         ,board_id
         ,original_file_name
-        ,stored_file_name
         ,size
         ,path
+        ,stored_file_name
     </sql>
 
-    <!--게시글 작성-->
+    <!-- 이미지 불러오기 -->
+    <select id="selectByBoardId" resultType="FileDTO">
+        SELECT
+            <include refid="fileColumns"/>
+        FROM
+            tb_file
+        WHERE
+            board_id = #{boardId}
+    </select>
+
+    <!--게시글 작성 (파일첨부)-->
     <insert id="insertFile" parameterType="FileDTO">
         INSERT INTO
             tb_file (board_id, original_file_name, stored_file_name, size, path)
