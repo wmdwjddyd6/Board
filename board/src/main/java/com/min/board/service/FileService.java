@@ -10,6 +10,7 @@ import org.thymeleaf.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -37,12 +38,16 @@ public class FileService {
             newName = uuid + StringUtils.substring(originName, originName.lastIndexOf(".")); //확장자명 포함
         }
 
-        System.out.println(file.getContentType());
-        FileDTO fileDTO = new FileDTO(boardId, originName, uuid, fileSize, path + newName);
+        FileDTO fileDTO = new FileDTO(boardId, originName, newName, fileSize, path + newName);
         fileRepository.insertFile(fileDTO);
 
         if (!file.getOriginalFilename().isEmpty()) {
             file.transferTo(new File(path + newName));
         }
+    }
+
+    public List<FileDTO> getFileList(Long boardId) throws SQLException{
+        List<FileDTO> fileList = fileRepository.selectByBoardId(boardId);
+        return fileList;
     }
 }
