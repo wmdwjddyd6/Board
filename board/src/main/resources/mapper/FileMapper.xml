@@ -22,6 +22,8 @@
             tb_file
         WHERE
             board_id = #{boardId}
+        ORDER BY
+            id
     </select>
 
     <!--게시글 작성 (파일첨부)-->

@@ -19,7 +19,7 @@ class FileServiceTest {
 
     @Test
     public void getFileListTest() throws SQLException {
-        Long boardId = 86l;
+        Long boardId = 87l;
         List<FileDTO> files = fileService.getFileList(boardId);
 
         for(FileDTO file : files) {
