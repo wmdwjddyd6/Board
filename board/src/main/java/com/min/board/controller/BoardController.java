@@ -2,6 +2,7 @@ package com.min.board.controller;
 
 import com.min.board.model.Board;
 import com.min.board.model.Comment;
+import com.min.board.model.FileDTO;
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.service.*;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -160,5 +162,13 @@ public class BoardController {
         }
 
         return "redirect:/board/myPost";
+    }
+
+    // 포스트(post.html)에 이미지 리턴
+    @GetMapping("/image/{boardId}")
+    @ResponseBody
+    public List<FileDTO> getViewImage(@PathVariable(value = "boardId") Long boardId) throws SQLException {
+        List<FileDTO> fileList = fileService.getFileList(boardId);
+        return fileList;
     }
 }
