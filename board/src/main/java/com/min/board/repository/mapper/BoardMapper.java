@@ -37,5 +37,5 @@ public interface BoardMapper {
     void restoreDeleteById(Long boardId);
 
     // 휴지통 비우기
-    void permanentlyDeleteById(Long boardId);
+    int permanentlyDeleteById(Long boardId);
 }
