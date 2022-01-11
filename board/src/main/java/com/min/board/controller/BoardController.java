@@ -85,23 +85,24 @@ public class BoardController {
 
         if (id == null) { // 새 글 작성
             newBoardId = boardService.save(board, loginUsername); // Insert
-        } else { // 기존 글 수정
-            newBoardId = boardService.update(board, id); // Update
-        }
 
-        // 첨부파일 있을 때
-        if(!files.get(0).getOriginalFilename().isEmpty()) {
-            for(int i = 0; i < files.size(); i ++) {
-                if(files.get(i).getContentType().contains("image/")) {
-                    fileService.saveFile(files.get(i), newBoardId);
-                } else {
-                    System.out.println("이미지 타입이 아닙니다");
+            // 첨부파일 있을 때
+            if(!files.get(0).getOriginalFilename().isEmpty()) {
+                for(int i = 0; i < files.size(); i ++) {
+                    if(files.get(i).getContentType().contains("image/")) {
+                        fileService.saveFile(files.get(i), newBoardId);
+                    } else {
+                        System.out.println("이미지 타입이 아닙니다");
+                    }
                 }
             }
+        } else { // 기존 글 수정
+            boardService.update(board, id); // Update
         }
 
         return "redirect:/board/list";
     }
+
 
     // 포스트 조회
     @GetMapping("/post")

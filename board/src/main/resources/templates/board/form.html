@@ -51,7 +51,7 @@
                 </div>
 
                 <!-- button -->
-                <div id="uploadForm">
+                <div id="uploadForm" th:if="${param.boardId == null}">
                     <div id="uploadElement">
                         <input id="uploadInput" type="file" class="btn btn-outline-primary" name="files" accept="image/*"
                             onchange="setThumbnail(event);" multiple /> <span style="font-size: small;"> * jpeg / png 타입의
