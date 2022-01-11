@@ -1,16 +1,18 @@
 package com.min.board.service;
 
 import com.min.board.model.Board;
+import com.min.board.model.FileDTO;
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.repository.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -25,6 +27,9 @@ public class BoardService {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private FileService fileService;
 
     @Autowired
     public BoardService(BoardMapper boardMapper) {
@@ -143,7 +148,22 @@ public class BoardService {
     // 휴지통 비우기
     public void clear(Long boardId) {
         try {
-            boardRepository.permanentlyDeleteById(boardId);
+            List<FileDTO> files = fileService.getFileList(boardId);
+            int result = boardRepository.permanentlyDeleteById(boardId);
+
+            if(result > 0 && !CollectionUtils.isEmpty(files)) { // 글 삭제가 정상적으로 됐고, 첨부된 파일이 있다면
+                // 서버에서 파일 삭제
+                for(FileDTO fileDTO : files) {
+                    File file = new File(fileDTO.getPath());
+                    if(file.exists()) { // 서버에 파일이 존재한다면
+                        file.delete(); // 삭제
+                        System.out.println(fileDTO.getStoredFileName() + " : 삭제 완료");
+                    }
+                    else {
+                        System.out.println("삭제할 파일이 없습니다.");
+                    }
+                }
+            }
         } catch (Exception e) {
             System.out.println("boardService.clear() .. error : " + e.getMessage());
         }
