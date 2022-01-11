@@ -151,7 +151,8 @@ public class BoardService {
             List<FileDTO> files = fileService.getFileList(boardId);
             int result = boardRepository.permanentlyDeleteById(boardId);
 
-            if(result > 0 && !CollectionUtils.isEmpty(files)) { // 글 삭제가 정상적으로 됐고, 첨부된 파일이 있다면
+            // 글 삭제가 정상적으로 됐고, 첨부된 파일이 있다면
+            if(result > 0 && !CollectionUtils.isEmpty(files)) {
                 // 서버에서 파일 삭제
                 for(FileDTO fileDTO : files) {
                     File file = new File(fileDTO.getPath());
@@ -161,6 +162,7 @@ public class BoardService {
                     }
                     else {
                         System.out.println("삭제할 파일이 없습니다.");
+                        return;
                     }
                 }
             }

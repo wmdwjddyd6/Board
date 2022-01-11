@@ -39,9 +39,9 @@ public class FileService {
         }
 
         FileDTO fileDTO = new FileDTO(boardId, originName, newName, fileSize, path + newName);
-        fileRepository.insertFile(fileDTO);
+        int result = fileRepository.insertFile(fileDTO);
 
-        if (!file.getOriginalFilename().isEmpty()) {
+        if (result > 0 && !file.getOriginalFilename().isEmpty()) {
             file.transferTo(new File(path + newName));
         }
     }
