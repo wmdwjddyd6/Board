@@ -1,19 +1,15 @@
 package com.min.board.controller;
 
 import com.min.board.model.Board;
-import com.min.board.model.Comment;
 import com.min.board.model.FileDTO;
-import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.service.*;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.relational.core.sql.In;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,11 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.security.Principal;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -162,13 +156,5 @@ public class BoardController {
         }
 
         return "redirect:/board/myPost";
-    }
-
-    // 포스트(post.html)에 이미지 리턴
-    @GetMapping("/image/{boardId}")
-    @ResponseBody
-    public List<FileDTO> getViewImage(@PathVariable(value = "boardId") Long boardId) throws SQLException {
-        List<FileDTO> fileList = fileService.getFileList(boardId);
-        return fileList;
     }
 }
