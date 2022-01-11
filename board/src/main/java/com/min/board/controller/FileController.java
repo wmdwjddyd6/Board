@@ -28,7 +28,7 @@ public class FileController {
         return files;
     }
 
-    // 포스트(post.html)에 이미지 리턴
+    // 이미지 리턴
     @GetMapping(value = "/image/{imageId}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<Resource> getViewImage(@PathVariable(value = "imageId") Long imageId) throws SQLException {
         FileDTO fileDTO = fileService.getFile(imageId);

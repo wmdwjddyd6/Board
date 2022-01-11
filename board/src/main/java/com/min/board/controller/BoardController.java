@@ -75,7 +75,6 @@ public class BoardController {
     // 게시글 작성 & 수정
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal,
-                              HttpServletRequest request,
                               List<MultipartFile> files, Long id) throws IOException, SQLException {
         if (bindingResult.hasErrors() || files.size() > 7) {
             return "board/form";
