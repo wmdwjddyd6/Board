@@ -14,7 +14,7 @@
         ,stored_file_name
     </sql>
 
-    <!-- 이미지 불러오기 -->
+    <!-- 파일 리스트 요소 불러오기 -->
     <select id="selectByBoardId" resultType="FileDTO">
         SELECT
             <include refid="fileColumns"/>
@@ -22,6 +22,18 @@
             tb_file
         WHERE
             board_id = #{boardId}
+        ORDER BY
+            id
+    </select>
+
+    <!-- 이미지 불러오기(단일) -->
+    <select id="selectByFileId" resultType="FileDTO">
+        SELECT
+            <include refid="fileColumns"/>
+        FROM
+            tb_file
+        WHERE
+            id = #{id}
         ORDER BY
             id
     </select>

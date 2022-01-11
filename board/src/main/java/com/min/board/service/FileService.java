@@ -32,7 +32,7 @@ public class FileService {
         String path = "C:/Temp/";
         String newName = "";
 
-        if(originName.lastIndexOf(".") < 0) {
+        if (originName.lastIndexOf(".") < 0) {
             newName = uuid + originName; // 확장자명이 없을 때
         } else {
             newName = uuid + StringUtils.substring(originName, originName.lastIndexOf(".")); //확장자명 포함
@@ -46,8 +46,15 @@ public class FileService {
         }
     }
 
-    public List<FileDTO> getFileList(Long boardId) throws SQLException{
+    // BoardId로 File리스트 반환
+    public List<FileDTO> getFileList(Long boardId) throws SQLException {
         List<FileDTO> fileList = fileRepository.selectByBoardId(boardId);
         return fileList;
+    }
+
+    // ImageID로 FileDTO 반환
+    public FileDTO getFile(Long id) throws SQLException {
+        FileDTO fileDTO = fileRepository.selectByFileId(id);
+        return fileDTO;
     }
 }
