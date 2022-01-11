@@ -23,7 +23,7 @@ public class FileController {
 
     // 게시글에 첨부된 이미지 ID값 리스트로 반환
     @GetMapping(value = "/images/{boardId}")
-    public List<FileDTO> getFileId(@PathVariable(value = "boardId") Long boardId) throws SQLException {
+    public List<FileDTO> getFileList(@PathVariable(value = "boardId") Long boardId) throws SQLException {
         List<FileDTO> files = fileService.getFileList(boardId);
         return files;
     }
