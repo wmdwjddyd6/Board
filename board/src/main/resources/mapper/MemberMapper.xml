@@ -14,12 +14,15 @@
         ,create_date
     </sql>
 
-    <!--모든 회원정보 받아오기-->
+    <!--(관리자)모든 회원정보 받아오기-->
     <select id="selectAllMember" resultType="Member">
         SELECT
             <include refid="memberColumns"/>
         FROM
             tb_userinfo
+        ORDER BY
+            role
+            ,id
     </select>
 
     <!--이름으로 회원정보 받기-->

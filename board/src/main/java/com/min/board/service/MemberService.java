@@ -193,4 +193,10 @@ public class MemberService {
 
         return temporaryPassword;
     }
+
+    // (관리자) 모든 유저 정보 리턴
+    public List<Member> getAllMemberList() {
+        List<Member> memberList = memberRepository.selectAllMember();
+        return memberList;
+    }
 }
