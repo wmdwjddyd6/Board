@@ -28,12 +28,12 @@
                         <form th:if="${board.writer == #httpServletRequest.remoteUser}" th:action="@{/board/delete}"
                             method="post">
                             <input type="hidden" name="boardId" th:value="${board.id}">
-                            <button class="btn btn-danger me-2" type="submit">Delete</button>
+                            <button class="btn btn-danger me-2" type="submit">삭제</button>
                         </form>
                         <a type="button" class="btn btn-primary"
                             th:if="${board.writer == #httpServletRequest.remoteUser}"
-                            th:href="@{/board/form(boardId=${board.id})}">Change</a>
-                        <a type="button" class="btn btn-primary ms-2" th:href="@{/board/list}">Exit</a>
+                            th:href="@{/board/form(boardId=${board.id})}">수정</a>
+                        <a type="button" class="btn btn-primary ms-2" th:href="@{/board/list}">나가기</a>
                     </div>
                     <h2>제목 : <span th:text="${board.title}">글 제목</span></h2>
                 </div>
@@ -59,7 +59,7 @@
                             <textarea class="form-control" id="content" name="content" rows="4"
                                 placeholder="댓글을 작성해주세요."></textarea>
                         </div>
-                        <button type="submit" class="me-2 btn btn-primary" onclick="insertComment()">write</button>
+                        <button type="submit" class="me-2 btn btn-primary" onclick="insertComment()">작성</button>
                     </form>
                 </div>
             </div>

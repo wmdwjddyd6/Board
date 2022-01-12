@@ -8,7 +8,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="css/style.css" rel="stylesheet" th:href="@{/css/style.css}">
-    <title th:text="${title}">게시판</title>
+    <title th:text="${title}">My Menu header</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" th:fragment="menu(menu)">
@@ -29,10 +29,10 @@
                 <a class="nav-link" style="font-weight: bold" href="#" th:href="@{/trash}" th:classappend="${menu} == 'trash' ? 'active'">휴지통</a>
               </li>
             </ul>
-            <a th:href="@{/loginForm}" style="font-weight: bold" class="btn btn-secondary fw-bolder me-4" sec:authorize="!isAuthenticated()">Login</a>
+            <a th:href="@{/loginForm}" style="font-weight: bold" class="btn btn-secondary fw-bolder me-4" sec:authorize="!isAuthenticated()">로그인</a>
             <form class="d-flex me-4" th:action="@{/logout}" sec:authorize="isAuthenticated()">
               <a class="text-white me-4 mt-2 fw-bolder" style="font-weight: bold" th:href=@{/account/userMenu} sec:authentication="name">사용자</a>
-              <button th:href="@{/logout}" class="btn btn-secondary fw-bolder" style="font-weight: bold">Logout</button>
+              <button th:href="@{/logout}" class="btn btn-secondary fw-bolder" style="font-weight: bold">로그아웃</button>
             </form>
           </div>
         </div>
