@@ -16,6 +16,7 @@ public class AdminController {
     private MemberService memberService;
 
 
+    // 회원계정 삭제
     @ResponseBody
     @DeleteMapping("/members")
     public void deleteMembers(@RequestParam(name = "memberIdList[]", required = false) List<String> memberIdList) {

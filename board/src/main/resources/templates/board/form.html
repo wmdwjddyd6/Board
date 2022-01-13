@@ -75,40 +75,40 @@
         crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        document.getElementById('submit').addEventListener('click', imageCounting)
+        document.getElementById('submit').addEventListener('click', imageCounting);
 
         // 첨부 이미지 리셋 버튼
         function resetImg() {
-            var fileUpload = document.getElementById('uploadInput')
-            var img = document.querySelectorAll('img')
-            fileUpload.value = null
-            $('#imageThumbnail').children().remove()
+            var fileUpload = document.getElementById('uploadInput');
+            var img = document.querySelectorAll('img');
+            fileUpload.value = null;
+            $('#imageThumbnail').children().remove();
         }
 
         // 이미지 개수 제한
         function imageCounting() {
-            var fileUpload = $("input[type='file']")
+            var fileUpload = $("input[type='file']");
             if (parseInt(fileUpload.get(0).files.length) > 7) {
-                alert("이미지는 최대 7개까지 등록 가능합니다.")
+                alert("이미지는 최대 7개까지 등록 가능합니다.");
             }
         }
 
         // 첨부 이미지 미리보기
         function setThumbnail(event) {
             for (var image of event.target.files) {
-                var reader = new FileReader()
+                var reader = new FileReader();
 
                 reader.onload = function (event) {
-                    var img = document.createElement("img")
-                    img.className = "img-thumbnail mb-3 me-3"
-                    img.name = "thumbnail"
-                    img.style = "inline"
-                    img.width = 200
-                    img.height = 200
-                    img.setAttribute("src", event.target.result)
-                    document.querySelector("div#imageThumbnail").appendChild(img)
+                    var img = document.createElement("img");
+                    img.className = "img-thumbnail mb-3 me-3";
+                    img.name = "thumbnail";
+                    img.style = "inline";
+                    img.width = 200;
+                    img.height = 200;
+                    img.setAttribute("src", event.target.result);
+                    document.querySelector("div#imageThumbnail").appendChild(img);
                 }
-                reader.readAsDataURL(image)
+                reader.readAsDataURL(image);
             }
         }
     </script>
