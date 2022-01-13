@@ -41,50 +41,99 @@
                 <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
 
                 <div class="table-responsive">
-                    <table class="table table-striped table-sm">
-                        <thead>
-                            <tr>
-                                <th class="text-center" scope="col"></th>
-                                <th class="text-center" scope="col">No</th>
-                                <th class="text-center" scope="col">Username</th>
-                                <th class="text-center" scope="col">이메일</th>
-                                <th class="text-center" scope="col">가입일</th>
-                                <th class="text-center" scope="col">권한</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <th:block th:with="no = ${param.page != null} ? (${#numbers.formatInteger(param.page, 1)} - 1) * 10 : 0">
-                                <tr th:each="member : ${memberList}">
-                                    <td class="mt-5 text-center" scope="row">
-                                        <div class="checkbox">
-                                            <input type="checkbox" name="memberIdList" th:value="${member.id}">
-                                        </div>
-                                    </td>
-                                    <td class="mt-5 text-center" scope="row" th:text="${memberStat.count} + ${no}">1
-                                    </td>
-                                    <td class="text-center"><a th:text="${member.username}"
-                                            style="text-decoration:none; color:black;">Username</a></td>
-                                    <td class="text-center" th:text="${member.email}">이메일</td>
-                                    <td class="text-center"
-                                        th:text="${#dates.format(member.createDate, 'yyyy/MM/dd HH:mm')}">가입일
-                                    </td>
-                                    <td class="text-center"
-                                        th:text="${#strings.equals(member.role, 'ROLE_ADMIN') ? 'ADMIN' : 'USER'}">권한
-                                    </td>
+                    <form>
+                        <table class="table table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th class="text-center" scope="col"></th>
+                                    <th class="text-center" scope="col">No</th>
+                                    <th class="text-center" scope="col">Username</th>
+                                    <th class="text-center" scope="col">이메일</th>
+                                    <th class="text-center" scope="col">가입일</th>
+                                    <th class="text-center" scope="col">권한</th>
                                 </tr>
-                            </th:block>
-                        </tbody>
-                    </table>
-                    <!-- Page -->
-                    <nav th:replace="admin/fragments/paging :: pagination(${pagination})"></nav>
-                    <!-- Button -->
-                    <div class="nav justify-content-end">
-                        <button type="submit" class="btn btn-danger" onclick="deleteBoards()">계정삭제</button>
-                    </div>
+                            </thead>
+                            <tbody>
+                                <th:block
+                                    th:with="no = ${param.page != null} ? (${#numbers.formatInteger(param.page, 1)} - 1) * 10 : 0">
+                                    <tr th:each="member : ${memberList}">
+                                        <td class="mt-5 text-center" scope="row">
+                                            <div class="checkbox">
+                                                <input type="checkbox" name="memberIdList" th:value="${member.id}">
+                                            </div>
+                                        </td>
+                                        <td class="mt-5 text-center" scope="row" th:text="${memberStat.count} + ${no}">1
+                                        </td>
+                                        <td class="text-center"><a th:text="${member.username}"
+                                                style="text-decoration:none; color:black;">Username</a></td>
+                                        <td class="text-center" th:text="${member.email}">이메일</td>
+                                        <td class="text-center"
+                                            th:text="${#dates.format(member.createDate, 'yyyy/MM/dd HH:mm')}">가입일
+                                        </td>
+                                        <td class="text-center"
+                                            th:text="${#strings.equals(member.role, 'ROLE_ADMIN') ? 'ADMIN' : 'USER'}">
+                                            권한
+                                        </td>
+                                    </tr>
+                                </th:block>
+                            </tbody>
+                        </table>
+
+                        <!-- Page -->
+                        <nav th:replace="admin/fragments/paging :: pagination(${pagination})"></nav>
+
+                        <!-- Button -->
+                        <div class="nav justify-content-end">
+                            <button type="submit" class="btn btn-danger" onclick="deleteMembers()">계정삭제</button>
+                        </div>
+                    </form>
                 </div>
             </main>
         </div>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script th:inline="javascript">
+        // 회원 삭제
+        function deleteMembers() {
+            var memberIdList = []
+
+            $('input[name="memberIdList"]:checked').each(function (i) {
+                memberIdList.push($(this).val());
+            });
+
+            if (!isEmptyArr(memberIdList)) {
+                var param = { "memberIdList": memberIdList }
+
+                $.ajax({
+                    url: "/members",
+                    type: "DELETE",
+                    data: param,
+                    async: false,
+                    success: function (response) {
+                        alert('계정이 삭제 됐습니다.')
+                        location.reload()
+                    },
+                    error: function (response) {
+                        alert('계정 삭제에 실패했습니다.')
+                    }
+
+                })
+            } else {
+                alert('삭제할 계정을 선택해주세요.')
+            }
+
+        }
+
+        // 빈배열 체크
+        function isEmptyArr(arr) {
+            if (Array.isArray(arr) && arr.length === 0) {
+                return true;
+            }
+
+            return false;
+        }
+    </script>
 </body>
 
 </html>
