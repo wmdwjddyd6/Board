@@ -205,4 +205,12 @@ public class MemberService {
     public int getMemberListCnt(Pagination pagination) {
         return memberRepository.selectMemberTotalCount(pagination);
     }
+
+    // (관리자) 회원계정 삭제
+    public void deleteMember(List<String> id) {
+        for(String memberId : id) {
+            Member member = memberRepository.findById(Long.parseLong(memberId));
+            memberRepository.delete(member);
+        }
+    }
 }
