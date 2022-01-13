@@ -33,7 +33,7 @@ public class CommentService {
     }
 
     // 댓글 관리 카운트 (페이징)
-    public int countComment(Pagination pagination) throws Exception {
+    public int getCommentCnt(Pagination pagination) throws Exception {
         return commentRepository.countJoinComment(pagination);
     }
 

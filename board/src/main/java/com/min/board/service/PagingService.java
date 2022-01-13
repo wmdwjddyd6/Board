@@ -13,18 +13,20 @@ public class PagingService {
     @Autowired
     private CommentService commentService;
 
-    // 공통 페이징 처리
+    @Autowired
+    private MemberService memberService;
+
+    // 게시글 관련 페이징 처리
     public Pagination getBoardPagination(int page, int range, String keyword, String type) {
         int listCount = 0;
         Pagination pagination = new Pagination();
+        pagination.setType(type);
 
         if(type.equals("list")) {
             pagination.setSearchText(keyword);
         } else if(type.equals("myPost") || type.equals("trash")) {
             pagination.setWriter(keyword);
         }
-
-        pagination.setType(type);
 
         listCount = boardService.getBoardListCnt(pagination);
 
@@ -33,14 +35,26 @@ public class PagingService {
         return pagination;
     }
 
-    // 공통 페이징 처리
+    // 댓글 페이징 처리
     public Pagination getCommentPagination(int page, int range, String keyword) throws Exception {
         int listCount = 0;
         Pagination pagination = new Pagination();
-
         pagination.setWriter(keyword);
 
-        listCount = commentService.countComment(pagination);
+        listCount = commentService.getCommentCnt(pagination);
+
+        pagination.pageInfo(page, range, listCount);
+
+        return pagination;
+    }
+
+    // 회원 관련 페이징 처리
+    public Pagination getMemberPagination(int page, int range, String keyword) {
+        int listCount = 0;
+        Pagination pagination = new Pagination();
+        pagination.setSearchText(keyword);
+
+        listCount = memberService.getMemberListCnt(pagination);
 
         pagination.pageInfo(page, range, listCount);
 

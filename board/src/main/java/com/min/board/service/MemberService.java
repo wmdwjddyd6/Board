@@ -2,6 +2,7 @@ package com.min.board.service;
 
 import com.min.board.model.Member;
 //import com.min.board.model.MemberID;
+import com.min.board.paging.Pagination;
 import com.min.board.repository.mapper.MemberMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -194,9 +195,14 @@ public class MemberService {
         return temporaryPassword;
     }
 
-    // (관리자) 모든 유저 정보 리턴
-    public List<Member> getAllMemberList() {
-        List<Member> memberList = memberRepository.selectAllMember();
+    // (관리자 회원관리 페이징) 해당 페이지 회원정보 리턴
+    public List<Member> getMemberList(Pagination pagination) {
+        List<Member> memberList = memberRepository.selectMemberList(pagination);
         return memberList;
+    }
+
+    // (관리자 회원관리 페이징) 회원수 카운트
+    public int getMemberListCnt(Pagination pagination) {
+        return memberRepository.selectMemberTotalCount(pagination);
     }
 }
