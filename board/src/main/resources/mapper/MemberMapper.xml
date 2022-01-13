@@ -14,15 +14,32 @@
         ,create_date
     </sql>
 
-    <!--(관리자)모든 회원정보 받아오기-->
-    <select id="selectAllMember" resultType="Member">
+    <!--(관리자 회원관리 페이징) 회원정보 받아오기-->
+    <select id="selectMemberList" resultType="Member">
         SELECT
             <include refid="memberColumns"/>
         FROM
             tb_userinfo
+        <if test="searchText != null and searchText !=''">
+            WHERE
+                username = #{searchText}
+        </if>
         ORDER BY
             role
             ,id
+        <include refid="CommonMapper.paging"/>
+    </select>
+
+    <!--(관리자 회원관리 페이징) 회원수 카운트-->
+    <select id="selectMemberTotalCount" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM
+            tb_userinfo
+        <if test="searchText != null and searchText !=''">
+            WHERE
+                username = #{searchText}
+        </if>
     </select>
 
     <!--이름으로 회원정보 받기-->
