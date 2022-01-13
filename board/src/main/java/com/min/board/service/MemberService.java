@@ -37,17 +37,23 @@ public class MemberService {
     }
 
     // 회원가입
-    public void join(Member member){
+    public int join(Member member, String role){
+        int result = 0;
+
         if(checkUsername(member.getUsername())) { // 아이디 중복 2차 체크 (1차는 컨트롤러의 Validator에서 진행)
             System.out.println("memberService.join() : 이미 존재하는 아이디입니다.");
+            return result;
         } else {
             try {
                 member.setPassword(pwdEncoding(member.getPassword()));
                 member.setCreateDate(Timestamp.valueOf(LocalDateTime.now())); // 회원가입 시간
-                memberRepository.save(member);
+                member.setRole(role);
+                result = memberRepository.save(member);
                 System.out.println("memberService.join() : 회원가입 완료");
             } catch (Exception e) {
                 System.out.println("memberService.join() .. error : " + e.getMessage());
+            } finally {
+                return result;
             }
         }
     }

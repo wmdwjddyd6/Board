@@ -37,8 +37,12 @@ public class JoinController {
             return "/register/joinForm";
         }
 
-        memberService.join(member);
+        int result = memberService.join(member, "ROLE_USER");
 
-        return "redirect:/loginForm";
+        if(result > 0) {
+            return "redirect:/loginForm";
+        } else {
+            return "/register/joinForm";
+        }
     }
 }

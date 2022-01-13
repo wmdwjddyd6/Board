@@ -23,8 +23,10 @@ class MemberServiceTest {
         member.setPassword("123456");
         member.setEmail("wmdwjdd@naver.com");
 
+        int result = 0;
+
         try {
-            memberService.join(member);
+            result = memberService.join(member, "ROLE_USER");
         } catch (Exception e) {
             System.out.println("회원가입 실패");
         }
@@ -74,7 +76,7 @@ class MemberServiceTest {
 
     // 아이디 중복 체크
     @Test
-    public void checkUsername_아이디중복체크() { // 이거 이상해 고쳐야해..
+    public void checkUsername_아이디중복체크() {
         if(memberService.checkUsername("rhkdrhkd")) {
             System.out.println("존재하는 아이디입니다.");
         }else {
