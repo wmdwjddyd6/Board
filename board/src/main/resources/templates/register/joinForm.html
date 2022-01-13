@@ -42,17 +42,15 @@
 			</div>
 			<div class="form-floating">
 				<input type="email" class="form-control" th:field="*{email}"
-					th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" id="floatingPassword"
+					th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" id="floatingEmail"
 					placeholder="Email">
-				<label for="floatingPassword">example@board.com</label>
+				<label for="floatingEmail">example@board.com</label>
 				<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" id="validationServer03Feedback"
 					class="invalid-feedback text-start" style="margin-top: 8px;">
 					Email Error
 				</div>
 			</div>
 
-			<div class="checkbox mb-3">
-			</div>
 			<button class="w-100 btn btn-lg btn-primary mt-2" type="submit">가입하기</button>
 			<a type="button" class="w-100 btn btn-lg btn-primary mt-2" th:href="@{/}">Exit</a>
 		</form>
