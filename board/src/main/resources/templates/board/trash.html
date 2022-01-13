@@ -90,6 +90,7 @@
                     url: "/trash",
                     type: "PATCH",
                     data: param,
+                    async: false,
                     success: function (response) {
                         alert('복원 됐습니다.')
                         location.reload()
@@ -119,6 +120,7 @@
                     url: "/trash",
                     type: "DELETE",
                     data: param,
+                    async: false,
                     success: function (response) {
                         alert('영구 삭제 됐습니다.')
                         location.reload()
