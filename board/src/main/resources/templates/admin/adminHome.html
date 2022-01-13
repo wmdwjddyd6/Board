@@ -12,7 +12,7 @@
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <!-- Custom styles for this template -->
-    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="/css/dashboard.css" rel="stylesheet">
 </head>
 
 <body>
@@ -53,23 +53,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="member : ${memberList}">
-                                <td class="mt-5 text-center" scope="row">
-                                    <div class="checkbox">
-                                        <input type="checkbox" name="memberIdList" th:value="${member.id}">
-                                    </div>
-                                </td>
-                                <td class="mt-5 text-center" scope="row" th:text="${memberStat.count}">1</td>
-                                <td class="text-center"><a th:text="${member.username}"
-                                        style="text-decoration:none; color:black;">Username</a></td>
-                                <td class="text-center" th:text="${member.email}">이메일</td>
-                                <td class="text-center"
-                                    th:text="${#dates.format(member.createDate, 'yyyy/MM/dd HH:mm')}">가입일
-                                </td>
-                                <td class="text-center" th:text="${#strings.equals(member.role, 'ROLE_ADMIN') ? 'ADMIN' : 'USER'}">권한</td>
-                            </tr>
+                            <th:block th:with="no = ${param.page != null} ? (${#numbers.formatInteger(param.page, 1)} - 1) * 10 : 0">
+                                <tr th:each="member : ${memberList}">
+                                    <td class="mt-5 text-center" scope="row">
+                                        <div class="checkbox">
+                                            <input type="checkbox" name="memberIdList" th:value="${member.id}">
+                                        </div>
+                                    </td>
+                                    <td class="mt-5 text-center" scope="row" th:text="${memberStat.count} + ${no}">1
+                                    </td>
+                                    <td class="text-center"><a th:text="${member.username}"
+                                            style="text-decoration:none; color:black;">Username</a></td>
+                                    <td class="text-center" th:text="${member.email}">이메일</td>
+                                    <td class="text-center"
+                                        th:text="${#dates.format(member.createDate, 'yyyy/MM/dd HH:mm')}">가입일
+                                    </td>
+                                    <td class="text-center"
+                                        th:text="${#strings.equals(member.role, 'ROLE_ADMIN') ? 'ADMIN' : 'USER'}">권한
+                                    </td>
+                                </tr>
+                            </th:block>
                         </tbody>
                     </table>
+                    <!-- Page -->
+                    <nav th:replace="admin/fragments/paging :: pagination(${pagination})"></nav>
                     <!-- Button -->
                     <div class="nav justify-content-end">
                         <button type="submit" class="btn btn-danger" onclick="deleteBoards()">계정삭제</button>

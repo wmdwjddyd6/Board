@@ -1,11 +1,14 @@
 package com.min.board.controller;
 
 import com.min.board.model.Member;
+import com.min.board.paging.Pagination;
 import com.min.board.service.MemberService;
+import com.min.board.service.PagingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -15,17 +18,27 @@ public class HomeController {
     @Autowired
     private MemberService memberService;
 
-    // 게시판 메인 홈으로
+    @Autowired
+    private PagingService pagingService;
+
+    // 게시판 메인 홈
     @GetMapping("/")
-    public String Home(){
+    public String Home() {
         return "index";
     }
 
-    // 관리자 홈으로
+    // 관리자 홈
     @GetMapping("/admin")
-    public String adminHome(Model model) {
-        List<Member> memberList = memberService.getAllMemberList();
+    public String adminHome(Model model,
+                            @RequestParam(required = false, defaultValue = "1") int page,
+                            @RequestParam(required = false, defaultValue = "1") int range,
+                            String searchText) {
+        Pagination pagination = pagingService.getMemberPagination(page, range, searchText);
+        List<Member> memberList = memberService.getMemberList(pagination);
+
         model.addAttribute("memberList", memberList);
+        model.addAttribute("pagination", pagination);
+
         return "/admin/adminHome";
     }
 }
