@@ -29,4 +29,6 @@ public interface MemberMapper {
 
     // (관리자 회원관리 페이징) 회원수 받기
     int selectMemberTotalCount(Pagination pagination);
+
+    Member findById(Long id);
 }

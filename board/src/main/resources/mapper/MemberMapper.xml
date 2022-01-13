@@ -87,4 +87,13 @@
         WHERE
             email = #{email}
     </select>
+
+    <select id="findById" resultType="Member">
+        SELECT
+            <include refid="memberColumns"/>
+        FROM
+            tb_userinfo
+        WHERE
+            id = #{id}
+    </select>
 </mapper>
