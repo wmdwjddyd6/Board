@@ -16,7 +16,7 @@ public interface MemberMapper {
     void delete(Member member);
 
     // 회원가입
-    void save(Member member);
+    int save(Member member);
 
     // 비밀번호 변경
     void pwdChange(Member member);

@@ -52,15 +52,15 @@
             username = #{username}
     </select>
 
-    <!--회원가입-->
+    <!--계정생성-->
     <insert id="save" parameterType="Member">
         INSERT INTO
-            tb_userinfo (username, password, email, create_date)
+            tb_userinfo (username, password, email, role, create_date)
         VALUES
-            (#{username}, #{password}, #{email}, #{createDate})
+            (#{username}, #{password}, #{email}, #{role}, #{createDate})
     </insert>
 
-    <!--회원탈퇴-->
+    <!--계정삭제-->
     <delete id="delete" parameterType="Member">
         DELETE FROM
             tb_userinfo
