@@ -170,4 +170,10 @@ public class BoardService {
             System.out.println("boardService.clear() .. error : " + e.getMessage());
         }
     }
+
+    // 특정 유저 게시글 개수
+    public Long getSpecificBoardCnt(Long writerId) {
+        Long count = boardRepository.boardCnt(writerId);
+        return count;
+    }
 }
