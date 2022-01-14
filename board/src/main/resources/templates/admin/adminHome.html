@@ -38,29 +38,31 @@
 										<th class="text-center" scope="col">Username</th>
 										<th class="text-center" scope="col">이메일</th>
 										<th class="text-center" scope="col">가입일</th>
+										<th class="text-center" scope="col">게시글</th>
 										<th class="text-center" scope="col">권한</th>
 									</tr>
 								</thead>
 								<tbody>
 									<th:block
 										th:with="no = ${param.page != null} ? (${#numbers.formatInteger(param.page, 1)} - 1) * 10 : 0">
-										<tr th:each="member : ${memberList}">
+										<tr th:each="member : ${memberMap}">
 											<td class="mt-5 text-center" scope="row">
 												<div class="checkbox">
-													<input type="checkbox" name="memberIdList" th:value="${member.id}">
+													<input type="checkbox" name="memberIdList" th:value="${member.key.id}">
 												</div>
 											</td>
 											<td class="mt-5 text-center" scope="row"
 												th:text="${memberStat.count} + ${no}">1
 											</td>
-											<td class="text-center"><a th:text="${member.username}"
+											<td class="text-center"><a th:text="${member.key.username}"
 													style="text-decoration:none; color:black;">Username</a></td>
-											<td class="text-center" th:text="${member.email}">이메일</td>
+											<td class="text-center" th:text="${member.key.email}">이메일</td>
 											<td class="text-center"
-												th:text="${#dates.format(member.createDate, 'yyyy/MM/dd HH:mm')}">가입일
+												th:text="${#dates.format(member.key.createDate, 'yyyy/MM/dd HH:mm')}">가입일
 											</td>
+											<td class="text-center" th:text="${member.value}">작성 게시글 수</td>
 											<td class="text-center"
-												th:text="${#strings.equals(member.role, 'ROLE_ADMIN') ? 'ADMIN' : 'USER'}">
+												th:text="${#strings.equals(member.key.role, 'ROLE_ADMIN') ? 'ADMIN' : 'USER'}">
 												권한
 											</td>
 										</tr>
