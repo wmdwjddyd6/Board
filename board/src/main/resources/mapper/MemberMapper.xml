@@ -22,7 +22,7 @@
             tb_userinfo
         <if test="searchText != null and searchText !=''">
             WHERE
-                username = #{searchText}
+                username LIKE CONCAT(#{searchText}, '%')
         </if>
         ORDER BY
             role
@@ -38,7 +38,7 @@
             tb_userinfo
         <if test="searchText != null and searchText !=''">
             WHERE
-                username = #{searchText}
+                username LIKE CONCAT(#{searchText}, '%')
         </if>
     </select>
 
@@ -88,6 +88,7 @@
             email = #{email}
     </select>
 
+    <!--id로 회원정보 받기-->
     <select id="findById" resultType="Member">
         SELECT
             <include refid="memberColumns"/>
