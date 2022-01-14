@@ -70,8 +70,9 @@
 							<div class="mb-3" style="display: flex; justify-content: center;">
 								<form class="row g-3 justify-content-end" method="GET" th:action="@{/admin/boardManage}"
 									name="searchForm">
-									<input class="form-control" name="searchText" style="width: 300px;" type="text"
+									<input class="form-control" name="searchText" style="width: 250px;" type="text"
 										placeholder="Search" aria-label="Search" th:value="${param.searchText}">
+									<button type="submit" class="btn btn-primary ms-2">검색</button>
 								</form>
 							</div>
 

@@ -55,7 +55,7 @@
                 <include refid="CommonMapper.trash"></include>
             </if>
     </select>
-    
+
     <!--특정 유저 게시글 개수-->
     <select id="boardCnt" resultType="Long">
         SELECT

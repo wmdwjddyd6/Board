@@ -48,7 +48,8 @@
 										<tr th:each="member : ${memberMap}">
 											<td class="mt-5 text-center" scope="row">
 												<div class="checkbox">
-													<input type="checkbox" name="memberIdList" th:value="${member.key.id}">
+													<input type="checkbox" name="memberIdList"
+														th:value="${member.key.id}">
 												</div>
 											</td>
 											<td class="mt-5 text-center" scope="row"
@@ -58,7 +59,8 @@
 													style="text-decoration:none; color:black;">Username</a></td>
 											<td class="text-center" th:text="${member.key.email}">이메일</td>
 											<td class="text-center"
-												th:text="${#dates.format(member.key.createDate, 'yyyy/MM/dd HH:mm')}">가입일
+												th:text="${#dates.format(member.key.createDate, 'yyyy/MM/dd HH:mm')}">
+												가입일
 											</td>
 											<td class="text-center" th:text="${member.value}">작성 게시글 수</td>
 											<td class="text-center"
@@ -73,8 +75,9 @@
 							<div class="mb-3" style="display: flex; justify-content: center;">
 								<form class="row g-3 justify-content-end" method="GET" th:action="@{/admin}"
 									name="searchForm">
-									<input class="form-control" name="searchText" style="width: 300px;" type="text"
+									<input class="form-control" name="searchText" style="width: 250px;" type="text"
 										placeholder="Search" aria-label="Search" th:value="${param.searchText}">
+									<button type="submit" class="btn btn-primary ms-2">검색</button>
 								</form>
 							</div>
 
