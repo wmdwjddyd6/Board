@@ -53,7 +53,9 @@
 											<td class="mt-5 text-center" scope="row"
 												th:text="${boardStat.count} + ${no}">1
 											</td>
-											<td class="text-center" th:text="${board.title}">Title</td>
+											<td class="text-center"><a th:text="${board.title}" target='_blank'
+													style="text-decoration:none; color:black;"
+													th:href="@{/board/post(boardId=${board.id})}">Title</a></td>
 											<td class="text-center"><a th:text="${board.writer}"
 													style="text-decoration:none; color:black;">Writer</a></td>
 											<td class="text-center"
