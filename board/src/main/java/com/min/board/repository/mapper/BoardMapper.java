@@ -38,4 +38,7 @@ public interface BoardMapper {
 
     // 휴지통 비우기
     int permanentlyDeleteById(Long boardId);
+
+    // 특정 유저 게시글 개수
+    Long boardCnt(Long writerId);
 }

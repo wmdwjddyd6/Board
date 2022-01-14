@@ -55,6 +55,16 @@
                 <include refid="CommonMapper.trash"></include>
             </if>
     </select>
+    
+    <!--특정 유저 게시글 개수-->
+    <select id="boardCnt" resultType="Long">
+        SELECT
+            count(*)
+        FROM
+            tb_board
+        WHERE
+            writer_id = #{writerId};
+    </select>
 
     <!--모든 게시글 조회-->
     <select id="selectAllBoards" resultType="Board">
