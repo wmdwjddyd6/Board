@@ -33,4 +33,18 @@
             AND writer = #{writer}
         </if>
     </sql>
+
+    <sql id="memberBoardList">
+        delete_yn = 'N'
+        <if test="writer != null and writer !=''">
+            AND writer = #{writer}
+        </if>
+        <if test="searchText != null and searchText !=''">
+            AND writer = #{writer} AND
+            (
+            title LIKE CONCAT('%', #{searchText}, '%')
+            OR content LIKE CONCAT('%', #{searchText}, '%')
+            )
+        </if>
+    </sql>
 </mapper>

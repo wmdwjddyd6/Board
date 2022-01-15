@@ -32,6 +32,9 @@
             <if test="'trash'.equals(type)">
                 <include refid="CommonMapper.trash"></include>
             </if>
+            <if test="'memberBoardList'.equals(type)">
+                <include refid="CommonMapper.memberBoardList"></include>
+            </if>
         ORDER BY
             id DESC,
             create_date
@@ -53,6 +56,9 @@
             </if>
             <if test="'trash'.equals(type)">
                 <include refid="CommonMapper.trash"></include>
+            </if>
+            <if test="'memberBoardList'.equals(type)">
+                <include refid="CommonMapper.memberBoardList"></include>
             </if>
     </select>
 
