@@ -56,7 +56,7 @@ public class BoardService {
         try {
             boards = boardRepository.selectBoardList(pagination);
         } catch (Exception e) {
-            System.out.println("boardRepository.getMyBoardList() .. error : " + e.getMessage());
+            System.out.println("boardRepository.getBoardList() .. error : " + e.getMessage());
         } finally {
             return boards;
         }

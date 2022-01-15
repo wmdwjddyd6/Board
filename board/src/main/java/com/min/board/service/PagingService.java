@@ -35,6 +35,22 @@ public class PagingService {
         return pagination;
     }
 
+    // 특정 유저 게시글 조회
+    public Pagination getMemberBoardPagination(int page, int range, String keyword, String username, String type) {
+        int listCount = 0;
+
+        Pagination pagination = new Pagination();
+        pagination.setType(type);
+        pagination.setSearchText(keyword);
+        pagination.setWriter(username);
+
+        listCount = boardService.getBoardListCnt(pagination);
+
+        pagination.pageInfo(page, range, listCount);
+
+        return pagination;
+    }
+
     // 댓글 페이징 처리
     public Pagination getCommentPagination(int page, int range, String keyword) throws Exception {
         int listCount = 0;
