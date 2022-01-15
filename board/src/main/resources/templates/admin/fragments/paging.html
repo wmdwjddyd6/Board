@@ -10,20 +10,20 @@
 </head>
 
 <body>
-	<nav aria-label="Page navigation example" th:fragment="pagination(pagination)">
+	<nav aria-label="Page navigation example" th:fragment="pagination(pagination, link)">
 		<ul class="pagination justify-content-center">
 			<th:block th:with="start = ${pagination.startPage}, end = ${pagination.endPage}">
 				<li class="page-item" th:classappend="${pagination.prev == false} ? 'disabled'">
-					<a class="page-link" th:href="@{/admin/(page=${start - 1}, range=${pagination.range - 1}, 
+					<a class="page-link" th:href="@{${link}(page=${start - 1}, range=${pagination.range - 1}, 
 					searchText=${param.searchText})}">Previous</a>
 				</li>
 
 				<li class="page-item" th:classappend="${i == pagination.page} ? 'disabled'" th:if="${i != 0}"
-					th:each="i : ${#numbers.sequence(start, end)}"><a class="page-link" href="#" th:href="@{/admin/(page=${i}, 
+					th:each="i : ${#numbers.sequence(start, end)}"><a class="page-link" href="#" th:href="@{${link}(page=${i}, 
 					range=${pagination.range}, searchText=${param.searchText})}" th:text="${i}">1</a></li>
 
 				<li class="page-item" th:classappend="${pagination.next == false} ? 'disabled'">
-					<a class="page-link" th:href="@{/admin/(page=${end + 1}, range=${pagination.range + 1}, 
+					<a class="page-link" th:href="@{${link}(page=${end + 1}, range=${pagination.range + 1}, 
 					searchText=${param.searchText})}" href="#">Next</a>
 				</li>
 			</th:block>
