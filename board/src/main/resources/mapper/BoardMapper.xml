@@ -21,9 +21,16 @@
         SELECT
             <include refid="boardColumns"/>
         FROM
-            tb_board
+            <choose>
+                <when test="'notice'.equals(type)">
+                    tb_notice
+                </when>
+                <otherwise>
+                    tb_board
+                </otherwise>
+            </choose>
         WHERE
-            <if test="'list'.equals(type)">
+            <if test="'list'.equals(type) or 'notice'.equals(type)">
                 <include refid="CommonMapper.search"/>
             </if>
             <if test="'myPost'.equals(type)">
@@ -46,9 +53,16 @@
         SELECT
             COUNT(*)
         FROM
-            tb_board
+            <choose>
+                <when test="'notice'.equals(type)">
+                    tb_notice
+                </when>
+                <otherwise>
+                    tb_board
+                </otherwise>
+            </choose>
         WHERE
-            <if test="'list'.equals(type)">
+            <if test="'list'.equals(type) or 'notice'.equals(type)">
                 <include refid="CommonMapper.search"/>
             </if>
             <if test="'myPost'.equals(type)">
@@ -119,7 +133,7 @@
             id = #{id}
     </select>
 
-    <!--임시 삭제 게시글 조회-->
+    <!--게시글 임시 삭제-->
     <update id="temporaryDeleteById" parameterType="Long">
         UPDATE
             tb_board
