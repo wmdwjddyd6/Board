@@ -12,6 +12,15 @@
 		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<!-- Custom styles for this template -->
 	<link type="text/css" href="/css/dashboard.css" rel="stylesheet">
+	<style>
+		.menu a {
+			cursor: pointer;
+		}
+
+		.menu .hide {
+			display: none;
+		}
+	</style>
 </head>
 
 <body>
@@ -53,9 +62,12 @@
 											<td class="mt-5 text-center" scope="row"
 												th:text="${boardStat.count} + ${no}">1
 											</td>
-											<td class="text-center"><a th:text="${board.title}" target='_blank'
-													style="text-decoration:none; color:black;"
-													th:href="@{/board/post(boardId=${board.id})}">Title</a></td>
+											<td class="text-center menu"><a th:text="${board.title}" target='_blank'
+													style="text-decoration:none; color:black;">Title</a>
+												<textarea type="text" class="form-control mt-3 hide"
+													th:text="${board.content}" rows="5" style="background-color: white;"
+													readonly>내용</textarea>
+											</td>
 											<td class="text-center"><a th:text="${board.writer}"
 													th:href="@{/admin/userBoard(username=${board.writer})}"
 													style="text-decoration:none; color:black;">Writer</a></td>
@@ -78,7 +90,8 @@
 							</div>
 
 							<!-- Page -->
-							<nav th:replace="admin/fragments/paging :: pagination(${pagination}, '/admin/notice')"></nav>
+							<nav th:replace="admin/fragments/paging :: pagination(${pagination}, '/admin/notice')">
+							</nav>
 
 							<!-- Button -->
 							<div class="nav justify-content-end">
@@ -94,6 +107,21 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:inline="javascript">
+		// html dom 이 다 로딩된 후 실행된다.
+		$(document).ready(function () {
+			// menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+			$(".menu>a").click(function () {
+				var submenu = $(this).next("textarea");
+
+				// submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
+				if (submenu.is(":visible")) {
+					submenu.slideUp();
+				} else {
+					submenu.slideDown();
+				}
+			});
+		});
+
 		// 게시글 삭제
 		function deleteBoards() {
 			var boardIdList = [];
