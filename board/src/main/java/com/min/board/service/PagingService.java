@@ -22,7 +22,7 @@ public class PagingService {
         Pagination pagination = new Pagination();
         pagination.setType(type);
 
-        if(type.equals("list")) {
+        if(type.equals("list") || type.equals("notice")) {
             pagination.setSearchText(keyword);
         } else if(type.equals("myPost") || type.equals("trash")) {
             pagination.setWriter(keyword);

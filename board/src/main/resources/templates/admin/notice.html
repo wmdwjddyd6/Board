@@ -81,7 +81,7 @@
 							</table>
 
 							<div class="mb-3" style="display: flex; justify-content: center;">
-								<form class="row g-3 justify-content-end" method="GET" th:action="@{/admin}"
+								<form class="row g-3 justify-content-end" method="GET" th:action="@{/admin/notice}"
 									name="searchForm">
 									<input class="form-control" name="searchText" style="width: 250px;" type="text"
 										placeholder="Search" aria-label="Search" th:value="${param.searchText}">
@@ -107,13 +107,10 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script th:inline="javascript">
-		// html dom 이 다 로딩된 후 실행된다.
 		$(document).ready(function () {
-			// menu 클래스 바로 하위에 있는 a 태그를 클릭했을때
+			// menu 클래스 바로 하위에 있는 a 태그를 클릭
 			$(".menu>a").click(function () {
 				var submenu = $(this).next("textarea");
-
-				// submenu 가 화면상에 보일때는 위로 보드랍게 접고 아니면 아래로 보드랍게 펼치기
 				if (submenu.is(":visible")) {
 					submenu.slideUp();
 				} else {
