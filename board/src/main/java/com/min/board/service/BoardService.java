@@ -63,10 +63,12 @@ public class BoardService {
     }
 
     // id를 이용해서 해당 글 수정
-    public Board contentLoad(Long id) {
+    public Board contentLoad(Long id, String type) {
         Board board = new Board();
+        board.setId(id);
+        board.setType(type);
         try {
-            board = boardRepository.findById(id);
+            board = boardRepository.findById(board);
         } catch (Exception e) {
             System.out.println("boardService.contentLoad() .. error : " + e.getMessage());
         } finally {
@@ -75,25 +77,26 @@ public class BoardService {
     }
 
     // 조회수 증가
-    public void updateViews(Long id, String username, HttpServletRequest request,
-                            HttpServletResponse response) throws Exception {
+    public void updateViews(Board board, String username, HttpServletRequest request,
+                            HttpServletResponse response, String type) throws Exception {
         Cookie[] cookies = request.getCookies();
         Map<String, String> mapCookie = new HashMap<>();
 
-        if(request.getCookies() != null) {
-            for(int i = 0; i < cookies.length; i ++) {
+        if (request.getCookies() != null) {
+            for (int i = 0; i < cookies.length; i++) {
                 mapCookie.put(cookies[i].getName(), cookies[i].getValue());
             }
 
             String viewsCookie = mapCookie.get("views");
-            String newCookie = "|" + id;
+            String newCookie = type + "|" + board.getId();
 
             // 쿠키가 없을 경우 쿠키 생성 후 조회수 증가
-            if(viewsCookie == null || !viewsCookie.contains(Long.toString(id))) {
+            if (viewsCookie == null || !viewsCookie.contains(newCookie)) {
                 Cookie cookie = new Cookie("views", viewsCookie + newCookie);
                 response.addCookie(cookie);
 
-                boardRepository.updateViews(id);
+                board.setType(type);
+                boardRepository.updateViews(board);
             }
         }
     }
@@ -152,15 +155,14 @@ public class BoardService {
             int result = boardRepository.permanentlyDeleteById(boardId);
 
             // 글 삭제가 정상적으로 됐고, 첨부된 파일이 있다면
-            if(result > 0 && !CollectionUtils.isEmpty(files)) {
+            if (result > 0 && !CollectionUtils.isEmpty(files)) {
                 // 서버에서 파일 삭제
-                for(FileDTO fileDTO : files) {
+                for (FileDTO fileDTO : files) {
                     File file = new File(fileDTO.getPath());
-                    if(file.exists()) { // 서버에 파일이 존재한다면
+                    if (file.exists()) { // 서버에 파일이 존재한다면
                         file.delete(); // 삭제
                         System.out.println(fileDTO.getStoredFileName() + " : 삭제 완료");
-                    }
-                    else {
+                    } else {
                         System.out.println("삭제할 파일이 없습니다.");
                         return;
                     }

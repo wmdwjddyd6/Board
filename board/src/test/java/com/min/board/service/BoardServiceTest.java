@@ -36,7 +36,7 @@ class BoardServiceTest {
 
     @Test
     public void contentLoad_컨텐츠로드() {
-        Board board = boardService.contentLoad(5l);
+        Board board = boardService.contentLoad(5l, "board");
     }
 
     @Test

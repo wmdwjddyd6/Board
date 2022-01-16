@@ -27,6 +27,10 @@
 							th:classappend="${menu} == 'home' ? 'active'">Home</a>
 					</li>
 					<li class="nav-item">
+						<a class="nav-link" style="font-weight: bold" href="#" th:href="@{/board/noticeList}"
+							th:classappend="${menu} == 'notice' ? 'active'">공지사항</a>
+					</li>
+					<li class="nav-item">
 						<a class="nav-link" style="font-weight: bold" href="#" th:href="@{/board/list}"
 							th:classappend="${menu} == 'board' ? 'active'">게시판</a>
 					</li>

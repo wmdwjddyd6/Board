@@ -22,10 +22,10 @@ public interface BoardMapper {
     void updateBoard(Board board);
 
     // 조회수 증가
-    void updateViews(Long id) throws Exception;
+    void updateViews(Board board) throws Exception;
 
     // 아이디로 글 찾기
-    Board findById(Long id);
+    Board findById(Board board);
 
     // 휴지통으로 이동 (임시삭제)
     void temporaryDeleteById(Long id);

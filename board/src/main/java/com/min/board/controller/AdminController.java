@@ -70,7 +70,7 @@ public class AdminController {
 
     // 공지사항 관리(조회 메뉴)
     @GetMapping("/admin/notice")
-    public String noticeList(Model model,
+    public String notice(Model model,
                             @RequestParam(required = false, defaultValue = "1") int page,
                             @RequestParam(required = false, defaultValue = "1") int range,
                             String searchText) {
@@ -83,7 +83,9 @@ public class AdminController {
         return "/admin/notice";
     }
 
-    // 관리자 계정 생성
+    // 공지사항 수정
+
+   // 관리자 계정 생성
     @PostMapping("/admin/join")
     public String addMember(@Valid Member member, BindingResult bindingResult) { // view의 form->input 의 name과 매핑됨.
         memberValidator.validate(member, bindingResult);

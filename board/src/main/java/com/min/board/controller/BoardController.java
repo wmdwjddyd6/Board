@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,13 +60,44 @@ public class BoardController {
         return "board/list";
     }
 
+    // 공지사항 메뉴 (조회)
+    @GetMapping("/noticeList")
+    public String notice(Model model,
+                         @RequestParam(required = false, defaultValue = "1") int page,
+                         @RequestParam(required = false, defaultValue = "1") int range,
+                         String searchText) {
+        Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "notice");
+        List<Board> boards = boardService.getBoardList(pagination);
+
+        model.addAttribute("pagination", pagination);
+        model.addAttribute("boardList", boards);
+
+        return "board/noticeList";
+    }
+
+    // 포스트 조회
+    @GetMapping("/noticePost")
+    public String readNotice(Model model, @RequestParam(required = false) Long boardId,
+                             Principal principal, HttpServletRequest request,
+                             HttpServletResponse response) throws Exception {
+        String loginUser = principal.getName();
+        Board board = boardService.contentLoad(boardId, "notice");
+
+        boardService.updateViews(board, loginUser, request, response, "notice");
+
+        model.addAttribute("board", board);
+        model.addAttribute("loginUser", loginUser);
+
+        return "board/noticePost";
+    }
+
     // 게시글 신규 작성 폼 진입 & 기존 게시글 불러오기
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long boardId) {
         if (boardId == null) {
             model.addAttribute("board", new Board());
         } else {
-            Board board = boardService.contentLoad(boardId);
+            Board board = boardService.contentLoad(boardId, "board");
             model.addAttribute("board", board);
         }
 
@@ -75,21 +107,20 @@ public class BoardController {
     // 게시글 작성 & 수정
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal,
-                              List<MultipartFile> files, Long id) throws IOException, SQLException {
-        if (bindingResult.hasErrors() || files.size() > 7) {
+                              @RequestParam(value = "files", required = false) List<MultipartFile> files, Long boardId) throws IOException, SQLException {
+        if (bindingResult.hasErrors() || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
             return "board/form";
         }
 
         String loginUsername = principal.getName();
-        Long newBoardId = 0l;
 
-        if (id == null) { // 새 글 작성
-            newBoardId = boardService.save(board, loginUsername); // Insert
+        if (boardId == null) { // 새 글 작성
+            Long newBoardId = boardService.save(board, loginUsername); // Insert
 
             // 첨부파일 있을 때
-            if(!files.get(0).getOriginalFilename().isEmpty()) {
-                for(int i = 0; i < files.size(); i ++) {
-                    if(files.get(i).getContentType().contains("image/")) {
+            if (!files.get(0).getOriginalFilename().isEmpty()) {
+                for (int i = 0; i < files.size(); i++) {
+                    if (files.get(i).getContentType().contains("image/")) {
                         fileService.saveFile(files.get(i), newBoardId);
                     } else {
                         System.out.println("이미지 타입이 아닙니다");
@@ -97,7 +128,7 @@ public class BoardController {
                 }
             }
         } else { // 기존 글 수정
-            boardService.update(board, id); // Update
+            boardService.update(board, boardId); // Update
         }
 
         return "redirect:/board/list";
@@ -110,9 +141,9 @@ public class BoardController {
                            Principal principal, HttpServletRequest request,
                            HttpServletResponse response) throws Exception {
         String loginUser = principal.getName();
-        Board board = boardService.contentLoad(boardId);
+        Board board = boardService.contentLoad(boardId, "board");
 
-        boardService.updateViews(boardId, loginUser, request, response);
+        boardService.updateViews(board, loginUser, request, response, "list");
 
         model.addAttribute("board", board);
         model.addAttribute("loginUser", loginUser);
