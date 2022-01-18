@@ -22,7 +22,7 @@ public class TrashController {
     private PagingService pagingService;
 
     // 휴지통 화면 이동
-    @GetMapping("/trash")
+    @GetMapping("/board/trash")
     public String trash(Model model,
                         @RequestParam(required = false, defaultValue = "1") int page,
                         @RequestParam(required = false, defaultValue = "1") int range,
