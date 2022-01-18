@@ -30,7 +30,7 @@ class BoardServiceTest {
             board.setTitle(i + "번째 제목입니다.");
             board.setContent(i + "번째 내용이에요.");
 
-            boardService.save(board, username);
+            boardService.save(board, username, "board");
         }
     }
 

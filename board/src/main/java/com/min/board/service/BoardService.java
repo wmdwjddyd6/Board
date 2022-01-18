@@ -102,7 +102,7 @@ public class BoardService {
     }
 
     // 글 등록
-    public Long save(Board board, String loginUsername) {
+    public Long save(Board board, String loginUsername, String type) {
         board.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
 
         try {
@@ -110,6 +110,7 @@ public class BoardService {
 
             board.setWriterId(member.getId());
             board.setWriter(member.getUsername());
+            board.setType(type);
 
             boardRepository.insertBoard(board);
         } catch (Exception e) {
@@ -119,8 +120,9 @@ public class BoardService {
     }
 
     // 글 수정
-    public Long update(Board board, Long boardId) {
+    public Long update(Board board, Long boardId, String type) {
         board.setId(boardId);
+        board.setType(type);
 
         try {
             boardRepository.updateBoard(board);

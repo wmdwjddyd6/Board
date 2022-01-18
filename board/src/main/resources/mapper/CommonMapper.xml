@@ -6,11 +6,18 @@
 <mapper namespace="CommonMapper">
     <sql id="paging">
         LIMIT
-            #{startList}, #{listSize}
+        #{startList}, #{listSize}
     </sql>
 
     <sql id="search">
-        delete_yn = 'N'
+        <choose>
+            <when test="'notice'.equals(type)">
+                delete_yn = 'N' AND type = 'notice'
+            </when>
+            <otherwise>
+                delete_yn = 'N' AND type = 'board'
+            </otherwise>
+        </choose>
         <if test="searchText != null and searchText !=''">
             AND
             (
@@ -21,14 +28,14 @@
     </sql>
 
     <sql id="myPost">
-        delete_yn = 'N'
+        delete_yn = 'N' AND type = 'BOARD'
         <if test="writer != null and writer !=''">
             AND writer = #{writer}
         </if>
     </sql>
 
     <sql id="trash">
-        delete_yn = 'Y'
+        delete_yn = 'Y' AND type = 'BOARD'
         <if test="writer != null and writer !=''">
             AND writer = #{writer}
         </if>

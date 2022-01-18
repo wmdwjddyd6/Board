@@ -107,15 +107,17 @@ public class BoardController {
     // 게시글 작성 & 수정
     @PostMapping("/form")
     public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal,
-                              @RequestParam(value = "files", required = false) List<MultipartFile> files, Long boardId) throws IOException, SQLException {
+                              @RequestParam(value = "files", required = false) List<MultipartFile> files,
+                              @RequestParam(value = "boardId", required = false) Long boardId) throws IOException, SQLException {
         if (bindingResult.hasErrors() || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
             return "board/form";
         }
 
         String loginUsername = principal.getName();
+        String type = "board";
 
         if (boardId == null) { // 새 글 작성
-            Long newBoardId = boardService.save(board, loginUsername); // Insert
+            Long newBoardId = boardService.save(board, loginUsername, type); // Insert
 
             // 첨부파일 있을 때
             if (!files.get(0).getOriginalFilename().isEmpty()) {
@@ -128,7 +130,7 @@ public class BoardController {
                 }
             }
         } else { // 기존 글 수정
-            boardService.update(board, boardId); // Update
+            boardService.update(board, boardId, type); // Update
         }
 
         return "redirect:/board/list";
@@ -143,7 +145,7 @@ public class BoardController {
         String loginUser = principal.getName();
         Board board = boardService.contentLoad(boardId, "board");
 
-        boardService.updateViews(board, loginUser, request, response, "list");
+        boardService.updateViews(board, loginUser, request, response, "board");
 
         model.addAttribute("board", board);
         model.addAttribute("loginUser", loginUser);

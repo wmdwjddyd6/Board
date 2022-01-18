@@ -4,16 +4,22 @@ import com.min.board.model.Board;
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.service.BoardService;
+import com.min.board.service.FileService;
 import com.min.board.service.MemberService;
 import com.min.board.service.PagingService;
 import com.min.board.validator.MemberValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.security.Principal;
+import java.sql.SQLException;
 import java.util.List;
 
 @Controller
@@ -27,6 +33,9 @@ public class AdminController {
 
     @Autowired
     private BoardService boardService;
+
+    @Autowired
+    private FileService fileService;
 
     @Autowired
     private PagingService pagingService;
@@ -56,9 +65,9 @@ public class AdminController {
     // 특정 회원 게시글 리스트
     @GetMapping("/admin/userBoard")
     public String userBoard(Model model,
-                               @RequestParam(required = false, defaultValue = "1") int page,
-                               @RequestParam(required = false, defaultValue = "1") int range,
-                               String searchText, String username) {
+                            @RequestParam(required = false, defaultValue = "1") int page,
+                            @RequestParam(required = false, defaultValue = "1") int range,
+                            String searchText, String username) {
         Pagination pagination = pagingService.getMemberBoardPagination(page, range, searchText, username, "memberBoardList");
         List<Board> boards = boardService.getBoardList(pagination);
 
@@ -71,9 +80,9 @@ public class AdminController {
     // 공지사항 관리(조회 메뉴)
     @GetMapping("/admin/notice")
     public String notice(Model model,
-                            @RequestParam(required = false, defaultValue = "1") int page,
-                            @RequestParam(required = false, defaultValue = "1") int range,
-                            String searchText) {
+                         @RequestParam(required = false, defaultValue = "1") int page,
+                         @RequestParam(required = false, defaultValue = "1") int range,
+                         String searchText) {
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "notice");
         List<Board> boards = boardService.getBoardList(pagination);
 
@@ -83,9 +92,47 @@ public class AdminController {
         return "/admin/notice";
     }
 
+    // 공지사항 작성(폼 진입)
+    @GetMapping("/admin/noticeForm")
+    public String writeNoticeForm(Model model) {
+        model.addAttribute("board", new Board());
+        return "/admin/noticeForm";
+    }
+
+    // 공지사항 작성 & 수정
+    @PostMapping("/admin/noticeForm")
+    public String writeNotice(@Valid Board board, BindingResult bindingResult, Principal principal,
+                              @RequestParam(value = "files", required = false) List<MultipartFile> files, Long boardId) throws IOException, SQLException {
+        if (bindingResult.hasErrors() || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
+            return "/admin/noticeForm";
+        }
+
+        String loginUsername = principal.getName();
+        String type = "notice";
+
+        if (boardId == null) { // 새 글 작성
+            Long newBoardId = boardService.save(board, loginUsername, type); // Insert
+
+            // 첨부파일 있을 때
+            if (!files.get(0).getOriginalFilename().isEmpty()) {
+                for (int i = 0; i < files.size(); i++) {
+                    if (files.get(i).getContentType().contains("image/")) {
+                        fileService.saveFile(files.get(i), newBoardId);
+                    } else {
+                        System.out.println("이미지 타입이 아닙니다");
+                    }
+                }
+            }
+        } else { // 기존 글 수정
+            boardService.update(board, boardId, type); // Update
+        }
+
+        return "redirect:/admin/noticeForm";
+    }
+
     // 공지사항 수정
 
-   // 관리자 계정 생성
+    // 관리자 계정 생성
     @PostMapping("/admin/join")
     public String addMember(@Valid Member member, BindingResult bindingResult) { // view의 form->input 의 name과 매핑됨.
         memberValidator.validate(member, bindingResult);

@@ -19,9 +19,8 @@
         SELECT
             COUNT(*)
         FROM
-            tb_board b Join tb_comment c
-        ON
-            b.delete_yn = 'N' AND b.id = c.board_id AND c.writer = #{writer}
+            tb_board b Join tb_comment c ON
+        b.delete_yn = 'N' AND b.id = c.board_id AND c.writer = #{writer}
     </select>
 
     <!--댓글 리스트 (댓글 관리)-->

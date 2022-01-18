@@ -14,6 +14,7 @@
         ,delete_yn
         ,create_date
         ,views
+        ,type
     </sql>
 
     <!--(페이징) 게시글 모두 조회-->
@@ -21,14 +22,7 @@
         SELECT
             <include refid="boardColumns"/>
         FROM
-            <choose>
-                <when test="'notice'.equals(type)">
-                    tb_notice
-                </when>
-                <otherwise>
-                    tb_board
-                </otherwise>
-            </choose>
+            tb_board
         WHERE
             <if test="'list'.equals(type) or 'notice'.equals(type)">
                 <include refid="CommonMapper.search"/>
@@ -53,14 +47,7 @@
         SELECT
             COUNT(*)
         FROM
-            <choose>
-                <when test="'notice'.equals(type)">
-                    tb_notice
-                </when>
-                <otherwise>
-                    tb_board
-                </otherwise>
-            </choose>
+            tb_board
         WHERE
             <if test="'list'.equals(type) or 'notice'.equals(type)">
                 <include refid="CommonMapper.search"/>
@@ -83,23 +70,22 @@
         FROM
             tb_board
         WHERE
-            writer_id = #{writerId};
-    </select>
-
-    <!--모든 게시글 조회-->
-    <select id="selectAllBoards" resultType="Board">
-        SELECT
-            <include refid="boardColumns"/>
-        FROM
-            tb_board
+            writer_id = #{writerId}
     </select>
 
     <!--게시글 작성-->
     <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-            tb_board (title, content, writer_id, writer, create_date)
+            <choose>
+                <when test="'notice'.equals(type)">
+                    tb_board (title, content, writer_id, writer, create_date, type)
+                </when>
+                <otherwise>
+                    tb_board (title, content, writer_id, writer, create_date, type)
+                </otherwise>
+            </choose>
         VALUES
-            (#{title}, #{content}, #{writerId}, #{writer}, #{createDate})
+            (#{title}, #{content}, #{writerId}, #{writer}, #{createDate}, #{type})
     </insert>
 
     <!--게시글 업데이트-->
@@ -110,24 +96,17 @@
             title = #{title}
             ,content = #{content}
         WHERE
-            id = #{id}
+            id = #{id} AND type = #{type}
     </update>
 
     <!--게시글 조회수 업데이트-->
     <update id="updateViews">
         UPDATE
-            <choose>
-                <when test="'notice'.equals(type)">
-                    tb_notice
-                </when>
-                <otherwise>
-                    tb_board
-                </otherwise>
-            </choose>
+            tb_board
         SET
             views = views + 1
         WHERE
-            id = #{id}
+            id = #{id} AND type = #{type}
     </update>
 
     <!--특정 아이디 게시글 조회-->
@@ -135,16 +114,9 @@
         SELECT
             <include refid="boardColumns"/>
         FROM
-            <choose>
-                <when test="'notice'.equals(type)">
-                    tb_notice
-                </when>
-                <otherwise>
-                    tb_board
-                </otherwise>
-            </choose>
+            tb_board
         WHERE
-            id = #{id}
+            id = #{id} AND type = #{type}
     </select>
 
     <!--게시글 임시 삭제-->
@@ -154,7 +126,7 @@
         SET
             delete_yn = 'Y'
         WHERE
-            id = #{id}
+            id = #{id} AND type = 'board'
     </update>
 
     <!--휴지통에서 게시글 복원-->
@@ -164,7 +136,7 @@
         SET
             delete_yn = 'N'
         WHERE
-            id = #{id}
+            id = #{id} AND type = 'board'
     </update>
 
     <!--휴지통에서 삭제-->
@@ -172,6 +144,6 @@
         DELETE FROM
             tb_board
         WHERE
-            id = #{id}
+            id = #{id} AND type = 'board'
     </delete>
 </mapper>

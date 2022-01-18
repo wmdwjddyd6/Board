@@ -9,9 +9,6 @@ import java.util.Optional;
 
 @Mapper
 public interface BoardMapper {
-    // 모든 글 조회
-    List<Board> selectAllBoards();
-
     // 게시글 개수 반환 (메인 게시글, 글 관리, 휴지통)
     int selectBoardTotalCount(Pagination pagination);
 
