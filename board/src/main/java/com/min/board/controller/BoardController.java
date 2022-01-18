@@ -106,11 +106,15 @@ public class BoardController {
 
     // 게시글 작성 & 수정
     @PostMapping("/form")
-    public String boardSubmit(@Valid Board board, BindingResult bindingResult, Principal principal,
+    public String boardSubmit(Board board, Principal principal,
                               @RequestParam(value = "files", required = false) List<MultipartFile> files,
                               @RequestParam(value = "boardId", required = false) Long boardId) throws IOException, SQLException {
-        if (bindingResult.hasErrors() || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
-            return "board/form";
+        if (board.getTitle().length() < 1 || board.getContent().length() < 1 || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
+            // 잘못된 입력값이 들어왔을 때 다시 해당 페이지로 로딩
+            if(boardId != null) {
+                return "redirect:/board/form?boardId=" + boardId;
+            }
+            return "redirect:/board/form";
         }
 
         String loginUsername = principal.getName();

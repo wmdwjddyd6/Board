@@ -76,14 +76,7 @@
     <!--게시글 작성-->
     <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-            <choose>
-                <when test="'notice'.equals(type)">
-                    tb_board (title, content, writer_id, writer, create_date, type)
-                </when>
-                <otherwise>
-                    tb_board (title, content, writer_id, writer, create_date, type)
-                </otherwise>
-            </choose>
+            tb_board (title, content, writer_id, writer, create_date, type)
         VALUES
             (#{title}, #{content}, #{writerId}, #{writer}, #{createDate}, #{type})
     </insert>
