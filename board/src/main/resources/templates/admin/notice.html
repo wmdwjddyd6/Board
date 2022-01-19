@@ -54,27 +54,31 @@
 									<th:block
 										th:with="no = ${param.page != null} ? (${#numbers.formatInteger(param.page, 1)} - 1) * 10 : 0">
 										<tr th:each="board : ${boardList}">
-											<td class="mt-5 text-center" scope="row">
+											<td class="mt-5 text-center pt-3 pb-3" scope="row">
 												<div class="checkbox">
 													<input type="checkbox" name="boardIdList" th:value="${board.id}">
 												</div>
 											</td>
-											<td class="mt-5 text-center" scope="row"
+											<td class="mt-5 text-center pt-3 pb-3" scope="row"
 												th:text="${boardStat.count} + ${no}">1
 											</td>
-											<td class="text-center menu"><a th:text="${board.title}" target='_blank'
+											<td class="text-center menu pt-3 pb-3"><a th:text="${board.title}" target='_blank'
 													style="text-decoration:none; color:black;">Title</a>
-												<textarea type="text" class="form-control mt-3 hide"
+												<textarea type="text" class="form-control mt-3 mb-3 hide"
 													th:text="${board.content}" rows="5" style="background-color: white;"
 													readonly>내용</textarea>
+												<a th:href="@{/admin/noticeForm(boardId=${board.id})}"
+													class="btn btn-outline-secondary hide me-3">수정하기</a>
+												<a th:href="@{/board/noticePost(boardId=${board.id})}"
+													class="btn btn-outline-secondary hide">원문보기</a>
 											</td>
-											<td class="text-center"><a th:text="${board.writer}"
+											<td class="text-center pt-3 pb-3"><a th:text="${board.writer}"
 													th:href="@{/admin/userBoard(username=${board.writer})}"
 													style="text-decoration:none; color:black;">Writer</a></td>
-											<td class="text-center"
+											<td class="text-center pt-3 pb-3"
 												th:text="${#dates.format(board.createDate, 'yyyy/MM/dd HH:mm')}">날짜
 											</td>
-											<td class="text-center" th:text="${board.views}">0</td>
+											<td class="text-center pt-3 pb-3" th:text="${board.views}">0</td>
 										</tr>
 									</th:block>
 								</tbody>
@@ -110,7 +114,7 @@
 		$(document).ready(function () {
 			// menu 클래스 바로 하위에 있는 a 태그를 클릭
 			$(".menu>a").click(function () {
-				var submenu = $(this).next("textarea");
+				var submenu = $(this).nextAll();
 				if (submenu.is(":visible")) {
 					submenu.slideUp();
 				} else {
