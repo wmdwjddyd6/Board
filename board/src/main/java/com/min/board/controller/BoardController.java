@@ -83,6 +83,14 @@ public class BoardController {
         return "board/noticePost";
     }
 
+    // 공지사항 삭제
+    @PostMapping("/notice/delete")
+    public String noticeDelete(@RequestParam(required = false) Long boardId) {
+        boardService.temporaryDelete(boardId);
+
+        return "redirect:/board/noticeList";
+    }
+
     // 게시글 신규 작성 폼 진입 & 기존 게시글 불러오기
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long boardId) {

@@ -25,7 +25,7 @@
 			<div class="ms-3 mt-4">
 				<div class="mb-3">
 					<div class="nav justify-content-end">
-						<form th:if="${board.writer == #httpServletRequest.remoteUser}" th:action="@{/board/delete}"
+						<form th:if="${board.writer == #httpServletRequest.remoteUser}" th:action="@{/board/notice/delete}"
 							method="post">
 							<input type="hidden" name="boardId" th:value="${board.id}">
 							<button class="btn btn-danger me-2" type="submit">삭제</button>
