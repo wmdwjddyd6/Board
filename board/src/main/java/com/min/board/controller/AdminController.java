@@ -94,8 +94,13 @@ public class AdminController {
 
     // 공지사항 작성(폼 진입)
     @GetMapping("/admin/noticeForm")
-    public String writeNoticeForm(Model model) {
-        model.addAttribute("board", new Board());
+    public String writeNoticeForm(Model model, @RequestParam(required = false) Long boardId) {
+        if (boardId == null) {
+            model.addAttribute("board", new Board());
+        } else {
+            Board board = boardService.contentLoad(boardId, "notice");
+            model.addAttribute("board", board);
+        }
         return "/admin/noticeForm";
     }
 

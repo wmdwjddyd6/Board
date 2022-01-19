@@ -100,7 +100,6 @@ public class BoardController {
             Board board = boardService.contentLoad(boardId, "board");
             model.addAttribute("board", board);
         }
-
         return "board/form";
     }
 
