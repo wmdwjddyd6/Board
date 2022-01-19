@@ -32,7 +32,7 @@
 						</form>
 						<a type="button" class="btn btn-primary"
 							th:if="${board.writer == #httpServletRequest.remoteUser}"
-							th:href="@{/board/form(boardId=${board.id})}">수정</a>
+							th:href="@{/admin/noticeForm(boardId=${board.id})}">수정</a>
 						<a type="button" class="btn btn-primary ms-2" th:href="@{/board/list}">나가기</a>
 					</div>
 					<h2>제목 : <span th:text="${board.title}">글 제목</span></h2>

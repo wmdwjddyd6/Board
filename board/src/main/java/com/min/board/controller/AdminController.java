@@ -101,10 +101,15 @@ public class AdminController {
 
     // 공지사항 작성 & 수정
     @PostMapping("/admin/noticeForm")
-    public String writeNotice(@Valid Board board, BindingResult bindingResult, Principal principal,
-                              @RequestParam(value = "files", required = false) List<MultipartFile> files, Long boardId) throws IOException, SQLException {
-        if (bindingResult.hasErrors() || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
-            return "/admin/noticeForm";
+    public String writeNotice(Board board, Principal principal,
+                              @RequestParam(value = "files", required = false) List<MultipartFile> files,
+                              @RequestParam(value = "boardId", required = false) Long boardId) throws IOException, SQLException {
+        if (board.getTitle().length() < 1 || board.getContent().length() < 1 || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
+            // 잘못된 입력값이 들어왔을 때 다시 해당 페이지로 로딩
+            if(boardId != null) {
+                return "redirect:/admin/noticeForm?boardId=" + boardId;
+            }
+            return "redirect:/admin/noticeForm";
         }
 
         String loginUsername = principal.getName();
@@ -127,7 +132,7 @@ public class AdminController {
             boardService.update(board, boardId, type); // Update
         }
 
-        return "redirect:/admin/noticeForm";
+        return "redirect:/admin/notice";
     }
 
     // 공지사항 수정
