@@ -119,7 +119,7 @@
         SET
             delete_yn = 'Y'
         WHERE
-            id = #{id} AND type = 'board'
+            id = #{id}
     </update>
 
     <!--휴지통에서 게시글 복원-->
@@ -129,7 +129,7 @@
         SET
             delete_yn = 'N'
         WHERE
-            id = #{id} AND type = 'board'
+            id = #{id}
     </update>
 
     <!--휴지통에서 삭제-->
@@ -137,6 +137,6 @@
         DELETE FROM
             tb_board
         WHERE
-            id = #{id} AND type = 'board'
+            id = #{id}
     </delete>
 </mapper>
