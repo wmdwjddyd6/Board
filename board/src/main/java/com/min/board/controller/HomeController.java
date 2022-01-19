@@ -1,6 +1,5 @@
 package com.min.board.controller;
 
-import com.min.board.model.Board;
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.service.BoardService;
@@ -53,6 +52,6 @@ public class HomeController {
         model.addAttribute("memberMap", memberMap);
         model.addAttribute("pagination", pagination);
 
-        return "/admin/adminHome";
+        return "admin/adminHome";
     }
 }

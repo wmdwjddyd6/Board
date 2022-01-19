@@ -44,7 +44,7 @@ public class AdminController {
     @GetMapping("/admin/addAdmin")
     public String addAdminForm(Model model) {
         model.addAttribute("member", new Member());
-        return "/admin/addAdmin";
+        return "admin/addAdmin";
     }
 
     // 게시글 관리 페이지
@@ -59,7 +59,7 @@ public class AdminController {
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
 
-        return "/admin/boardManage";
+        return "admin/boardManage";
     }
 
     // 특정 회원 게시글 리스트
@@ -74,7 +74,7 @@ public class AdminController {
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
 
-        return "/admin/userBoard";
+        return "admin/userBoard";
     }
 
     // 공지사항 관리(조회 메뉴)
@@ -89,7 +89,7 @@ public class AdminController {
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
 
-        return "/admin/notice";
+        return "admin/notice";
     }
 
     // 공지사항 작성(폼 진입)
@@ -101,7 +101,7 @@ public class AdminController {
             Board board = boardService.contentLoad(boardId, "notice");
             model.addAttribute("board", board);
         }
-        return "/admin/noticeForm";
+        return "admin/noticeForm";
     }
 
     // 공지사항 작성 & 수정
@@ -140,15 +140,13 @@ public class AdminController {
         return "redirect:/admin/notice";
     }
 
-    // 공지사항 수정
-
     // 관리자 계정 생성
     @PostMapping("/admin/join")
     public String addMember(@Valid Member member, BindingResult bindingResult) { // view의 form->input 의 name과 매핑됨.
         memberValidator.validate(member, bindingResult);
 
         if (bindingResult.hasErrors()) {
-            return "/admin/addAdmin";
+            return "admin/addAdmin";
         }
 
         int result = memberService.join(member, "ROLE_ADMIN");
@@ -156,7 +154,7 @@ public class AdminController {
         if (result > 0) {
             return "redirect:/admin";
         } else {
-            return "/admin/addAdmin";
+            return "admin/addAdmin";
         }
     }
 

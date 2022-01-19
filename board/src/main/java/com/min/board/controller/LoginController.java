@@ -6,12 +6,10 @@ import com.min.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -28,7 +26,7 @@ public class LoginController {
     public String loginForm(@RequestParam(value = "error", required = false) String error,
                             Model model) {
         model.addAttribute("error", error);
-        return "/account/loginForm";
+        return "account/loginForm";
     }
 
     // 로그인 실패
@@ -44,7 +42,7 @@ public class LoginController {
             List<Member> memberList = memberService.getMemberByEmail(email);
             model.addAttribute("memberList", memberList);
         }
-        return "/account/findIdForm";
+        return "account/findIdForm";
     }
 
     // ID 찾기
@@ -60,7 +58,7 @@ public class LoginController {
     // PW 찾기 폼 진입
     @GetMapping("passwordResetForm")
     public String passwordResetForm() {
-        return "/account/passwordResetForm";
+        return "account/passwordResetForm";
     }
 
     // PW 리셋 & 비밀번호 이메일 전송

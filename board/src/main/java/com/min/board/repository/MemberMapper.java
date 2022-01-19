@@ -1,4 +1,4 @@
-package com.min.board.repository.mapper;
+package com.min.board.repository;
 
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
@@ -30,5 +30,6 @@ public interface MemberMapper {
     // (관리자 회원관리 페이징) 회원수 받기
     int selectMemberTotalCount(Pagination pagination);
 
+    // id로 회원 정보 받기
     Member findById(Long id);
 }

@@ -1,7 +1,7 @@
 package com.min.board.service;
 
 import com.min.board.model.FileDTO;
-import com.min.board.repository.mapper.FileMapper;
+import com.min.board.repository.FileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

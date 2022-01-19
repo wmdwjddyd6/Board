@@ -2,7 +2,6 @@ package com.min.board.model;
 
 import lombok.Data;
 
-import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 @Data

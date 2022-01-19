@@ -1,6 +1,5 @@
 package com.min.board.controller;
 
-import com.min.board.model.Board;
 import com.min.board.model.Comment;
 import com.min.board.paging.Pagination;
 import com.min.board.service.CommentService;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
-// 댓글 관련 컨트롤러
-//@RestController
 @Controller
 public class CommentController {
 
@@ -24,6 +21,7 @@ public class CommentController {
     @Autowired
     private PagingService pagingService;
 
+    // 댓글 리스트 (내 정보 메뉴)
     @GetMapping("/board/comments")
     public String commentList(Model model,
                               @RequestParam(required = false, defaultValue = "1") int page,
@@ -37,7 +35,7 @@ public class CommentController {
         model.addAttribute("pagination", pagination);
         model.addAttribute("comments", comments);
 
-        return "/board/commentList";
+        return "board/commentList";
     }
 
     // 댓글 조회

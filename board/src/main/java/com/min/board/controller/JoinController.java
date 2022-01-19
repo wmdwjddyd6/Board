@@ -25,7 +25,7 @@ public class JoinController {
     @GetMapping("/joinForm")
     public String joinForm(Model model) {
         model.addAttribute("member", new Member());
-        return "/register/joinForm";
+        return "register/joinForm";
     }
 
     // 회원가입
@@ -34,7 +34,7 @@ public class JoinController {
         memberValidator.validate(member, bindingResult);
 
         if(bindingResult.hasErrors()) {
-            return "/register/joinForm";
+            return "register/joinForm";
         }
 
         int result = memberService.join(member, "ROLE_USER");
@@ -42,7 +42,7 @@ public class JoinController {
         if(result > 0) {
             return "redirect:/loginForm";
         } else {
-            return "/register/joinForm";
+            return "register/joinForm";
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.min.board.repository.mapper;
+package com.min.board.repository;
 
 import com.min.board.model.FileDTO;
 import org.apache.ibatis.annotations.Mapper;

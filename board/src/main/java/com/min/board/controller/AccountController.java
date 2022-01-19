@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
@@ -28,13 +27,13 @@ public class AccountController {
         String userEmail = member.getEmail();
         model.addAttribute("userEmail", userEmail);
 
-        return "/account/userMenu";
+        return "account/userMenu";
     }
 
     // 회원탈퇴 화면으로 이동
     @GetMapping("/secessionForm")
     public String secessionForm() {
-        return "/account/secessionForm";
+        return "account/secessionForm";
     }
 
     // 회원탈퇴 진행
@@ -55,7 +54,7 @@ public class AccountController {
     // 비밀번호 변경 화면으로 이동
     @GetMapping("/changePasswordForm")
     public String changePasswordForm() {
-        return "/account/changePasswordForm";
+        return "account/changePasswordForm";
     }
 
     // 비밀번호 변경

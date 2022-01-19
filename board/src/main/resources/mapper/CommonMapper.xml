@@ -28,14 +28,14 @@
     </sql>
 
     <sql id="myPost">
-        delete_yn = 'N' AND type = 'BOARD'
+        delete_yn = 'N'
         <if test="writer != null and writer !=''">
             AND writer = #{writer}
         </if>
     </sql>
 
     <sql id="trash">
-        delete_yn = 'Y' AND type = 'BOARD'
+        delete_yn = 'Y'
         <if test="writer != null and writer !=''">
             AND writer = #{writer}
         </if>
