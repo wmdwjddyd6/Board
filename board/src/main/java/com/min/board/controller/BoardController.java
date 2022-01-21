@@ -41,7 +41,7 @@ public class BoardController {
     public String list(Model model,
                        @RequestParam(required = false, defaultValue = "1") int page,
                        @RequestParam(required = false, defaultValue = "1") int range,
-                       String searchText) {
+                       String searchText) throws Exception {
 
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "list");
         List<Board> boards = boardService.getBoardList(pagination);
@@ -57,7 +57,7 @@ public class BoardController {
     public String notice(Model model,
                          @RequestParam(required = false, defaultValue = "1") int page,
                          @RequestParam(required = false, defaultValue = "1") int range,
-                         String searchText) {
+                         String searchText) throws Exception {
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "notice");
         List<Board> boards = boardService.getBoardList(pagination);
 
@@ -85,7 +85,7 @@ public class BoardController {
 
     // 공지사항 삭제
     @PostMapping("/notice/delete")
-    public String noticeDelete(@RequestParam(required = false) Long boardId) {
+    public String noticeDelete(@RequestParam(required = false) Long boardId) throws Exception {
         boardService.temporaryDelete(boardId);
 
         return "redirect:/board/noticeList";
@@ -93,7 +93,7 @@ public class BoardController {
 
     // 게시글 신규 작성 폼 진입 & 기존 게시글 불러오기
     @GetMapping("/form")
-    public String form(Model model, @RequestParam(required = false) Long boardId) {
+    public String form(Model model, @RequestParam(required = false) Long boardId) throws Exception {
         if (boardId == null) {
             model.addAttribute("board", new Board());
         } else {
@@ -107,7 +107,7 @@ public class BoardController {
     @PostMapping("/form")
     public String boardSubmit(Board board, Principal principal,
                               @RequestParam(value = "files", required = false) List<MultipartFile> files,
-                              @RequestParam(value = "boardId", required = false) Long boardId) throws IOException, SQLException {
+                              @RequestParam(value = "boardId", required = false) Long boardId) throws Exception {
         if (board.getTitle().length() < 1 || board.getContent().length() < 1 || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
             // 잘못된 입력값이 들어왔을 때 다시 해당 페이지로 로딩
             if(boardId != null) {
@@ -158,7 +158,7 @@ public class BoardController {
 
     // 게시글 삭제
     @PostMapping("/delete")
-    public String boardDelete(@RequestParam(required = false) Long boardId) {
+    public String boardDelete(@RequestParam(required = false) Long boardId) throws Exception {
         boardService.temporaryDelete(boardId);
 
         return "redirect:/board/list";
@@ -169,7 +169,7 @@ public class BoardController {
     public String myPost(Model model,
                          @RequestParam(required = false, defaultValue = "1") int page,
                          @RequestParam(required = false, defaultValue = "1") int range,
-                         Principal principal) {
+                         Principal principal) throws Exception {
         String loginUser = principal.getName();
 
         Pagination pagination = pagingService.getBoardPagination(page, range, loginUser, "myPost");
@@ -183,7 +183,7 @@ public class BoardController {
 
     // 글 관리에서 삭제
     @PostMapping("/myPost/delete")
-    public String boardDelete(@RequestParam(required = false) List<String> boardIdList) {
+    public String boardDelete(@RequestParam(required = false) List<String> boardIdList) throws Exception {
         if (boardIdList == null) return "redirect:/board/myPost";
         if (boardIdList.size() > 0) {
             for (int i = 0; i < boardIdList.size(); i++) {

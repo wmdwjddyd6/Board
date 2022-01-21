@@ -10,26 +10,26 @@ import java.util.List;
 public interface MemberMapper {
 
     // 이름으로 유저 정보 받기
-    Member findByUsername(String username);
+    Member findByUsername(String username) throws Exception;
 
     // 회원탈퇴
-    void delete(Member member);
+    void delete(Member member) throws Exception;
 
     // 회원가입
-    int save(Member member);
+    int save(Member member) throws Exception;
 
     // 비밀번호 변경
-    void pwdChange(Member member);
+    void pwdChange(Member member) throws Exception;
 
     // 이메일로 유저 정보 받기
-    List<Member> findByEmail(String email);
+    List<Member> findByEmail(String email) throws Exception;
 
     // (관리자 회원관리 페이징) 해당 페이지 회원정보 받기
-    List<Member> selectMemberList(Pagination pagination);
+    List<Member> selectMemberList(Pagination pagination) throws Exception;
 
     // (관리자 회원관리 페이징) 회원수 받기
-    int selectMemberTotalCount(Pagination pagination);
+    int selectMemberTotalCount(Pagination pagination) throws Exception;
 
     // id로 회원 정보 받기
-    Member findById(Long id);
+    Member findById(Long id) throws Exception;
 }

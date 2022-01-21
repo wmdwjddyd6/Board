@@ -17,7 +17,7 @@ public class PagingService {
     private MemberService memberService;
 
     // 게시글 관련 페이징 처리
-    public Pagination getBoardPagination(int page, int range, String keyword, String type) {
+    public Pagination getBoardPagination(int page, int range, String keyword, String type) throws Exception {
         int listCount = 0;
         Pagination pagination = new Pagination();
         pagination.setType(type);
@@ -36,7 +36,7 @@ public class PagingService {
     }
 
     // 특정 유저 게시글 조회
-    public Pagination getMemberBoardPagination(int page, int range, String keyword, String username, String type) {
+    public Pagination getMemberBoardPagination(int page, int range, String keyword, String username, String type) throws Exception {
         int listCount = 0;
 
         Pagination pagination = new Pagination();
@@ -65,7 +65,7 @@ public class PagingService {
     }
 
     // 회원 관련 페이징 처리
-    public Pagination getMemberPagination(int page, int range, String keyword) {
+    public Pagination getMemberPagination(int page, int range, String keyword) throws Exception {
         int listCount = 0;
         Pagination pagination = new Pagination();
         pagination.setSearchText(keyword);

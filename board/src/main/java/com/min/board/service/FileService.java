@@ -54,7 +54,7 @@ public class FileService {
     }
 
     // ImageID로 FileDTO 반환
-    public FileDTO getFile(Long id) throws SQLException {
+    public FileDTO getFile(Long id) throws Exception {
         FileDTO fileDTO = fileRepository.selectByFileId(id);
         return fileDTO;
     }

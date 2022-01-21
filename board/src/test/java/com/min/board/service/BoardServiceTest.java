@@ -22,7 +22,7 @@ class BoardServiceTest {
     public PagingService pagingService;
 
     @Test
-    public void save_게시글n개생성() {
+    public void save_게시글n개생성() throws Exception {
         Board board = new Board();
         String username = "rhkdrhkd";
 
@@ -35,17 +35,17 @@ class BoardServiceTest {
     }
 
     @Test
-    public void contentLoad_컨텐츠로드() {
+    public void contentLoad_컨텐츠로드() throws Exception {
         Board board = boardService.contentLoad(5l, "board");
     }
 
     @Test
-    public void deleteBoard_게시글휴지통으로() {
+    public void deleteBoard_게시글휴지통으로() throws Exception {
         boardService.temporaryDelete(6l);
     }
 
     @Test
-    public void getBoardList_메인게시판리스트() {
+    public void getBoardList_메인게시판리스트() throws Exception {
         int page = 62;
         int range = (page / 10) + 1;
         String searchText = "검색 데이터";
@@ -59,7 +59,7 @@ class BoardServiceTest {
     }
 
     @Test
-    public void getBoardList_휴지통() {
+    public void getBoardList_휴지통() throws Exception {
         int page = 2;
         int range = (page / 10) + 1;
 

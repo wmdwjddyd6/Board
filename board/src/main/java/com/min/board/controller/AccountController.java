@@ -38,7 +38,7 @@ public class AccountController {
 
     // 회원탈퇴 진행
     @PostMapping("/secession")
-    public String secession(Principal principal, String password) {
+    public String secession(Principal principal, String password) throws Exception {
         String loginUsername = principal.getName();
 
         if(memberService.checkPassword(loginUsername, password)) { // 패스워드, 체크박스 확인
@@ -59,7 +59,7 @@ public class AccountController {
 
     // 비밀번호 변경
     @PostMapping("/changePassword")
-    public String changePassword(String oldPassword, String newPassword, Principal principal) {
+    public String changePassword(String oldPassword, String newPassword, Principal principal) throws Exception {
         String loginUsername = principal.getName();
 
         if(oldPassword.isEmpty() || newPassword.isEmpty()) {

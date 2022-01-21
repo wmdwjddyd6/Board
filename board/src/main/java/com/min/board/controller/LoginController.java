@@ -3,6 +3,8 @@ package com.min.board.controller;
 import com.min.board.model.Member;
 import com.min.board.service.MailService;
 import com.min.board.service.MemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Controller
 public class LoginController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private MemberService memberService;
@@ -32,12 +36,13 @@ public class LoginController {
     // 로그인 실패
     @PostMapping("/fail_login")
     public String handleFailedLogin() {
+        logger.debug("로그인에 실패했습니다.");
         return "redirect:/loginForm?error=true";
     }
 
     // ID 찾기
     @GetMapping("findIdForm")
-    public String findIdForm(@RequestParam(required = false) String email, Model model) {
+    public String findIdForm(@RequestParam(required = false) String email, Model model) throws Exception {
         if(email != null) {
             List<Member> memberList = memberService.getMemberByEmail(email);
             model.addAttribute("memberList", memberList);
@@ -47,7 +52,7 @@ public class LoginController {
 
     // ID 찾기
     @PostMapping("/findId")
-    public String findId(String email, Model model){ // view의 form->input 의 name과 매핑됨.
+    public String findId(String email, Model model) throws Exception { // view의 form->input 의 name과 매핑됨.
         if(memberService.checkEmail(email)) {
             return "redirect:/findIdForm?email=" + email;
         } else {
@@ -63,7 +68,7 @@ public class LoginController {
 
     // PW 리셋 & 비밀번호 이메일 전송
     @PostMapping("passwordReset")
-    public String passwordReset(String username, String email) {
+    public String passwordReset(String username, String email) throws Exception {
         if(username.isEmpty() || email.isEmpty()) {
             return "redirect:/passwordResetForm?error=true";
         } else if(memberService.compareEmailUsername(username, email)) {

@@ -30,7 +30,7 @@ public class FileController {
 
     // 이미지 리턴
     @GetMapping(value = "/image/{imageId}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<Resource> getViewImage(@PathVariable(value = "imageId") Long imageId) throws SQLException {
+    public ResponseEntity<Resource> getViewImage(@PathVariable(value = "imageId") Long imageId) throws Exception {
         FileDTO fileDTO = fileService.getFile(imageId);
         Resource resource = new FileSystemResource(fileDTO.getPath());
         return new ResponseEntity<Resource>(resource, HttpStatus.OK);

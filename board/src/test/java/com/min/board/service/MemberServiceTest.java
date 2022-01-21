@@ -34,7 +34,7 @@ class MemberServiceTest {
 
     // 비밀번호 확인 & 변경 테스트
     @Test
-    public void changePassword_비밀번호변경() {
+    public void changePassword_비밀번호변경() throws Exception {
         Member member = memberService.getMember("rhkdrhkd"); // 회원 객체 받기
         String loginUsername = "";
 
@@ -76,7 +76,7 @@ class MemberServiceTest {
 
     // 아이디 중복 체크
     @Test
-    public void checkUsername_아이디중복체크() {
+    public void checkUsername_아이디중복체크() throws Exception {
         if(memberService.checkUsername("rhkdrhkd")) {
             System.out.println("존재하는 아이디입니다.");
         }else {
@@ -86,7 +86,7 @@ class MemberServiceTest {
 
     // ID 찾기 테스트
     @Test
-    public void getMemberByEmail() {
+    public void getMemberByEmail() throws Exception {
         Member member = new Member();
         member.setEmail("test@nate.com");
 
@@ -99,7 +99,7 @@ class MemberServiceTest {
     }
 
     @Test
-    public void getRandomPassword() {
+    public void getRandomPassword() throws Exception {
         String password = memberService.getRandomPassword("rhkdrhkd");
         System.out.println(password);
     }

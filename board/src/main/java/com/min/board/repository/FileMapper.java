@@ -15,5 +15,5 @@ public interface FileMapper {
     List<FileDTO> selectByBoardId(Long boardId) throws SQLException;
 
     // ImageID로 FileDTO 반환
-    FileDTO selectByFileId(Long id);
+    FileDTO selectByFileId(Long id) throws Exception;
 }

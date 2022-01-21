@@ -52,7 +52,7 @@ public class AdminController {
     public String allBoardList(Model model,
                                @RequestParam(required = false, defaultValue = "1") int page,
                                @RequestParam(required = false, defaultValue = "1") int range,
-                               String searchText) {
+                               String searchText) throws Exception {
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "list");
         List<Board> boards = boardService.getBoardList(pagination);
 
@@ -67,7 +67,7 @@ public class AdminController {
     public String userBoard(Model model,
                             @RequestParam(required = false, defaultValue = "1") int page,
                             @RequestParam(required = false, defaultValue = "1") int range,
-                            String searchText, String username) {
+                            String searchText, String username) throws Exception {
         Pagination pagination = pagingService.getMemberBoardPagination(page, range, searchText, username, "memberBoardList");
         List<Board> boards = boardService.getBoardList(pagination);
 
@@ -82,7 +82,7 @@ public class AdminController {
     public String notice(Model model,
                          @RequestParam(required = false, defaultValue = "1") int page,
                          @RequestParam(required = false, defaultValue = "1") int range,
-                         String searchText) {
+                         String searchText) throws Exception {
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "notice");
         List<Board> boards = boardService.getBoardList(pagination);
 
@@ -94,7 +94,7 @@ public class AdminController {
 
     // 공지사항 작성(폼 진입)
     @GetMapping("/admin/noticeForm")
-    public String writeNoticeForm(Model model, @RequestParam(required = false) Long boardId) {
+    public String writeNoticeForm(Model model, @RequestParam(required = false) Long boardId) throws Exception {
         if (boardId == null) {
             model.addAttribute("board", new Board());
         } else {
@@ -108,7 +108,7 @@ public class AdminController {
     @PostMapping("/admin/noticeForm")
     public String writeNotice(Board board, Principal principal,
                               @RequestParam(value = "files", required = false) List<MultipartFile> files,
-                              @RequestParam(value = "boardId", required = false) Long boardId) throws IOException, SQLException {
+                              @RequestParam(value = "boardId", required = false) Long boardId) throws Exception {
         if (board.getTitle().length() < 1 || board.getContent().length() < 1 || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
             // 잘못된 입력값이 들어왔을 때 다시 해당 페이지로 로딩
             if(boardId != null) {
@@ -142,7 +142,7 @@ public class AdminController {
 
     // 관리자 계정 생성
     @PostMapping("/admin/join")
-    public String addMember(@Valid Member member, BindingResult bindingResult) { // view의 form->input 의 name과 매핑됨.
+    public String addMember(@Valid Member member, BindingResult bindingResult) throws Exception { // view의 form->input 의 name과 매핑됨.
         memberValidator.validate(member, bindingResult);
 
         if (bindingResult.hasErrors()) {
@@ -161,7 +161,7 @@ public class AdminController {
     // 회원계정 삭제
     @ResponseBody
     @DeleteMapping("/members")
-    public void deleteMembers(@RequestParam(name = "memberIdList[]", required = false) List<String> memberIdList) {
+    public void deleteMembers(@RequestParam(name = "memberIdList[]", required = false) List<String> memberIdList) throws Exception {
         memberService.deleteMember(memberIdList);
     }
 }

@@ -2,6 +2,7 @@ package com.min.board.validator;
 
 import com.min.board.model.Member;
 import com.min.board.service.MemberService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -20,6 +21,7 @@ public class MemberValidator implements Validator {
         return Member.class.equals(clazz);
     }
 
+    @SneakyThrows
     @Override
     public void validate(Object obj, Errors errors) {
         Member member = (Member) obj;
