@@ -90,7 +90,7 @@ public class MemberService {
     // 이름으로 멤버 저장
     public Member getMember(String username) {
         Member member = new Member();
-        try{
+        try {
             member = memberRepository.findByUsername(username);
         } catch (Exception e) {
             logger.warn(username + " : 존재하지 않는 username입니다.");
@@ -103,14 +103,17 @@ public class MemberService {
     // 아이디 중복 체크
     public boolean checkUsername(String username) {
         Member member = getMember(username);
+        boolean state = false;
 
-        if (member.getUsername().equals(username)) {
-            logger.info(username + " : 중복된 아이디입니다.");
-            return true;
-        } else {
+        try {
+            if (member.getUsername().equals(username)) {
+                logger.info(username + " : 중복된 아이디입니다.");
+                state = true;
+            }
+        } catch (NullPointerException e) {
             logger.info(username + " : 중복된 아이디가 없습니다.");
-            return false;
         }
+        return state;
     }
 
     // ID 찾기 Email 체크

@@ -21,7 +21,6 @@ public class MemberValidator implements Validator {
         return Member.class.equals(clazz);
     }
 
-    @SneakyThrows
     @Override
     public void validate(Object obj, Errors errors) {
         Member member = (Member) obj;
