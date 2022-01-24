@@ -45,17 +45,21 @@
 
 					<tbody>
 						<tr th:each="board : ${boardList}">
-							<td class="mt-5 text-center" scope="row">
-								<div class="checkbox">
-									<input type="checkbox" name="boardIdList" th:value="${board.id}">
-								</div>
-							</td>
-							<td class="mt-5 text-center" scope="row" th:text="${board.id}">1</td>
-							<td><a th:text="${board.title}" th:href="@{/board/post(boardId=${board.id})}"
-									target='_blank' style="text-decoration:none; color:black;">제목</a></td>
-							<td class="text-center" th:text="${#dates.format(board.createDate, 'yyyy/MM/dd HH:mm')}">작성일
-							</td>
-							<td class="text-center" th:text="${board.writer}">작성자</td>
+							<th:block
+								th:with="link = ${#strings.equals(board.type, 'board')} ? '/board/post?boardId=' : '/board/noticePost?boardId='">
+								<td class="mt-5 text-center" scope="row">
+									<div class="checkbox">
+										<input type="checkbox" name="boardIdList" th:value="${board.id}">
+									</div>
+								</td>
+								<td class="mt-5 text-center" scope="row" th:text="${board.id}">1</td>
+								<td><a th:text="${board.title}" th:href="@{${link} + ${board.id}}"
+										target='_blank' style="text-decoration:none; color:black;">제목</a></td>
+								<td class="text-center"
+									th:text="${#dates.format(board.createDate, 'yyyy/MM/dd HH:mm')}">작성일
+								</td>
+								<td class="text-center" th:text="${board.writer}">작성자</td>
+							</th:block>
 						</tr>
 					</tbody>
 				</table>
