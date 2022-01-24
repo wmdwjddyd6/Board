@@ -27,7 +27,8 @@ class CommentServiceTest {
         String username = "rhkdrhkd1";
         Long boardId = 2l;
         String content = "테스트 댓글";
-        commentService.write(boardId, content, username);
+        String type = "notice";
+        commentService.write(boardId, content, type, username);
     }
 
     // 댓글 조회

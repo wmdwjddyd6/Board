@@ -38,7 +38,7 @@ public class CommentService {
     }
 
     // 댓글 작성
-    public int write(Long boardId, String content, String username) throws Exception {
+    public int write(Long boardId, String content, String type, String username) throws Exception {
         Comment comment = new Comment();
         Member member = memberService.getMember(username);
 
@@ -47,6 +47,7 @@ public class CommentService {
         comment.setWriter(member.getUsername());
         comment.setWriterId(member.getId());
         comment.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+        comment.setType(type);
 
         int result = commentRepository.insertComment(comment);
         return result;

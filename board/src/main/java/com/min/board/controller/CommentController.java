@@ -51,14 +51,25 @@ public class CommentController {
         return comments;
     }
 
-    // 댓글 작성
+    // 공지사항 댓글 작성
+    @PostMapping("/notice/comments/{boardId}")
+    @ResponseBody
+    public void noticeCommentWrite(@PathVariable(value = "boardId") Long boardId,
+                             @RequestBody Comment comment,
+                             Principal principal) throws Exception {
+        String username = principal.getName();
+        int result = commentService.write(boardId, comment.getContent(), "notice", username);
+        if(result > 0) logger.info("boardId : {}에 댓글을 작성했습니다.", boardId);
+    }
+
+    // 일반 댓글 작성
     @PostMapping("/comments/{boardId}")
     @ResponseBody
     public void commentWrite(@PathVariable(value = "boardId") Long boardId,
                              @RequestBody Comment comment,
-                               Principal principal) throws Exception {
+                             Principal principal) throws Exception {
         String username = principal.getName();
-        int result = commentService.write(boardId, comment.getContent(), username);
+        int result = commentService.write(boardId, comment.getContent(), "board", username);
         if(result > 0) logger.info("boardId : {}에 댓글을 작성했습니다.", boardId);
     }
 

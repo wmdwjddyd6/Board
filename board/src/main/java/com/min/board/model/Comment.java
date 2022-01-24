@@ -12,4 +12,5 @@ public class Comment {
     private Long writerId;
     private String writer;
     private Timestamp createDate;
+    private String type;
 }
