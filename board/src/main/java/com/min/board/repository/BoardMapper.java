@@ -25,7 +25,7 @@ public interface BoardMapper {
     Board findById(Board board) throws Exception;
 
     // 휴지통으로 이동 (임시삭제)
-    void temporaryDeleteById(Long id) throws Exception;
+    int temporaryDeleteById(Long id) throws Exception;
 
     // 글 작성
     void insertBoard(Board board) throws Exception;

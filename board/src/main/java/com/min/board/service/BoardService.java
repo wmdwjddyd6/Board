@@ -112,8 +112,9 @@ public class BoardService {
     }
 
     // 글 임시 삭제 (업데이트 로직 실행)
-    public void temporaryDelete(Long boardId) throws Exception {
-        boardRepository.temporaryDeleteById(boardId);
+    public int temporaryDelete(Long boardId) throws Exception {
+        int result = boardRepository.temporaryDeleteById(boardId);
+        return result;
     }
 
     // 휴지통 복원

@@ -41,7 +41,8 @@ class BoardServiceTest {
 
     @Test
     public void deleteBoard_게시글휴지통으로() throws Exception {
-        boardService.temporaryDelete(6l);
+        int result = boardService.temporaryDelete(6l);
+        System.out.println(result);
     }
 
     @Test

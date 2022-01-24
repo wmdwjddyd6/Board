@@ -3,6 +3,8 @@ package com.min.board.controller;
 import com.min.board.model.Board;
 import com.min.board.paging.Pagination;
 import com.min.board.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,14 +14,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
 import java.security.Principal;
-import java.sql.SQLException;
 import java.util.List;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private BoardService boardService;
@@ -74,6 +76,7 @@ public class BoardController {
                              HttpServletResponse response) throws Exception {
         String loginUser = principal.getName();
         Board board = boardService.contentLoad(boardId, "notice");
+        logger.debug("boardId : {} 공지사항 조회", board.getId());
 
         boardService.updateViews(board, loginUser, request, response, "notice");
 
@@ -86,8 +89,10 @@ public class BoardController {
     // 공지사항 삭제
     @PostMapping("/notice/delete")
     public String noticeDelete(@RequestParam(required = false) Long boardId) throws Exception {
-        boardService.temporaryDelete(boardId);
-
+        int result = boardService.temporaryDelete(boardId);
+        if (result > 0) {
+            logger.info("boardId : {} 공지사항 임시 삭제 완료", boardId);
+        }
         return "redirect:/board/noticeList";
     }
 
@@ -96,8 +101,10 @@ public class BoardController {
     public String form(Model model, @RequestParam(required = false) Long boardId) throws Exception {
         if (boardId == null) {
             model.addAttribute("board", new Board());
+            logger.debug("새 글 작성으로 이동");
         } else {
             Board board = boardService.contentLoad(boardId, "board");
+            logger.debug("boardId : {} 글 수정으로 이동", board.getId());
             model.addAttribute("board", board);
         }
         return "board/form";
@@ -110,7 +117,7 @@ public class BoardController {
                               @RequestParam(value = "boardId", required = false) Long boardId) throws Exception {
         if (board.getTitle().length() < 1 || board.getContent().length() < 1 || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
             // 잘못된 입력값이 들어왔을 때 다시 해당 페이지로 로딩
-            if(boardId != null) {
+            if (boardId != null) {
                 return "redirect:/board/form?boardId=" + boardId;
             }
             return "redirect:/board/form";
@@ -121,19 +128,22 @@ public class BoardController {
 
         if (boardId == null) { // 새 글 작성
             Long newBoardId = boardService.save(board, loginUsername, type); // Insert
+            logger.info("boardId : {} 글을 작성했습니다.", newBoardId);
 
             // 첨부파일 있을 때
             if (!files.get(0).getOriginalFilename().isEmpty()) {
                 for (int i = 0; i < files.size(); i++) {
                     if (files.get(i).getContentType().contains("image/")) {
                         fileService.saveFile(files.get(i), newBoardId);
+                        logger.info("boardId : {} 글에 첨부파일 {} 를 저장했습니다.", newBoardId, files.get(i).getOriginalFilename());
                     } else {
-                        System.out.println("이미지 타입이 아닙니다");
+                        logger.debug("{}는 이미지 타입이 아닙니다.", files.get(i).getOriginalFilename());
                     }
                 }
             }
         } else { // 기존 글 수정
-            boardService.update(board, boardId, type); // Update
+            Long id = boardService.update(board, boardId, type); // Update
+            logger.info("boardId : {} 글을 수정했습니다.", id);
         }
 
         return "redirect:/board/list";
@@ -147,6 +157,7 @@ public class BoardController {
                            HttpServletResponse response) throws Exception {
         String loginUser = principal.getName();
         Board board = boardService.contentLoad(boardId, "board");
+        logger.debug("boardId : {} 글 조회", board.getId());
 
         boardService.updateViews(board, loginUser, request, response, "board");
 
@@ -159,7 +170,10 @@ public class BoardController {
     // 게시글 삭제
     @PostMapping("/delete")
     public String boardDelete(@RequestParam(required = false) Long boardId) throws Exception {
-        boardService.temporaryDelete(boardId);
+        int result = boardService.temporaryDelete(boardId);
+        if (result > 0) {
+            logger.info("boardId : " + boardId + " 임시 삭제 완료");
+        }
 
         return "redirect:/board/list";
     }
@@ -187,7 +201,10 @@ public class BoardController {
         if (boardIdList == null) return "redirect:/board/myPost";
         if (boardIdList.size() > 0) {
             for (int i = 0; i < boardIdList.size(); i++) {
-                boardService.temporaryDelete(Long.parseLong(boardIdList.get(i)));
+                int result = boardService.temporaryDelete(Long.parseLong(boardIdList.get(i)));
+                if (result > 0) {
+                    logger.info("boardId : " + boardIdList.get(i) + " 임시 삭제 완료");
+                }
             }
         }
 

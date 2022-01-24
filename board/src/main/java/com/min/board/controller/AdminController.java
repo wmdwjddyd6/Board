@@ -8,6 +8,8 @@ import com.min.board.service.FileService;
 import com.min.board.service.MemberService;
 import com.min.board.service.PagingService;
 import com.min.board.validator.MemberValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.security.Principal;
-import java.sql.SQLException;
 import java.util.List;
 
 @Controller
 public class AdminController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private MemberService memberService;
@@ -152,7 +154,8 @@ public class AdminController {
                 }
             }
         } else { // 기존 글 수정
-            boardService.update(board, boardId, type); // Update
+            Long id = boardService.update(board, boardId, type); // Update
+            logger.info("boardId : {} 글을 수정했습니다.", id);
         }
 
         return "redirect:/admin/notice";
