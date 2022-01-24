@@ -119,14 +119,19 @@ public class MemberService {
     // ID 찾기 Email 체크
     public boolean checkEmail(String email) throws Exception {
         List<Member> member = getMemberByEmail(email);
+        boolean state = false;
 
-        if (member.get(0).getEmail().equals(email)) {
-            logger.info(email + " : 이메일이 존재합니다.");
-            return true;
-        } else {
-            logger.info(email + " : 이메일이 존재하지 않습니다.");
-            return false;
+        try {
+            if (member.get(0).getEmail().equals(email)) {
+                logger.debug(email + " : 이메일이 존재합니다.");
+                state = true;
+            } else {
+                logger.debug(email + " : 이메일이 존재하지 않습니다.");
+            }
+        } catch (Exception e) {
+            logger.debug(email + " : 이메일이 존재하지 않습니다.");
         }
+        return state;
     }
 
     // 등록된 Email의 유저 리스트 받기
