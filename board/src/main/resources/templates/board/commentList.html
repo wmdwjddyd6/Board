@@ -39,10 +39,14 @@
 
 				<tbody>
 					<tr th:each="comment : ${comments}">
-						<td><a th:text="${comment.content}" th:href="@{/board/post(boardId=${comment.boardId})}"
-								style="text-decoration:none; color:black;">내용</a></td>
-						<td class="text-center" th:text="${#dates.format(comment.createDate, 'yyyy/MM/dd HH:mm')}">작성일
-						</td>
+						<th:block
+							th:with="link = ${#strings.equals(comment.type, 'board')} ? '/board/post?boardId=' : '/board/noticePost?boardId='">
+							<td><a th:text="${comment.content}" th:href="@{${link} + ${comment.boardId}}"
+									style="text-decoration:none; color:black;">내용</a></td>
+							<td class="text-center" th:text="${#dates.format(comment.createDate, 'yyyy/MM/dd HH:mm')}">
+								작성일
+							</td>
+						</th:block>
 					</tr>
 				</tbody>
 			</table>

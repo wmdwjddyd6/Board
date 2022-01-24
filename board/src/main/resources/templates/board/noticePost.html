@@ -153,7 +153,7 @@
 			var boardId = $('input[name=boardId]').val();
 			var content = document.getElementById("content").value;
 			var param = { "content": content }
-			var url = '/comments/' + boardId;
+			var url = '/notice/comments/' + boardId;
 
 			if (isEmpty(content) == true) {
 				alert("댓글을 입력해주세요.");
