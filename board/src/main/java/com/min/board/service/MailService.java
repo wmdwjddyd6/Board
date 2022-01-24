@@ -1,5 +1,7 @@
 package com.min.board.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Service
 public class MailService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private JavaMailSender javaMailSender;
@@ -26,5 +30,6 @@ public class MailService {
         simpleMailMessage.setText(username + "님의 임시 비밀번호 : " + temporaryPassword);
 
         javaMailSender.send(simpleMailMessage);
+        logger.debug("{}님에게 {}로 임시 비밀번호를 보냈습니다.", username, userEmail);
     }
 }

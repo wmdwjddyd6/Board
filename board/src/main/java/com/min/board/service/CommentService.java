@@ -38,7 +38,7 @@ public class CommentService {
     }
 
     // 댓글 작성
-    public void write(Long boardId, String content, String username) throws Exception {
+    public int write(Long boardId, String content, String username) throws Exception {
         Comment comment = new Comment();
         Member member = memberService.getMember(username);
 
@@ -48,7 +48,8 @@ public class CommentService {
         comment.setWriterId(member.getId());
         comment.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
 
-        commentRepository.insertComment(comment);
+        int result = commentRepository.insertComment(comment);
+        return result;
     }
 
     // 댓글 조회
@@ -57,17 +58,19 @@ public class CommentService {
     }
 
     // 댓글 수정
-    public void update(Long commentId, String content) throws Exception {
+    public int update(Long commentId, String content) throws Exception {
         Comment comment = new Comment();
 
         comment.setId(commentId);
         comment.setContent(content);
 
-        commentRepository.updateComment(comment);
+        int result = commentRepository.updateComment(comment);
+        return result;
     }
 
     // 댓글 삭제
-    public void delete(Long commentId) throws Exception {
-        commentRepository.deleteComment(commentId);
+    public int delete(Long commentId) throws Exception {
+        int result = commentRepository.deleteComment(commentId);
+        return result;
     }
 }

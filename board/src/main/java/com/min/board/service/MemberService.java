@@ -53,9 +53,9 @@ public class MemberService {
     // 회원탈퇴
     public void secession(String username) throws Exception {
         Member member = getMember(username);
-        memberRepository.delete(member);
+        int result = memberRepository.delete(member);
 
-        logger.info(username + " : 회원탈퇴 완료");
+        if(result > 0) logger.info(username + " : 회원탈퇴 완료");
     }
 
     // 비밀번호 체크

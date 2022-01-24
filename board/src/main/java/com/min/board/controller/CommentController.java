@@ -4,6 +4,8 @@ import com.min.board.model.Comment;
 import com.min.board.paging.Pagination;
 import com.min.board.service.CommentService;
 import com.min.board.service.PagingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Controller
 public class CommentController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private CommentService commentService;
@@ -43,6 +47,7 @@ public class CommentController {
     @ResponseBody
     public List<Comment> getCommentList(@PathVariable(value = "boardId") Long boardId) throws Exception {
         List<Comment> comments = commentService.getCommentList(boardId);
+        logger.debug("boardId : {} 게시글의 댓글을 조회합니다.", boardId);
         return comments;
     }
 
@@ -53,7 +58,8 @@ public class CommentController {
                              @RequestBody Comment comment,
                                Principal principal) throws Exception {
         String username = principal.getName();
-        commentService.write(boardId, comment.getContent(), username);
+        int result = commentService.write(boardId, comment.getContent(), username);
+        if(result > 0) logger.info("boardId : {}에 댓글을 작성했습니다.", boardId);
     }
 
     // 댓글 수정
@@ -61,13 +67,15 @@ public class CommentController {
     @ResponseBody
     public void updateComment(@PathVariable(value = "commentId") Long commentId,
                               @RequestBody Comment comment) throws Exception {
-        commentService.update(commentId, comment.getContent());
+        int result = commentService.update(commentId, comment.getContent());
+        if(result > 0) logger.info("commentId : {} 댓글을 수정했습니다.", commentId);
     }
 
     // 댓글 삭제
     @DeleteMapping("/comments/{commentId}")
     @ResponseBody
     public void deleteComment(@PathVariable(value = "commentId") Long commentId) throws Exception {
-        commentService.delete(commentId);
+        int result = commentService.delete(commentId);
+        if(result > 0) logger.info("commentId : {} 댓글을 삭제했습니다.", commentId);
     }
 }

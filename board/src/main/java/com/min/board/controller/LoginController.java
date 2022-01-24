@@ -52,7 +52,7 @@ public class LoginController {
 
     // ID 찾기
     @PostMapping("/findId")
-    public String findId(String email, Model model) throws Exception { // view의 form->input 의 name과 매핑됨.
+    public String findId(@RequestParam(required = false) String email) throws Exception { // view의 form->input 의 name과 매핑됨.
         if(memberService.checkEmail(email)) {
             return "redirect:/findIdForm?email=" + email;
         } else {
@@ -70,6 +70,7 @@ public class LoginController {
     @PostMapping("passwordReset")
     public String passwordReset(String username, String email) throws Exception {
         if(username.isEmpty() || email.isEmpty()) {
+            logger.debug("username 또는 email을 입력하지 않았습니다.");
             return "redirect:/passwordResetForm?error=true";
         } else if(memberService.compareEmailUsername(username, email)) {
             String temporaryPassword = memberService.getRandomPassword(username);

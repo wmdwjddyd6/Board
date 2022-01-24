@@ -13,7 +13,7 @@ public interface MemberMapper {
     Member findByUsername(String username) throws Exception;
 
     // 회원탈퇴
-    void delete(Member member) throws Exception;
+    int delete(Member member) throws Exception;
 
     // 회원가입
     int save(Member member) throws Exception;

@@ -31,7 +31,7 @@ public interface BoardMapper {
     void insertBoard(Board board) throws Exception;
 
     // 휴지통 복원
-    void restoreDeleteById(Long boardId) throws Exception;
+    int restoreDeleteById(Long boardId) throws Exception;
 
     // 휴지통 비우기
     int permanentlyDeleteById(Long boardId) throws Exception;

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,16 +57,5 @@ public class HomeController {
         model.addAttribute("pagination", pagination);
 
         return "admin/adminHome";
-    }
-
-    @GetMapping("/log")
-    @ResponseBody
-    public String logTest() {
-        logger.trace("Trace Level 테스트");
-        logger.debug("DEBUG Level 테스트");
-        logger.info("INFO Level 테스트");
-        logger.warn("Warn Level 테스트");
-        logger.error("ERROR Level 테스트");
-        return "로그테스트";
     }
 }

@@ -61,6 +61,7 @@ public class AdminController {
         int result = memberService.join(member, "ROLE_ADMIN");
 
         if (result > 0) {
+            logger.info("{} : 관리자 계정을 생성했습니다.", member.getUsername());
             return "redirect:/admin";
         } else {
             return "admin/addAdmin";
@@ -142,14 +143,16 @@ public class AdminController {
 
         if (boardId == null) { // 새 글 작성
             Long newBoardId = boardService.save(board, loginUsername, type); // Insert
+            logger.info("boardId : {} 글을 작성했습니다.", newBoardId);
 
             // 첨부파일 있을 때
             if (!files.get(0).getOriginalFilename().isEmpty()) {
                 for (int i = 0; i < files.size(); i++) {
                     if (files.get(i).getContentType().contains("image/")) {
                         fileService.saveFile(files.get(i), newBoardId);
+                        logger.info("boardId : {} 글에 첨부파일 {} 를 저장했습니다.", newBoardId, files.get(i).getOriginalFilename());
                     } else {
-                        System.out.println("이미지 타입이 아닙니다");
+                        logger.debug("{}는 이미지 타입이 아닙니다.", files.get(i).getOriginalFilename());
                     }
                 }
             }

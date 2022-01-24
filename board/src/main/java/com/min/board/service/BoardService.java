@@ -5,6 +5,8 @@ import com.min.board.model.FileDTO;
 import com.min.board.model.Member;
 import com.min.board.paging.Pagination;
 import com.min.board.repository.BoardMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -13,7 +15,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -25,6 +26,8 @@ import java.util.Map;
 public class BoardService {
 
     private final BoardMapper boardRepository;
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private MemberService memberService;
@@ -118,12 +121,13 @@ public class BoardService {
     }
 
     // 휴지통 복원
-    public void restore(Long boardId) throws Exception {
-        boardRepository.restoreDeleteById(boardId);
+    public int restore(Long boardId) throws Exception {
+        int result = boardRepository.restoreDeleteById(boardId);
+        return result;
     }
 
     // 휴지통 비우기
-    public void clear(Long boardId) throws Exception {
+    public int clear(Long boardId) throws Exception {
         List<FileDTO> files = fileService.getFileList(boardId);
         int result = boardRepository.permanentlyDeleteById(boardId);
 
@@ -134,13 +138,13 @@ public class BoardService {
                 File file = new File(fileDTO.getPath());
                 if (file.exists()) { // 서버에 파일이 존재한다면
                     file.delete(); // 삭제
-                    System.out.println(fileDTO.getStoredFileName() + " : 삭제 완료");
+                    logger.info(fileDTO.getStoredFileName() + " : 삭제 완료");
                 } else {
-                    System.out.println("삭제할 파일이 없습니다.");
-                    return;
+                    logger.debug("삭제할 파일이 없습니다.");
                 }
             }
         }
+        return result;
     }
 
     // 특정 유저 게시글 개수

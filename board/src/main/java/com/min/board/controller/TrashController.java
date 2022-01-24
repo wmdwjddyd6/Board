@@ -4,6 +4,8 @@ import com.min.board.model.Board;
 import com.min.board.paging.Pagination;
 import com.min.board.service.BoardService;
 import com.min.board.service.PagingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Controller
 public class TrashController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private BoardService boardService;
@@ -43,7 +47,8 @@ public class TrashController {
     @PatchMapping("/trash")
     public void restoreBoards(@RequestParam(name = "boardIdList[]", required = false) List<String> boardIdList) throws Exception {
         for(int i = 0; i < boardIdList.size(); i ++) {
-            boardService.restore(Long.parseLong(boardIdList.get(i)));
+            int result = boardService.restore(Long.parseLong(boardIdList.get(i)));
+            if(result > 0) logger.info("boardId : {} 를 휴지통에서 복원했습니다.", boardIdList.get(i));
         }
     }
 
@@ -52,7 +57,8 @@ public class TrashController {
     @DeleteMapping("/trash")
     public void clearBoards(@RequestParam(name = "boardIdList[]", required = false) List<String> boardIdList) throws Exception {
         for(int i = 0; i < boardIdList.size(); i ++) {
-            boardService.clear(Long.parseLong(boardIdList.get(i)));
+            int result = boardService.clear(Long.parseLong(boardIdList.get(i)));
+            if(result > 0) logger.info("boardId : {} 를 휴지통에서 삭제했습니다.", boardIdList.get(i));
         }
     }
 }
