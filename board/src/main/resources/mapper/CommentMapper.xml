@@ -12,6 +12,7 @@
         ,writer_id
         ,writer
         ,create_date
+        ,type
     </sql>
 
     <!--댓글 개수 (댓글 관리)-->
