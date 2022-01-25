@@ -1,12 +1,76 @@
-# Board Project
-SpringBoot를 이용한 게시판 만들기 <br/><br/>
+### WEB - SpringBoot 게시판 
+---
+> 개발환경
+### FrontEnd
+- Thymeleaf
+- Bootstrap v5.1.3
+- JQuery v3.3.1
 
-# Server <br/>
-Framework - SpringBoot 2.5.4 <br/>
-DB - Mysql 8.0 <br/>
-Repository - Mybatis 2.1.4 <br/>
-Language - Java 11 <br/>
-Gradle <br/><br/>
+### BackEnd
+- Language : Java 11
+- Framework : SpringBoot v2.5.4
+- DB : Mysql 8.0
+- Repository : Mybatis v2.1.4
+- Gradle
+---
+> 구현 기능
+### 관리자 메뉴 (Role : Admin)
+- 회원관리(RD) 
+  - 회원 리스팅
+  - 회원 게시물 조회
+  - 계정 삭제
 
-# Front  <br/>
-Thymeleaf, Bootstrap <br/>
+- 게시글 관리(RD) 
+  - 게시글 조회
+  - 회원 게시물 조회
+  - 게시물 삭제
+
+- 공지사항 관리(CRUD)
+  - 공지사항 리스팅
+  - 조회
+  - 수정
+  - 삭제
+
+- 계정 생성(C) 
+  - 관리자 계정 생성
+
+### 회원메뉴 (메인 홈페이지)
+- 공지사항(R)
+  - 공지사항 리스팅, 조회(첨부 이미지 파일 조회)
+  - 게시글 조회
+
+- 게시판(CRUD)
+  - 게시글 리스팅, 조회(첨부 이미지 파일 조회)
+  - 게시글 작성
+  - 게시글 수정
+  - 게시글 삭제
+
+- 댓글(CRUD)
+  - 작성
+  - 조회
+  - 수정
+  - 삭제
+
+### 회원 개인메뉴
+- 글관리(RD) 
+  - 글 리스팅, 글 조회, 글 삭제
+
+- 댓글관리(R)
+  - 댓글 리스팅, 댓글 달린 게시글 조회
+
+- 휴지통(RUD) <br>
+  - 임시 삭제된 게시글 리스팅, 조회, 복원, [영구]삭제
+
+- 회원탈퇴(D)
+- 비밀번호 변경(U)
+
+### 계정
+- 회원가입(C)
+- 아이디 찾기(R)
+- 비밀번호 찾기(RU)
+  - 이메일을 통해 임시 비밀번호 발급(U)
+- 로그인
+- 로그아웃
+ 
+
+
