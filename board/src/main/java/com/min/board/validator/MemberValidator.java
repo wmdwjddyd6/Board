@@ -9,7 +9,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.thymeleaf.util.StringUtils;
 
-// 회원가입 조건 검사
+/*
+ *
+ * 회원가입 조건 검사
+ *
+ * */
 @Component
 public class MemberValidator implements Validator {
 
@@ -25,7 +29,7 @@ public class MemberValidator implements Validator {
     public void validate(Object obj, Errors errors) {
         Member member = (Member) obj;
 
-        if(memberService.checkUsername(member.getUsername())) {
+        if(memberService.checkUsername(member.getUsername())) { // 회원이 존재하는지 체크
             errors.rejectValue("username", "key", "이미 존재하는 아이디입니다.");
         }
     }

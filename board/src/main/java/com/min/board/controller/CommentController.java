@@ -14,6 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
+/*
+*
+* 댓글 관련 컨트롤러
+*
+* 내 글 관리의 댓글관리를 제외한
+* [작성, 조회, 수정, 삭제]를 REST API로 구현
+*
+* Pagination : paging을 위한 객체
+* result : DB 작업이 정상적으로 완료됐는지 체크
+*
+* */
 @Controller
 public class CommentController {
 

@@ -17,6 +17,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.List;
 
+/*
+* 
+* 게시판 관련 컨트롤러
+*
+* Pagination : paging을 위한 객체
+* result : DB 작업이 정상적으로 완료됐는지 체크
+* 
+* */
 @Controller
 @RequestMapping("/board")
 public class BoardController {
@@ -69,7 +77,7 @@ public class BoardController {
         return "board/noticeList";
     }
 
-    // 포스트 조회
+    // 공지사항 조회
     @GetMapping("/noticePost")
     public String readNotice(Model model, @RequestParam(required = false) Long boardId,
                              Principal principal, HttpServletRequest request,
@@ -78,7 +86,7 @@ public class BoardController {
         Board board = boardService.contentLoad(boardId, "notice");
         logger.debug("boardId : {} 공지사항 조회", board.getId());
 
-        boardService.updateViews(board, loginUser, request, response, "notice");
+        boardService.updateViews(board, request, response, "notice"); // 쿠키를 이용한 조회수 증가
 
         model.addAttribute("board", board);
         model.addAttribute("loginUser", loginUser);
@@ -99,10 +107,12 @@ public class BoardController {
     // 게시글 신규 작성 폼 진입 & 기존 게시글 불러오기
     @GetMapping("/form")
     public String form(Model model, @RequestParam(required = false) Long boardId) throws Exception {
-        if (boardId == null) {
+        if (boardId == null) {  
+            // 새 글 작성
             model.addAttribute("board", new Board());
             logger.debug("새 글 작성으로 이동");
-        } else {
+        } else {    
+            // 기존 게시글 수정
             Board board = boardService.contentLoad(boardId, "board");
             logger.debug("boardId : {} 글 수정으로 이동", board.getId());
             model.addAttribute("board", board);
@@ -130,11 +140,11 @@ public class BoardController {
             Long newBoardId = boardService.save(board, loginUsername, type); // Insert
             logger.info("boardId : {} 글을 작성했습니다.", newBoardId);
 
-            // 첨부파일 있을 때
+            // 첨부파일 있을 때 처리
             if (!files.get(0).getOriginalFilename().isEmpty()) {
                 for (int i = 0; i < files.size(); i++) {
-                    if (files.get(i).getContentType().contains("image/")) {
-                        fileService.saveFile(files.get(i), newBoardId);
+                    if (files.get(i).getContentType().contains("image/")) { // 이미지 타입 체크
+                        fileService.saveFile(files.get(i), newBoardId); // 첨부파일 서버에 저장 및 관련 정보 DB에 저장
                         logger.info("boardId : {} 글에 첨부파일 {} 를 저장했습니다.", newBoardId, files.get(i).getOriginalFilename());
                     } else {
                         logger.debug("{}는 이미지 타입이 아닙니다.", files.get(i).getOriginalFilename());
@@ -145,12 +155,11 @@ public class BoardController {
             Long id = boardService.update(board, boardId, type); // Update
             logger.info("boardId : {} 글을 수정했습니다.", id);
         }
-
         return "redirect:/board/list";
     }
 
 
-    // 포스트 조회
+    // 게시글 조회
     @GetMapping("/post")
     public String readPost(Model model, @RequestParam(required = false) Long boardId,
                            Principal principal, HttpServletRequest request,
@@ -159,7 +168,7 @@ public class BoardController {
         Board board = boardService.contentLoad(boardId, "board");
         logger.debug("boardId : {} 글 조회", board.getId());
 
-        boardService.updateViews(board, loginUser, request, response, "board");
+        boardService.updateViews(board, request, response, "board"); // 쿠키를 이용한 조회수 증가
 
         model.addAttribute("board", board);
         model.addAttribute("loginUser", loginUser);
@@ -174,7 +183,6 @@ public class BoardController {
         if (result > 0) {
             logger.info("boardId : " + boardId + " 임시 삭제 완료");
         }
-
         return "redirect:/board/list";
     }
 
@@ -195,7 +203,7 @@ public class BoardController {
         return "board/myPost";
     }
 
-    // 글 관리에서 삭제
+    // 글 관리에서 삭제 (영구삭제가 아닌 DB의 delete_yn = 'Y'로 변경)
     @PostMapping("/myPost/delete")
     public String boardDelete(@RequestParam(required = false) List<String> boardIdList) throws Exception {
         if (boardIdList == null) return "redirect:/board/myPost";
@@ -207,7 +215,6 @@ public class BoardController {
                 }
             }
         }
-
         return "redirect:/board/myPost";
     }
 }

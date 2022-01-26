@@ -4,6 +4,13 @@ import com.min.board.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/*
+ *
+ * 페이징 관련 서비스
+ *
+ * [공지사항, 게시글, 회원목록] 등 페이징이 필요한 곳에 사용하기 위해 서비스로 분리
+ *
+ * */
 @Service
 public class PagingService {
 

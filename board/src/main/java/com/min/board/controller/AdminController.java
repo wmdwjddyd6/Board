@@ -22,6 +22,16 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
+/*
+* 
+* 관리자 화면 관련 컨트롤러
+*
+* Pagination : paging을 위한 객체
+* result : DB 작업이 정상적으로 완료됐는지 체크
+*
+* 회원계정 삭제 (deleteMembers) : REST API로 구현
+*
+* */
 @Controller
 public class AdminController {
 
@@ -83,7 +93,7 @@ public class AdminController {
         return "admin/boardManage";
     }
 
-    // 특정 회원 게시글 리스트
+    // 특정 회원 게시글 리스트 (회원 관리)
     @GetMapping("/admin/userBoard")
     public String userBoard(Model model,
                             @RequestParam(required = false, defaultValue = "1") int page,
@@ -98,7 +108,7 @@ public class AdminController {
         return "admin/userBoard";
     }
 
-    // 공지사항 관리(조회 메뉴)
+    // 공지사항 관리 (조회 메뉴)
     @GetMapping("/admin/notice")
     public String notice(Model model,
                          @RequestParam(required = false, defaultValue = "1") int page,

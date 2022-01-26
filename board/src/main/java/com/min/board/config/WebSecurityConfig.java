@@ -8,7 +8,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
-
+/*
+*
+* 스프링 시큐리티 설정
+*
+* */
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인에 등록된다.
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -27,7 +31,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers("/css/**").permitAll()
                     .antMatchers("/board/**", "/account/**", "/trash/**", "/comments/**").authenticated() // antMatchers에 적힌 주소는 로그인 필요
-//                    .antMatchers("/admin/**", "/members/**").access("hasRole('ROLE_ADMIN')") // 권한 설정
+                    .antMatchers("/admin/**", "/members/**").access("hasRole('ROLE_ADMIN')") // 권한 설정
                     .anyRequest().permitAll() // 그 외 요청은 허용
                     .and()
                 .formLogin()

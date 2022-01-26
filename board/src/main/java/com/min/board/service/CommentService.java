@@ -11,6 +11,13 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/*
+ *
+ * 댓글 기능 관련 서비스
+ *
+ * result : DB 작업이 정상적으로 완료됐는지 체크
+ *
+ * */
 @Service
 public class CommentService {
 
@@ -39,8 +46,8 @@ public class CommentService {
 
     // 댓글 작성
     public int write(Long boardId, String content, String type, String username) throws Exception {
-        Comment comment = new Comment();
         Member member = memberService.getMember(username);
+        Comment comment = new Comment();
 
         comment.setBoardId(boardId);
         comment.setContent(content);

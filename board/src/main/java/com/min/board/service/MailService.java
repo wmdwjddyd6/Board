@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ *
+ * 메일 기능 관련 서비스
+ *
+ * */
 @Service
 public class MailService {
 

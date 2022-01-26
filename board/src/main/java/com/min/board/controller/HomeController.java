@@ -17,6 +17,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+*
+* 일반 유저와 관리자의 홈 화면 컨트롤러
+* 관리자 홈의 경우 [회원관리]
+*
+* */
 @Controller
 public class HomeController {
 
@@ -46,8 +52,9 @@ public class HomeController {
         Pagination pagination = pagingService.getMemberPagination(page, range, searchText);
         List<Member> members = memberService.getMemberList(pagination);
 
-        Map<Member,Long> memberMap = new LinkedHashMap<>();
+        Map<Member,Long> memberMap = new LinkedHashMap<>(); // 순서가 있는 HashMap을 사용
 
+        // 각 회원의 게시글 개수를 put
         for(Member member : members) {
             Long boardCount = boardService.getSpecificBoardCnt(member.getId());
             memberMap.put(member, boardCount);

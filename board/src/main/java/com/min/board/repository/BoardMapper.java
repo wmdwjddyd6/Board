@@ -5,8 +5,13 @@ import com.min.board.paging.Pagination;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Optional;
 
+/*
+*
+* 게시판 기능 관련 Repository
+* MyBatis 사용 : resources - mapper에 xml을 통해 sql 관리
+*
+* */
 @Mapper
 public interface BoardMapper {
     // 게시글 개수 반환 (메인 게시글, 글 관리, 휴지통)

@@ -22,6 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+*
+* 게시판 기능 관련 서비스
+*
+* type : 게시물 종류 분리 (공지사항 / 일반 게시물)
+* result : DB 작업이 정상적으로 완료됐는지 체크
+*
+* */
 @Service
 public class BoardService {
 
@@ -67,36 +75,35 @@ public class BoardService {
     }
 
     // 조회수 증가
-    public void updateViews(Board board, String username, HttpServletRequest request,
+    public void updateViews(Board board, HttpServletRequest request,
                             HttpServletResponse response, String type) throws Exception {
         Cookie[] cookies = request.getCookies();
         Map<String, String> mapCookie = new HashMap<>();
 
-        if (request.getCookies() != null) {
+        if (request.getCookies() != null) { // 쿠키가 있을 경우
             for (int i = 0; i < cookies.length; i++) {
-                mapCookie.put(cookies[i].getName(), cookies[i].getValue());
+                mapCookie.put(cookies[i].getName(), cookies[i].getValue()); // 모든 쿠키를 Map 형태로 저장
             }
 
-            String viewsCookie = mapCookie.get("views");
-            String newCookie = type + "|" + board.getId();
+            String viewsCookie = mapCookie.get("views"); // 저장된 쿠키 중 views 키 값의 value를 가져옴
+            String newCookie = type + "|" + board.getId(); // 새롭게 저장할 쿠키 이름 (type으로 [공지사항 / 게시물] 쿠키 분리)
 
-            // 쿠키가 없을 경우 쿠키 생성 후 조회수 증가
+            // views이름의 쿠키가 없거나 조회한 게시물의 번호가 쿠키에 없을 경우 쿠키 생성 후 조회수 증가
             if (viewsCookie == null || !viewsCookie.contains(newCookie)) {
                 Cookie cookie = new Cookie("views", viewsCookie + newCookie);
-                response.addCookie(cookie);
+                response.addCookie(cookie); // 쿠키를 추가 후
 
                 board.setType(type);
-                boardRepository.updateViews(board);
+                boardRepository.updateViews(board); // 조회수 증가
             }
         }
     }
 
     // 글 등록
     public Long save(Board board, String loginUsername, String type) throws Exception {
-        board.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
-
         Member member = memberService.getMember(loginUsername);
 
+        board.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
         board.setWriterId(member.getId());
         board.setWriter(member.getUsername());
         board.setType(type);
@@ -114,7 +121,7 @@ public class BoardService {
         return board.getId();
     }
 
-    // 글 임시 삭제 (업데이트 로직 실행)
+    // 게시물을 휴지통으로 이동 (업데이트 로직 실행 - delete_yn = 'Y')
     public int temporaryDelete(Long boardId) throws Exception {
         int result = boardRepository.temporaryDeleteById(boardId);
         return result;

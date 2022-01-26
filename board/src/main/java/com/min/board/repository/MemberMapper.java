@@ -6,6 +6,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/*
+ *
+ * 사용자 기능 관련 Repository
+ * MyBatis 사용 : resources - mapper에 xml을 통해 sql 관리
+ *
+ * */
 @Mapper
 public interface MemberMapper {
 

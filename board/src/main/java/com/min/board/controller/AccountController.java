@@ -12,7 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 
-// 유저 메뉴 항목 관련 컨트롤러
+/*
+*
+* 개인 메뉴 항목 관련 컨트롤러
+*
+* */
 @Controller
 @RequestMapping("/account")
 public class AccountController {
@@ -20,7 +24,7 @@ public class AccountController {
     @Autowired
     private MemberService memberService;
 
-    // 유저 메뉴 탭으로 이동
+    // 개인 메뉴 탭으로 이동
     @GetMapping("/userMenu")
     public String userMenu(Model model, Principal principal) {
         Member member = memberService.getMember(principal.getName());
@@ -43,8 +47,7 @@ public class AccountController {
 
         if(memberService.checkPassword(loginUsername, password)) { // 패스워드, 체크박스 확인
            memberService.secession(loginUsername); // 회원탈퇴
-           SecurityContextHolder.clearContext(); // 회원탈퇴 시 로그아웃
-
+           SecurityContextHolder.clearContext(); // 로그아웃
            return "redirect:/";
         } else {
            return "redirect:/account/secessionForm?error=true";
@@ -62,12 +65,11 @@ public class AccountController {
     public String changePassword(String oldPassword, String newPassword, Principal principal) throws Exception {
         String loginUsername = principal.getName();
 
-        if(oldPassword.isEmpty() || newPassword.isEmpty()) {
+        if(oldPassword.isEmpty() || newPassword.isEmpty()) { // 입력값이 비었는지 체크
             return "redirect:/account/changePasswordForm?error=true";
         } else if(memberService.checkPassword(loginUsername, oldPassword)) { // 이전 비밀번호 체크
             memberService.changePassword(loginUsername, newPassword); // 비밀번호 변경
-            SecurityContextHolder.clearContext();
-
+            SecurityContextHolder.clearContext(); // 로그아웃
             return "redirect:/";
         } else {
             return "redirect:/account/changePasswordForm?error=true";

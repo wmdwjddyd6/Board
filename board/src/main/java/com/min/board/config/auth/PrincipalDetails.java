@@ -53,6 +53,7 @@ public class PrincipalDetails implements UserDetails {
         return true;
     }
 
+    // 계정이 잠겨있는지 체크
     @Override
     public boolean isAccountNonLocked() {
         return true;

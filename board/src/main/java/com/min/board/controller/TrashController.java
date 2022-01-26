@@ -14,6 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
+/*
+*
+* 휴지통 관련 컨트롤러
+*
+* 글의 [복원, 영구삭제]를 REST API로 구현
+*  - 관리자 화면의 회원관리에서 재사용
+*
+* */
 @Controller
 public class TrashController {
 

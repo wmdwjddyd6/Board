@@ -16,6 +16,11 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+/*
+ *
+ * 사용자 관련 서비스
+ *
+ * */
 @Service
 public class MemberService {
 
