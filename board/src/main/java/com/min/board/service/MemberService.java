@@ -19,6 +19,8 @@ import java.util.List;
 /*
  *
  * 사용자 관련 서비스
+ * 
+ * result : DB 작업이 정상적으로 완료됐는지 체크
  *
  * */
 @Service
@@ -43,7 +45,7 @@ public class MemberService {
         if (checkUsername(member.getUsername())) { // 아이디 중복 2차 체크 (Validator로 1차 진행)
             logger.info(member.getUsername() + "는 이미 존재하는 아이디입니다.");
         } else {
-            member.setPassword(pwdEncoding(member.getPassword()));
+            member.setPassword(pwdEncoding(member.getPassword())); // PW 암호화 및 저장
             member.setCreateDate(Timestamp.valueOf(LocalDateTime.now())); // 회원가입 시간
             member.setRole(role);
 
@@ -92,7 +94,7 @@ public class MemberService {
         return bCryptPasswordEncoder.encode(password);
     }
 
-    // 이름으로 멤버 저장
+    // 이름으로 유저 정보 반환
     public Member getMember(String username) {
         Member member = new Member();
         try {
@@ -101,7 +103,6 @@ public class MemberService {
             logger.warn(username + " : 존재하지 않는 username입니다.");
             logger.warn("error : " + e.getMessage());
         }
-
         return member;
     }
 
@@ -112,11 +113,11 @@ public class MemberService {
 
         try {
             if (member.getUsername().equals(username)) {
-                logger.info(username + " : 중복된 아이디입니다.");
+                logger.debug(username + " : 중복된 아이디입니다.");
                 state = true;
             }
         } catch (NullPointerException e) {
-            logger.info(username + " : 중복된 아이디가 없습니다.");
+            logger.debug(username + " : 중복된 아이디가 없습니다.");
         }
         return state;
     }
@@ -162,6 +163,7 @@ public class MemberService {
 
     // 임시 비밀번호 발급 & DB에 저장
     public String getRandomPassword(String username) throws Exception {
+        // 랜덤 PW 생성 준비
         char[] charSet = new char[]{
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
@@ -177,12 +179,14 @@ public class MemberService {
         int index = 0;
         int len = charSet.length;
 
+        // 랜덤 PW 10자리 생성
         for (int i = 0; i < 10; i++) {
             index = sr.nextInt(len);
             sb.append(charSet[index]);
         }
 
-        String temporaryPassword = sb.toString(); // 임시 비밀번호
+        // 임시 비밀번호 저장
+        String temporaryPassword = sb.toString();
 
         changePassword(username, temporaryPassword);
         logger.info(username + "님의 임시 비밀번호를 저장했습니다.");
