@@ -65,7 +65,7 @@ public class AccountController {
     public String changePassword(String oldPassword, String newPassword, Principal principal) throws Exception {
         String loginUsername = principal.getName();
 
-        if(oldPassword.isEmpty() || newPassword.isEmpty()) { // 입력값이 비었는지 체크
+        if(oldPassword.length() < 6 || newPassword.length() < 6) { // 비밀번호 6자리 이상의 규칙을 지켰는지 확인
             return "redirect:/account/changePasswordForm?error=true";
         } else if(memberService.checkPassword(loginUsername, oldPassword)) { // 이전 비밀번호 체크
             memberService.changePassword(loginUsername, newPassword); // 비밀번호 변경
