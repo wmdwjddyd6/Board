@@ -14,10 +14,8 @@
 
 <body class="text-center">
 	<main class="form-signin">
-		<a href="/"><img class="mb-2"
-				src="https://cdn-icons.flaticon.com/png/512/2604/premium/2604013.png?token=exp=1639622665~hmac=34100795639e38fce307d0d3588611a6"
-				alt="" width="120" height="100"></a>
-		<h1 sec:authentication="name" class="mb-3 fw-normal">Username</h1>
+		<a href="/"><img src="/img/logo.png" alt="home" width="220" height="160"></a>
+		<h1 sec:authentication="name" class="mb-4 fw-normal">Username</h1>
 		<h3 th:text="${userEmail}" class="mb-3 fw-normal">이메일</h3>
 
 		<div class="nav justify-content-end">
