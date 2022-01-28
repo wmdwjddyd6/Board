@@ -24,9 +24,9 @@ class BoardServiceTest {
     @Test
     public void save_게시글n개생성() throws Exception {
         Board board = new Board();
-        String username = "rhkdrhkd";
+        String username = "rhkdals123";
 
-        for(int i = 0; i < 215; i ++) {
+        for(int i = 2; i < 80; i ++) {
             board.setTitle(i + "번째 제목입니다.");
             board.setContent(i + "번째 내용이에요.");
 
