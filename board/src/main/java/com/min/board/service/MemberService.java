@@ -19,7 +19,7 @@ import java.util.List;
 /*
  *
  * 사용자 관련 서비스
- * 
+ *
  * result : DB 작업이 정상적으로 완료됐는지 체크
  *
  * */
@@ -62,7 +62,7 @@ public class MemberService {
         Member member = getMember(username);
         int result = memberRepository.delete(member);
 
-        if(result > 0) logger.info(username + " : 회원탈퇴 완료");
+        if (result > 0) logger.info(username + " : 회원탈퇴 완료");
     }
 
     // 비밀번호 체크
@@ -152,11 +152,17 @@ public class MemberService {
     public boolean compareEmailUsername(String username, String email) {
         Member member = getMember(username);
 
-        if (member.getEmail().equals(email)) {
-            logger.info("username = {}, email = {} 정보가 일치합니다.", username, email);
-            return true;
-        } else {
-            logger.info("username = {}, email = {} 정보가 일치하지 않습니다.", username, email);
+        try {
+            if (member.getEmail().equals(email)) {
+                logger.debug("username = {}, email = {} 정보가 일치합니다.", username, email);
+                return true;
+            } else {
+                logger.debug("username = {}, email = {} 정보가 일치하지 않습니다.", username, email);
+                return false;
+            }
+        } catch (NullPointerException e) {
+            logger.warn("비밀번호 찾기 error : {}", e.getMessage());
+            logger.debug("해당하는 username {} 또는 email {} 이 없습니다.", username, email);
             return false;
         }
     }
