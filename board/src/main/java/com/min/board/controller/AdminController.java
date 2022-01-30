@@ -1,7 +1,7 @@
 package com.min.board.controller;
 
-import com.min.board.model.Board;
-import com.min.board.model.Member;
+import com.min.board.model.BoardDto;
+import com.min.board.model.MemberDto;
 import com.min.board.paging.Pagination;
 import com.min.board.service.BoardService;
 import com.min.board.service.FileService;
@@ -55,23 +55,23 @@ public class AdminController {
     // 관리자 계정 생성 폼
     @GetMapping("/admin/addAdmin")
     public String addAdminForm(Model model) {
-        model.addAttribute("member", new Member());
+        model.addAttribute("member", new MemberDto());
         return "admin/addAdmin";
     }
 
     // 관리자 계정 생성
     @PostMapping("/admin/join")
-    public String addMember(@Valid Member member, BindingResult bindingResult) throws Exception { // view의 form->input 의 name과 매핑됨.
-        memberValidator.validate(member, bindingResult);
+    public String addMember(@Valid MemberDto memberDto, BindingResult bindingResult) throws Exception { // view의 form->input 의 name과 매핑됨.
+        memberValidator.validate(memberDto, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "admin/addAdmin";
         }
 
-        int result = memberService.join(member, "ROLE_ADMIN");
+        int result = memberService.join(memberDto, "ROLE_ADMIN");
 
         if (result > 0) {
-            logger.info("{} : 관리자 계정을 생성했습니다.", member.getUsername());
+            logger.info("{} : 관리자 계정을 생성했습니다.", memberDto.getUsername());
             return "redirect:/admin";
         } else {
             return "admin/addAdmin";
@@ -85,7 +85,7 @@ public class AdminController {
                                @RequestParam(required = false, defaultValue = "1") int range,
                                String searchText) throws Exception {
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "list");
-        List<Board> boards = boardService.getBoardList(pagination);
+        List<BoardDto> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
@@ -100,7 +100,7 @@ public class AdminController {
                             @RequestParam(required = false, defaultValue = "1") int range,
                             String searchText, String username) throws Exception {
         Pagination pagination = pagingService.getMemberBoardPagination(page, range, searchText, username, "memberBoardList");
-        List<Board> boards = boardService.getBoardList(pagination);
+        List<BoardDto> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
@@ -115,7 +115,7 @@ public class AdminController {
                          @RequestParam(required = false, defaultValue = "1") int range,
                          String searchText) throws Exception {
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "notice");
-        List<Board> boards = boardService.getBoardList(pagination);
+        List<BoardDto> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
@@ -127,20 +127,20 @@ public class AdminController {
     @GetMapping("/admin/noticeForm")
     public String writeNoticeForm(Model model, @RequestParam(required = false) Long boardId) throws Exception {
         if (boardId == null) {
-            model.addAttribute("board", new Board());
+            model.addAttribute("board", new BoardDto());
         } else {
-            Board board = boardService.contentLoad(boardId, "notice");
-            model.addAttribute("board", board);
+            BoardDto boardDto = boardService.contentLoad(boardId, "notice");
+            model.addAttribute("board", boardDto);
         }
         return "admin/noticeForm";
     }
 
     // 공지사항 작성 & 수정
     @PostMapping("/admin/noticeForm")
-    public String writeNotice(Board board, Principal principal,
+    public String writeNotice(BoardDto boardDto, Principal principal,
                               @RequestParam(value = "files", required = false) List<MultipartFile> files,
                               @RequestParam(value = "boardId", required = false) Long boardId) throws Exception {
-        if (board.getTitle().length() < 1 || board.getContent().length() < 1 || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
+        if (boardDto.getTitle().length() < 1 || boardDto.getContent().length() < 1 || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
             // 잘못된 입력값이 들어왔을 때 다시 해당 페이지로 로딩
             if(boardId != null) {
                 return "redirect:/admin/noticeForm?boardId=" + boardId;
@@ -152,7 +152,7 @@ public class AdminController {
         String type = "notice";
 
         if (boardId == null) { // 새 글 작성
-            Long newBoardId = boardService.save(board, loginUsername, type); // Insert
+            Long newBoardId = boardService.save(boardDto, loginUsername, type); // Insert
             logger.info("boardId : {} 글을 작성했습니다.", newBoardId);
 
             // 첨부파일 있을 때
@@ -167,7 +167,7 @@ public class AdminController {
                 }
             }
         } else { // 기존 글 수정
-            Long id = boardService.update(board, boardId, type); // Update
+            Long id = boardService.update(boardDto, boardId, type); // Update
             logger.info("boardId : {} 글을 수정했습니다.", id);
         }
 

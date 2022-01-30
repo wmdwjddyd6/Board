@@ -1,8 +1,8 @@
 package com.min.board.service;
 
-import com.min.board.model.Board;
-import com.min.board.model.FileDTO;
-import com.min.board.model.Member;
+import com.min.board.model.BoardDto;
+import com.min.board.model.FileDto;
+import com.min.board.model.MemberDto;
 import com.min.board.paging.Pagination;
 import com.min.board.repository.BoardMapper;
 import org.slf4j.Logger;
@@ -52,30 +52,31 @@ public class BoardService {
     public int getBoardListCnt(Pagination pagination) throws Exception {
         int boardTotalCount = 0;
         boardTotalCount = boardRepository.selectBoardTotalCount(pagination);
+        logger.debug("boardTotalCount : {}", boardTotalCount);
 
         return boardTotalCount;
     }
 
     // 전체 게시글 리스트로 리턴
-    public List<Board> getBoardList(Pagination pagination) throws Exception {
-        List<Board> boards = Collections.emptyList();
+    public List<BoardDto> getBoardList(Pagination pagination) throws Exception {
+        List<BoardDto> boards = Collections.emptyList();
         boards = boardRepository.selectBoardList(pagination);
 
         return boards;
     }
 
     // id를 이용해서 해당 글 수정
-    public Board contentLoad(Long id, String type) throws Exception {
-        Board board = new Board();
-        board.setId(id);
-        board.setType(type);
-        board = boardRepository.findById(board);
+    public BoardDto contentLoad(Long id, String type) throws Exception {
+        BoardDto boardDto = new BoardDto();
+        boardDto.setId(id);
+        boardDto.setType(type);
+        boardDto = boardRepository.findById(boardDto);
 
-        return board;
+        return boardDto;
     }
 
     // 조회수 증가
-    public void updateViews(Board board, HttpServletRequest request,
+    public void updateViews(BoardDto boardDto, HttpServletRequest request,
                             HttpServletResponse response, String type) throws Exception {
         Cookie[] cookies = request.getCookies();
         Map<String, String> mapCookie = new HashMap<>();
@@ -86,39 +87,39 @@ public class BoardService {
             }
 
             String viewsCookie = mapCookie.get("views"); // 저장된 쿠키 중 views 키 값의 value를 가져옴
-            String newCookie = type + "|" + board.getId(); // 새롭게 저장할 쿠키 이름 (type으로 [공지사항 / 게시물] 쿠키 분리)
+            String newCookie = type + "|" + boardDto.getId(); // 새롭게 저장할 쿠키 이름 (type으로 [공지사항 / 게시물] 쿠키 분리)
 
             // views이름의 쿠키가 없거나 조회한 게시물의 번호가 쿠키에 없을 경우 쿠키 생성 후 조회수 증가
             if (viewsCookie == null || !viewsCookie.contains(newCookie)) {
                 Cookie cookie = new Cookie("views", viewsCookie + newCookie);
                 response.addCookie(cookie); // 쿠키를 추가 후
 
-                board.setType(type);
-                boardRepository.updateViews(board); // 조회수 증가
+                boardDto.setType(type);
+                boardRepository.updateViews(boardDto); // 조회수 증가
             }
         }
     }
 
     // 글 등록
-    public Long save(Board board, String loginUsername, String type) throws Exception {
-        Member member = memberService.getMember(loginUsername);
+    public Long save(BoardDto boardDto, String loginUsername, String type) throws Exception {
+        MemberDto memberDto = memberService.getMember(loginUsername);
 
-        board.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
-        board.setWriterId(member.getId());
-        board.setWriter(member.getUsername());
-        board.setType(type);
-        boardRepository.insertBoard(board);
+        boardDto.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+        boardDto.setWriterId(memberDto.getId());
+        boardDto.setWriter(memberDto.getUsername());
+        boardDto.setType(type);
+        boardRepository.insertBoard(boardDto);
 
-        return board.getId();
+        return boardDto.getId();
     }
 
     // 글 수정
-    public Long update(Board board, Long boardId, String type) throws Exception {
-        board.setId(boardId);
-        board.setType(type);
-        boardRepository.updateBoard(board);
+    public Long update(BoardDto boardDto, Long boardId, String type) throws Exception {
+        boardDto.setId(boardId);
+        boardDto.setType(type);
+        boardRepository.updateBoard(boardDto);
 
-        return board.getId();
+        return boardDto.getId();
     }
 
     // 게시물을 휴지통으로 이동 (업데이트 로직 실행 - delete_yn = 'Y')
@@ -135,13 +136,13 @@ public class BoardService {
 
     // 휴지통 비우기
     public int clear(Long boardId) throws Exception {
-        List<FileDTO> files = fileService.getFileList(boardId);
+        List<FileDto> files = fileService.getFileList(boardId);
         int result = boardRepository.permanentlyDeleteById(boardId);
 
         // 글 삭제가 정상적으로 됐고, 첨부된 파일이 있다면
         if (result > 0 && !CollectionUtils.isEmpty(files)) {
             // 서버에서 파일 삭제
-            for (FileDTO fileDTO : files) {
+            for (FileDto fileDTO : files) {
                 File file = new File(fileDTO.getPath());
                 if (file.exists()) { // 서버에 파일이 존재한다면
                     file.delete(); // 삭제

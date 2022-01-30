@@ -1,6 +1,6 @@
 package com.min.board.controller;
 
-import com.min.board.model.Board;
+import com.min.board.model.BoardDto;
 import com.min.board.paging.Pagination;
 import com.min.board.service.BoardService;
 import com.min.board.service.PagingService;
@@ -42,7 +42,7 @@ public class TrashController {
         String loginUser = principal.getName();
 
         Pagination pagination = pagingService.getBoardPagination(page, range, loginUser, "trash");
-        List<Board> boards = boardService.getBoardList(pagination);
+        List<BoardDto> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);

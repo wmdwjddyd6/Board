@@ -1,6 +1,6 @@
 package com.min.board.controller;
 
-import com.min.board.model.Member;
+import com.min.board.model.MemberDto;
 import com.min.board.paging.Pagination;
 import com.min.board.service.BoardService;
 import com.min.board.service.MemberService;
@@ -50,14 +50,14 @@ public class HomeController {
                             @RequestParam(required = false, defaultValue = "1") int range,
                             String searchText) throws Exception {
         Pagination pagination = pagingService.getMemberPagination(page, range, searchText);
-        List<Member> members = memberService.getMemberList(pagination);
+        List<MemberDto> members = memberService.getMemberList(pagination);
 
-        Map<Member,Long> memberMap = new LinkedHashMap<>(); // 순서가 있는 HashMap을 사용
+        Map<MemberDto,Long> memberMap = new LinkedHashMap<>(); // 순서가 있는 HashMap을 사용
 
         // 각 회원의 게시글 개수를 put
-        for(Member member : members) {
-            Long boardCount = boardService.getSpecificBoardCnt(member.getId());
-            memberMap.put(member, boardCount);
+        for(MemberDto memberDto : members) {
+            Long boardCount = boardService.getSpecificBoardCnt(memberDto.getId());
+            memberMap.put(memberDto, boardCount);
         }
 
         model.addAttribute("memberMap", memberMap);

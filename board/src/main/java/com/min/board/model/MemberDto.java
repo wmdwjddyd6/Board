@@ -6,7 +6,7 @@ import javax.validation.constraints.*;
 import java.sql.Timestamp;
 
 @Data
-public class Member {
+public class MemberDto {
 
     private Long id;
 

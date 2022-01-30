@@ -1,7 +1,6 @@
 package com.min.board.service;
 
-import com.min.board.model.Board;
-import com.min.board.model.Member;
+import com.min.board.model.BoardDto;
 import com.min.board.paging.Pagination;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +22,20 @@ class BoardServiceTest {
 
     @Test
     public void save_게시글n개생성() throws Exception {
-        Board board = new Board();
+        BoardDto boardDto = new BoardDto();
         String username = "rhkdals123";
 
         for(int i = 2; i < 80; i ++) {
-            board.setTitle(i + "번째 제목입니다.");
-            board.setContent(i + "번째 내용이에요.");
+            boardDto.setTitle(i + "번째 제목입니다.");
+            boardDto.setContent(i + "번째 내용이에요.");
 
-            boardService.save(board, username, "board");
+            boardService.save(boardDto, username, "board");
         }
     }
 
     @Test
     public void contentLoad_컨텐츠로드() throws Exception {
-        Board board = boardService.contentLoad(5l, "board");
+        BoardDto boardDto = boardService.contentLoad(5l, "board");
     }
 
     @Test
@@ -47,15 +46,15 @@ class BoardServiceTest {
 
     @Test
     public void getBoardList_메인게시판리스트() throws Exception {
-        int page = 62;
+        int page = 1;
         int range = (page / 10) + 1;
-        String searchText = "검색 데이터";
+        String searchText = "";
 
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "list");
-        List<Board> boards = boardService.getBoardList(pagination);
+        List<BoardDto> boardDto = boardService.getBoardList(pagination);
 
-        for(int i = 0; i < boards.size(); i ++) {
-            System.out.println("board : " + boards.get(i)); // for test
+        for(int i = 0; i < boardDto.size(); i ++) {
+            System.out.println("board : " + boardDto.get(i)); // for test
         }
     }
 
@@ -71,9 +70,9 @@ class BoardServiceTest {
         int listCount = boardService.getBoardListCnt(pagination);
         pagination.pageInfo(page, range, listCount);
 
-        List<Board> boards = boardService.getBoardList(pagination);
-        for(int i = 0; i < boards.size(); i ++) {
-            System.out.println("board : " + boards.get(i)); // for test
+        List<BoardDto> boardDtos = boardService.getBoardList(pagination);
+        for(int i = 0; i < boardDtos.size(); i ++) {
+            System.out.println("board : " + boardDtos.get(i)); // for test
         }
     }
 

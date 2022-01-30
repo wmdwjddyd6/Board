@@ -1,6 +1,6 @@
 package com.min.board.config.auth;
 
-import com.min.board.model.Member;
+import com.min.board.model.MemberDto;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,10 +18,10 @@ import java.util.Collection;
 
 public class PrincipalDetails implements UserDetails {
 
-    private Member member; // 콤포지션
+    private MemberDto memberDto; // 콤포지션
 
-    public PrincipalDetails(Member member) {
-        this.member = member;
+    public PrincipalDetails(MemberDto memberDto) {
+        this.memberDto = memberDto;
     }
 
     // 해당 유저의 권한을 리턴
@@ -31,7 +31,7 @@ public class PrincipalDetails implements UserDetails {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return member.getRole();
+                return memberDto.getRole();
             }
         });
         return collection;
@@ -39,12 +39,12 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return member.getPassword();
+        return memberDto.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return member.getUsername();
+        return memberDto.getUsername();
     }
 
     // 계정이 일정 기간 만료는지 체크

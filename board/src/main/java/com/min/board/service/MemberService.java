@@ -1,6 +1,6 @@
 package com.min.board.service;
 
-import com.min.board.model.Member;
+import com.min.board.model.MemberDto;
 import com.min.board.paging.Pagination;
 import com.min.board.repository.MemberMapper;
 import org.slf4j.Logger;
@@ -39,19 +39,19 @@ public class MemberService {
     }
 
     // 회원가입
-    public int join(Member member, String role) throws Exception {
+    public int join(MemberDto memberDto, String role) throws Exception {
         int result = 0;
 
-        if (checkUsername(member.getUsername())) { // 아이디 중복 2차 체크 (Validator로 1차 진행)
-            logger.info(member.getUsername() + "는 이미 존재하는 아이디입니다.");
+        if (checkUsername(memberDto.getUsername())) { // 아이디 중복 2차 체크 (Validator로 1차 진행)
+            logger.info(memberDto.getUsername() + "는 이미 존재하는 아이디입니다.");
         } else {
-            member.setPassword(pwdEncoding(member.getPassword())); // PW 암호화 및 저장
-            member.setCreateDate(Timestamp.valueOf(LocalDateTime.now())); // 회원가입 시간
-            member.setRole(role);
+            memberDto.setPassword(pwdEncoding(memberDto.getPassword())); // PW 암호화 및 저장
+            memberDto.setCreateDate(Timestamp.valueOf(LocalDateTime.now())); // 회원가입 시간
+            memberDto.setRole(role);
 
-            result = memberRepository.save(member);
+            result = memberRepository.save(memberDto);
 
-            logger.info(member.getUsername() + " 회원가입 완료");
+            logger.info(memberDto.getUsername() + " 회원가입 완료");
         }
 
         return result;
@@ -59,17 +59,17 @@ public class MemberService {
 
     // 회원탈퇴
     public void secession(String username) throws Exception {
-        Member member = getMember(username);
-        int result = memberRepository.delete(member);
+        MemberDto memberDto = getMember(username);
+        int result = memberRepository.delete(memberDto);
 
         if (result > 0) logger.info(username + " : 회원탈퇴 완료");
     }
 
     // 비밀번호 체크
     public boolean checkPassword(String loginUsername, String password) {
-        Member member = getMember(loginUsername);
+        MemberDto memberDto = getMember(loginUsername);
 
-        if (bCryptPasswordEncoder.matches(password, member.getPassword())) {
+        if (bCryptPasswordEncoder.matches(password, memberDto.getPassword())) {
             logger.info(loginUsername + " : 암호가 일치합니다.");
             return true;
         } else {
@@ -81,10 +81,10 @@ public class MemberService {
     // 비밀번호 변경
     public void changePassword(String username, String newPassword) throws Exception {
         String encPassword = pwdEncoding(newPassword);
-        Member member = getMember(username);
-        member.setPassword(encPassword);
+        MemberDto memberDto = getMember(username);
+        memberDto.setPassword(encPassword);
 
-        memberRepository.pwdChange(member);
+        memberRepository.pwdChange(memberDto);
 
         logger.info(username + " : Password 변경 완료");
     }
@@ -95,24 +95,24 @@ public class MemberService {
     }
 
     // 이름으로 유저 정보 반환
-    public Member getMember(String username) {
-        Member member = new Member();
+    public MemberDto getMember(String username) {
+        MemberDto memberDto = new MemberDto();
         try {
-            member = memberRepository.findByUsername(username);
+            memberDto = memberRepository.findByUsername(username);
         } catch (Exception e) {
             logger.warn(username + " : 존재하지 않는 username입니다.");
             logger.warn("error : " + e.getMessage());
         }
-        return member;
+        return memberDto;
     }
 
     // 아이디 중복 체크
     public boolean checkUsername(String username) {
-        Member member = getMember(username);
+        MemberDto memberDto = getMember(username);
         boolean state = false;
 
         try {
-            if (member.getUsername().equals(username)) {
+            if (memberDto.getUsername().equals(username)) {
                 logger.debug(username + " : 중복된 아이디입니다.");
                 state = true;
             }
@@ -124,11 +124,11 @@ public class MemberService {
 
     // ID 찾기 Email 체크
     public boolean checkEmail(String email) throws Exception {
-        List<Member> member = getMemberByEmail(email);
+        List<MemberDto> memberDto = getMemberByEmail(email);
         boolean state = false;
 
         try {
-            if (member.get(0).getEmail().equals(email)) {
+            if (memberDto.get(0).getEmail().equals(email)) {
                 logger.debug(email + " : 이메일이 존재합니다.");
                 state = true;
             } else {
@@ -141,19 +141,19 @@ public class MemberService {
     }
 
     // 등록된 Email의 유저 리스트 받기
-    public List<Member> getMemberByEmail(String email) throws Exception {
-        List<Member> member = Collections.emptyList();
-        member = memberRepository.findByEmail(email);
+    public List<MemberDto> getMemberByEmail(String email) throws Exception {
+        List<MemberDto> memberDto = Collections.emptyList();
+        memberDto = memberRepository.findByEmail(email);
 
-        return member;
+        return memberDto;
     }
 
     // password 리셋을 위한 email, username 비교
     public boolean compareEmailUsername(String username, String email) {
-        Member member = getMember(username);
+        MemberDto memberDto = getMember(username);
 
         try {
-            if (member.getEmail().equals(email)) {
+            if (memberDto.getEmail().equals(email)) {
                 logger.debug("username = {}, email = {} 정보가 일치합니다.", username, email);
                 return true;
             } else {
@@ -201,9 +201,9 @@ public class MemberService {
     }
 
     // (관리자 회원관리 페이징) 해당 페이지 회원정보 리턴
-    public List<Member> getMemberList(Pagination pagination) throws Exception {
-        List<Member> memberList = memberRepository.selectMemberList(pagination);
-        return memberList;
+    public List<MemberDto> getMemberList(Pagination pagination) throws Exception {
+        List<MemberDto> memberDtoList = memberRepository.selectMemberList(pagination);
+        return memberDtoList;
     }
 
     // (관리자 회원관리 페이징) 회원수 카운트
@@ -214,9 +214,9 @@ public class MemberService {
     // (관리자) 회원계정 삭제
     public void deleteMember(List<String> id) throws Exception {
         for (String memberId : id) {
-            Member member = memberRepository.findById(Long.parseLong(memberId));
-            memberRepository.delete(member);
-            logger.info(member.getUsername() + "님의 계정을 삭제했습니다.");
+            MemberDto memberDto = memberRepository.findById(Long.parseLong(memberId));
+            memberRepository.delete(memberDto);
+            logger.info(memberDto.getUsername() + "님의 계정을 삭제했습니다.");
         }
     }
 }

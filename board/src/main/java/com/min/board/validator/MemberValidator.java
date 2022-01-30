@@ -1,13 +1,11 @@
 package com.min.board.validator;
 
-import com.min.board.model.Member;
+import com.min.board.model.MemberDto;
 import com.min.board.service.MemberService;
-import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import org.thymeleaf.util.StringUtils;
 
 /*
  *
@@ -22,14 +20,14 @@ public class MemberValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return Member.class.equals(clazz);
+        return MemberDto.class.equals(clazz);
     }
 
     @Override
     public void validate(Object obj, Errors errors) {
-        Member member = (Member) obj;
+        MemberDto memberDto = (MemberDto) obj;
 
-        if(memberService.checkUsername(member.getUsername())) { // 회원이 존재하는지 체크
+        if(memberService.checkUsername(memberDto.getUsername())) { // 회원이 존재하는지 체크
             errors.rejectValue("username", "key", "이미 존재하는 아이디입니다.");
         }
     }

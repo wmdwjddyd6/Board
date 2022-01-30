@@ -1,6 +1,6 @@
 package com.min.board.controller;
 
-import com.min.board.model.Member;
+import com.min.board.model.MemberDto;
 import com.min.board.service.MemberService;
 import com.min.board.validator.MemberValidator;
 import org.slf4j.Logger;
@@ -35,22 +35,22 @@ public class JoinController {
     // 회원가입 폼
     @GetMapping("/joinForm")
     public String joinForm(Model model) {
-        model.addAttribute("member", new Member());
+        model.addAttribute("member", new MemberDto());
         return "register/joinForm";
     }
 
     // 회원가입
     @PostMapping("/join")
-    public String join(@Valid Member member, BindingResult bindingResult) throws Exception { // view의 form->input 의 name과 매핑됨.
+    public String join(@Valid MemberDto memberDto, BindingResult bindingResult) throws Exception { // view의 form->input 의 name과 매핑됨.
         // @Valid와 validate를 이용해서 사용자 입력값을 검증
-        memberValidator.validate(member, bindingResult);
+        memberValidator.validate(memberDto, bindingResult);
 
         if(bindingResult.hasErrors()) {
             return "register/joinForm";
         }
 
         logger.debug("회원가입을 진행합니다.");
-        int result = memberService.join(member, "ROLE_USER");
+        int result = memberService.join(memberDto, "ROLE_USER");
 
         if(result > 0) {
             logger.info("회원가입이 완료됐습니다.");

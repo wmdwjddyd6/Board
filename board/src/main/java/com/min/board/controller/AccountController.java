@@ -1,6 +1,6 @@
 package com.min.board.controller;
 
-import com.min.board.model.Member;
+import com.min.board.model.MemberDto;
 import com.min.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,8 +27,8 @@ public class AccountController {
     // 개인 메뉴 탭으로 이동
     @GetMapping("/userMenu")
     public String userMenu(Model model, Principal principal) {
-        Member member = memberService.getMember(principal.getName());
-        String userEmail = member.getEmail();
+        MemberDto memberDto = memberService.getMember(principal.getName());
+        String userEmail = memberDto.getEmail();
         model.addAttribute("userEmail", userEmail);
 
         return "account/userMenu";

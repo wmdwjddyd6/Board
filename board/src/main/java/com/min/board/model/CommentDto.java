@@ -5,14 +5,12 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Data
-public class Board {
+public class CommentDto {
     private Long id;
-    private String title;
+    private Long boardId;
     private String content;
     private Long writerId;
     private String writer;
-    private String deleteYN;
     private Timestamp createDate;
-    private Long views;
     private String type;
 }

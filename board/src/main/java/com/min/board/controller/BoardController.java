@@ -1,6 +1,6 @@
 package com.min.board.controller;
 
-import com.min.board.model.Board;
+import com.min.board.model.BoardDto;
 import com.min.board.paging.Pagination;
 import com.min.board.service.*;
 import org.slf4j.Logger;
@@ -54,7 +54,7 @@ public class BoardController {
                        String searchText) throws Exception {
 
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "list");
-        List<Board> boards = boardService.getBoardList(pagination);
+        List<BoardDto> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
@@ -69,7 +69,7 @@ public class BoardController {
                          @RequestParam(required = false, defaultValue = "1") int range,
                          String searchText) throws Exception {
         Pagination pagination = pagingService.getBoardPagination(page, range, searchText, "notice");
-        List<Board> boards = boardService.getBoardList(pagination);
+        List<BoardDto> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);
@@ -83,12 +83,12 @@ public class BoardController {
                              Principal principal, HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         String loginUser = principal.getName();
-        Board board = boardService.contentLoad(boardId, "notice");
-        logger.debug("boardId : {} 공지사항 조회", board.getId());
+        BoardDto boardDto = boardService.contentLoad(boardId, "notice");
+        logger.debug("boardId : {} 공지사항 조회", boardDto.getId());
 
-        boardService.updateViews(board, request, response, "notice"); // 쿠키를 이용한 조회수 증가
+        boardService.updateViews(boardDto, request, response, "notice"); // 쿠키를 이용한 조회수 증가
 
-        model.addAttribute("board", board);
+        model.addAttribute("board", boardDto);
         model.addAttribute("loginUser", loginUser);
 
         return "board/noticePost";
@@ -109,23 +109,23 @@ public class BoardController {
     public String form(Model model, @RequestParam(required = false) Long boardId) throws Exception {
         if (boardId == null) {  
             // 새 글 작성
-            model.addAttribute("board", new Board());
+            model.addAttribute("board", new BoardDto());
             logger.debug("새 글 작성으로 이동");
         } else {    
             // 기존 게시글 수정
-            Board board = boardService.contentLoad(boardId, "board");
-            logger.debug("boardId : {} 글 수정으로 이동", board.getId());
-            model.addAttribute("board", board);
+            BoardDto boardDto = boardService.contentLoad(boardId, "board");
+            logger.debug("boardId : {} 글 수정으로 이동", boardDto.getId());
+            model.addAttribute("board", boardDto);
         }
         return "board/form";
     }
 
     // 게시글 작성 & 수정
     @PostMapping("/form")
-    public String boardSubmit(Board board, Principal principal,
+    public String boardSubmit(BoardDto boardDto, Principal principal,
                               @RequestParam(value = "files", required = false) List<MultipartFile> files,
                               @RequestParam(value = "boardId", required = false) Long boardId) throws Exception {
-        if (board.getTitle().length() < 1 || board.getContent().length() < 1 || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
+        if (boardDto.getTitle().length() < 1 || boardDto.getContent().length() < 1 || (!CollectionUtils.isEmpty(files) && files.size() > 7)) {
             // 잘못된 입력값이 들어왔을 때 다시 해당 페이지로 로딩
             if (boardId != null) {
                 return "redirect:/board/form?boardId=" + boardId;
@@ -137,7 +137,7 @@ public class BoardController {
         String type = "board";
 
         if (boardId == null) { // 새 글 작성
-            Long newBoardId = boardService.save(board, loginUsername, type); // Insert
+            Long newBoardId = boardService.save(boardDto, loginUsername, type); // Insert
             logger.info("boardId : {} 글을 작성했습니다.", newBoardId);
 
             // 첨부파일 있을 때 처리
@@ -152,7 +152,7 @@ public class BoardController {
                 }
             }
         } else { // 기존 글 수정
-            Long id = boardService.update(board, boardId, type); // Update
+            Long id = boardService.update(boardDto, boardId, type); // Update
             logger.info("boardId : {} 글을 수정했습니다.", id);
         }
         return "redirect:/board/list";
@@ -165,12 +165,12 @@ public class BoardController {
                            Principal principal, HttpServletRequest request,
                            HttpServletResponse response) throws Exception {
         String loginUser = principal.getName();
-        Board board = boardService.contentLoad(boardId, "board");
-        logger.debug("boardId : {} 글 조회", board.getId());
+        BoardDto boardDto = boardService.contentLoad(boardId, "board");
+        logger.debug("boardId : {} 글 조회", boardDto.getId());
 
-        boardService.updateViews(board, request, response, "board"); // 쿠키를 이용한 조회수 증가
+        boardService.updateViews(boardDto, request, response, "board"); // 쿠키를 이용한 조회수 증가
 
-        model.addAttribute("board", board);
+        model.addAttribute("board", boardDto);
         model.addAttribute("loginUser", loginUser);
 
         return "board/post";
@@ -195,7 +195,7 @@ public class BoardController {
         String loginUser = principal.getName();
 
         Pagination pagination = pagingService.getBoardPagination(page, range, loginUser, "myPost");
-        List<Board> boards = boardService.getBoardList(pagination);
+        List<BoardDto> boards = boardService.getBoardList(pagination);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("boardList", boards);

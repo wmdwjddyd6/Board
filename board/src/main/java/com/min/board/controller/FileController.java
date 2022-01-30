@@ -1,6 +1,6 @@
 package com.min.board.controller;
 
-import com.min.board.model.FileDTO;
+import com.min.board.model.FileDto;
 import com.min.board.service.FileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +35,8 @@ public class FileController {
 
     // 게시글에 첨부된 이미지 ID값 리스트로 반환
     @GetMapping(value = "/images/{boardId}")
-    public List<FileDTO> getFileList(@PathVariable(value = "boardId") Long boardId) throws SQLException {
-        List<FileDTO> files = fileService.getFileList(boardId); // 해당 게시글에 첨부된 파일 리스트 반환
+    public List<FileDto> getFileList(@PathVariable(value = "boardId") Long boardId) throws SQLException {
+        List<FileDto> files = fileService.getFileList(boardId); // 해당 게시글에 첨부된 파일 리스트 반환
         logger.debug("해당 게시물의 이미지의 개수는 {}개 입니다.", files.size());
         return files;
     }
@@ -44,7 +44,7 @@ public class FileController {
     // 이미지 리턴
     @GetMapping(value = "/image/{imageId}", produces = MediaType.IMAGE_JPEG_VALUE)
     public ResponseEntity<Resource> getViewImage(@PathVariable(value = "imageId") Long imageId) throws Exception {
-        FileDTO fileDTO = fileService.getFile(imageId); // 이미지 정보를 반환 (단수)
+        FileDto fileDTO = fileService.getFile(imageId); // 이미지 정보를 반환 (단수)
         Resource resource = new FileSystemResource(fileDTO.getPath());
         logger.debug("{} 이미지를 조회합니다.", fileDTO.getId());
         return new ResponseEntity<Resource>(resource, HttpStatus.OK);

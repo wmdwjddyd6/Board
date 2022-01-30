@@ -15,7 +15,7 @@
     </sql>
 
     <!--(관리자 회원관리 페이징) 회원정보 받아오기-->
-    <select id="selectMemberList" resultType="Member">
+    <select id="selectMemberList" resultType="MemberDto">
         SELECT
             <include refid="memberColumns"/>
         FROM
@@ -43,7 +43,7 @@
     </select>
 
     <!--이름으로 회원정보 받기-->
-    <select id="findByUsername" resultType="Member">
+    <select id="findByUsername" resultType="MemberDto">
         SELECT
             <include refid="memberColumns"/>
         FROM
@@ -53,7 +53,7 @@
     </select>
 
     <!--계정생성-->
-    <insert id="save" parameterType="Member">
+    <insert id="save" parameterType="MemberDto">
         INSERT INTO
             tb_userinfo (username, password, email, role, create_date)
         VALUES
@@ -61,7 +61,7 @@
     </insert>
 
     <!--계정삭제-->
-    <delete id="delete" parameterType="Member">
+    <delete id="delete" parameterType="MemberDto">
         DELETE FROM
             tb_userinfo
         WHERE
@@ -69,7 +69,7 @@
     </delete>
 
     <!--비밀번호 변경-->
-    <update id="pwdChange" parameterType="Member">
+    <update id="pwdChange" parameterType="MemberDto">
         UPDATE
             tb_userinfo
         SET
@@ -79,7 +79,7 @@
     </update>
 
     <!--이메일로 회원정보 받기-->
-    <select id="findByEmail" resultType="Member">
+    <select id="findByEmail" resultType="MemberDto">
         SELECT
             <include refid="memberColumns"/>
         FROM
@@ -89,7 +89,7 @@
     </select>
 
     <!--id로 회원정보 받기-->
-    <select id="findById" resultType="Member">
+    <select id="findById" resultType="MemberDto">
         SELECT
             <include refid="memberColumns"/>
         FROM

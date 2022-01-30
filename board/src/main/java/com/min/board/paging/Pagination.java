@@ -19,9 +19,9 @@ public class Pagination {
     private int endPage;        // 각 페이지 범위 중 마지막 번호
     private boolean prev;       // 이전 페이지 여부
     private boolean next;       // 다음 페이지 여부
-    private String searchText;  // 
-    private String writer;
-    private String type;
+    private String searchText;  // 검색어 (옵션)
+    private String writer;      // 작성자 (옵션)
+    private String type;        // 타입 (옵션)
 
     public void pageInfo(int page, int range, int listCnt) {
 

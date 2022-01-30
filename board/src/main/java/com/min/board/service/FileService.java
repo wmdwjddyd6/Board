@@ -1,6 +1,6 @@
 package com.min.board.service;
 
-import com.min.board.model.FileDTO;
+import com.min.board.model.FileDto;
 import com.min.board.repository.FileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class FileService {
             newName = uuid + StringUtils.substring(originName, originName.lastIndexOf(".")); //확장자명 포함
         }
 
-        FileDTO fileDTO = new FileDTO(boardId, originName, newName, fileSize, path + newName);
+        FileDto fileDTO = new FileDto(boardId, originName, newName, fileSize, path + newName);
 
         int result = fileRepository.insertFile(fileDTO);
 
@@ -55,14 +55,14 @@ public class FileService {
     }
 
     // 해당 게시글에 첨부된 파일 목록 반환
-    public List<FileDTO> getFileList(Long boardId) throws SQLException {
-        List<FileDTO> fileList = fileRepository.selectByBoardId(boardId);
+    public List<FileDto> getFileList(Long boardId) throws SQLException {
+        List<FileDto> fileList = fileRepository.selectByBoardId(boardId);
         return fileList;
     }
 
     // 해당 이미지(ImageID)로 FileDTO 반환
-    public FileDTO getFile(Long id) throws Exception {
-        FileDTO fileDTO = fileRepository.selectByFileId(id);
+    public FileDto getFile(Long id) throws Exception {
+        FileDto fileDTO = fileRepository.selectByFileId(id);
         return fileDTO;
     }
 }

@@ -1,6 +1,6 @@
 package com.min.board.controller;
 
-import com.min.board.model.Comment;
+import com.min.board.model.CommentDto;
 import com.min.board.paging.Pagination;
 import com.min.board.service.CommentService;
 import com.min.board.service.PagingService;
@@ -45,7 +45,7 @@ public class CommentController {
         String loginUser = principal.getName();
 
         Pagination pagination = pagingService.getCommentPagination(page, range, loginUser);
-        List<Comment> comments = commentService.userCommentList(pagination);
+        List<CommentDto> comments = commentService.userCommentList(pagination);
 
         model.addAttribute("pagination", pagination);
         model.addAttribute("comments", comments);
@@ -56,8 +56,8 @@ public class CommentController {
     // 댓글 조회
     @GetMapping("/comments/{boardId}")
     @ResponseBody
-    public List<Comment> getCommentList(@PathVariable(value = "boardId") Long boardId) throws Exception {
-        List<Comment> comments = commentService.getCommentList(boardId);
+    public List<CommentDto> getCommentList(@PathVariable(value = "boardId") Long boardId) throws Exception {
+        List<CommentDto> comments = commentService.getCommentList(boardId);
         logger.debug("boardId : {} 게시글의 댓글을 조회합니다.", boardId);
         return comments;
     }
@@ -66,10 +66,10 @@ public class CommentController {
     @PostMapping("/notice/comments/{boardId}")
     @ResponseBody
     public void noticeCommentWrite(@PathVariable(value = "boardId") Long boardId,
-                             @RequestBody Comment comment,
+                             @RequestBody CommentDto commentDto,
                              Principal principal) throws Exception {
         String username = principal.getName();
-        int result = commentService.write(boardId, comment.getContent(), "notice", username);
+        int result = commentService.write(boardId, commentDto.getContent(), "notice", username);
         if(result > 0) logger.info("boardId : {}에 댓글을 작성했습니다.", boardId);
     }
 
@@ -77,10 +77,10 @@ public class CommentController {
     @PostMapping("/comments/{boardId}")
     @ResponseBody
     public void commentWrite(@PathVariable(value = "boardId") Long boardId,
-                             @RequestBody Comment comment,
+                             @RequestBody CommentDto commentDto,
                              Principal principal) throws Exception {
         String username = principal.getName();
-        int result = commentService.write(boardId, comment.getContent(), "board", username);
+        int result = commentService.write(boardId, commentDto.getContent(), "board", username);
         if(result > 0) logger.info("boardId : {}에 댓글을 작성했습니다.", boardId);
     }
 
@@ -88,8 +88,8 @@ public class CommentController {
     @PatchMapping("/comments/{commentId}")
     @ResponseBody
     public void updateComment(@PathVariable(value = "commentId") Long commentId,
-                              @RequestBody Comment comment) throws Exception {
-        int result = commentService.update(commentId, comment.getContent());
+                              @RequestBody CommentDto commentDto) throws Exception {
+        int result = commentService.update(commentId, commentDto.getContent());
         if(result > 0) logger.info("commentId : {} 댓글을 수정했습니다.", commentId);
     }
 

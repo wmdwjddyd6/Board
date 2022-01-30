@@ -1,15 +1,12 @@
 package com.min.board.service;
 
-import com.min.board.model.Board;
-import com.min.board.model.Comment;
+import com.min.board.model.CommentDto;
 import com.min.board.paging.Pagination;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -35,9 +32,9 @@ class CommentServiceTest {
     @Test
     public void commentShow() throws Exception {
         Long boardId = 3l;
-        List<Comment> comments = commentService.getCommentList(boardId);
-        for(int i = 0; i < comments.size(); i ++) {
-            System.out.println(comments.get(i));
+        List<CommentDto> commentDtos = commentService.getCommentList(boardId);
+        for(int i = 0; i < commentDtos.size(); i ++) {
+            System.out.println(commentDtos.get(i));
         }
     }
 
@@ -58,10 +55,10 @@ class CommentServiceTest {
         String loginUser = "rhkdals";
 
         Pagination pagination = pagingService.getCommentPagination(page, range, loginUser);
-        List<Comment> comments = commentService.userCommentList(pagination);
+        List<CommentDto> commentDtos = commentService.userCommentList(pagination);
 
-        for(int i = 0; i < comments.size(); i ++) {
-            System.out.println("comment : " + comments.get(i)); // for test
+        for(int i = 0; i < commentDtos.size(); i ++) {
+            System.out.println("comment : " + commentDtos.get(i)); // for test
         }
     }
 }

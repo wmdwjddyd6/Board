@@ -1,7 +1,7 @@
 package com.min.board.service;
 
-import com.min.board.model.Comment;
-import com.min.board.model.Member;
+import com.min.board.model.CommentDto;
+import com.min.board.model.MemberDto;
 import com.min.board.paging.Pagination;
 import com.min.board.repository.CommentMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class CommentService {
     }
 
     // 댓글 관리 리스트 (페이징)
-    public List<Comment> userCommentList(Pagination pagination) throws Exception{
+    public List<CommentDto> userCommentList(Pagination pagination) throws Exception{
         return commentRepository.joinCommentList(pagination);
     }
 
@@ -46,33 +46,33 @@ public class CommentService {
 
     // 댓글 작성
     public int write(Long boardId, String content, String type, String username) throws Exception {
-        Member member = memberService.getMember(username);
-        Comment comment = new Comment();
+        MemberDto memberDto = memberService.getMember(username);
+        CommentDto commentDto = new CommentDto();
 
-        comment.setBoardId(boardId);
-        comment.setContent(content);
-        comment.setWriter(member.getUsername());
-        comment.setWriterId(member.getId());
-        comment.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
-        comment.setType(type);
+        commentDto.setBoardId(boardId);
+        commentDto.setContent(content);
+        commentDto.setWriter(memberDto.getUsername());
+        commentDto.setWriterId(memberDto.getId());
+        commentDto.setCreateDate(Timestamp.valueOf(LocalDateTime.now()));
+        commentDto.setType(type);
 
-        int result = commentRepository.insertComment(comment);
+        int result = commentRepository.insertComment(commentDto);
         return result;
     }
 
     // 댓글 조회
-    public List<Comment> getCommentList(Long boardId) throws Exception {
+    public List<CommentDto> getCommentList(Long boardId) throws Exception {
         return commentRepository.selectCommentList(boardId);
     }
 
     // 댓글 수정
     public int update(Long commentId, String content) throws Exception {
-        Comment comment = new Comment();
+        CommentDto commentDto = new CommentDto();
 
-        comment.setId(commentId);
-        comment.setContent(content);
+        commentDto.setId(commentId);
+        commentDto.setContent(content);
 
-        int result = commentRepository.updateComment(comment);
+        int result = commentRepository.updateComment(commentDto);
         return result;
     }
 

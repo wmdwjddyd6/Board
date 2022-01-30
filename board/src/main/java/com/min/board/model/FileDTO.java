@@ -3,7 +3,7 @@ package com.min.board.model;
 import lombok.Data;
 
 @Data
-public class FileDTO {
+public class FileDto {
     private Long id;
     private Long boardId;
     private String originalFileName;
@@ -11,7 +11,7 @@ public class FileDTO {
     private String path;
     private String storedFileName;
 
-    public FileDTO(Long boardId, String originalFileName, String storedFileName, Long size, String path) {
+    public FileDto(Long boardId, String originalFileName, String storedFileName, Long size, String path) {
         this.boardId = boardId;
         this.originalFileName = originalFileName;
         this.storedFileName = storedFileName;

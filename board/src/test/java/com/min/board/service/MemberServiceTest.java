@@ -1,6 +1,6 @@
 package com.min.board.service;
 
-import com.min.board.model.Member;
+import com.min.board.model.MemberDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,16 +17,16 @@ class MemberServiceTest {
     // 회원가입 테스트
     @Test
     public void join_회원가입() {
-        Member member = new Member();
+        MemberDto memberDto = new MemberDto();
 
-        member.setUsername("rhkdrhkd");
-        member.setPassword("123456");
-        member.setEmail("wmdwjdd@naver.com");
+        memberDto.setUsername("rhkdrhkd");
+        memberDto.setPassword("123456");
+        memberDto.setEmail("wmdwjdd@naver.com");
 
         int result = 0;
 
         try {
-            result = memberService.join(member, "ROLE_USER");
+            result = memberService.join(memberDto, "ROLE_USER");
         } catch (Exception e) {
             System.out.println("회원가입 실패");
         }
@@ -35,11 +35,11 @@ class MemberServiceTest {
     // 비밀번호 확인 & 변경 테스트
     @Test
     public void changePassword_비밀번호변경() throws Exception {
-        Member member = memberService.getMember("rhkdrhkd"); // 회원 객체 받기
+        MemberDto memberDto = memberService.getMember("rhkdrhkd"); // 회원 객체 받기
         String loginUsername = "";
 
         try{
-            loginUsername = member.getUsername();
+            loginUsername = memberDto.getUsername();
         } catch (Exception e) {
             System.out.println("멤버 객체가 없습니다.");
             return;
@@ -64,10 +64,10 @@ class MemberServiceTest {
     // 회원탈퇴 테스트
     @Test
     public void secession_회원탈퇴() {
-        Member member = memberService.getMember("rhkdrhkd");
+        MemberDto memberDto = memberService.getMember("rhkdrhkd");
 
         try {
-            memberService.secession(member.getUsername());
+            memberService.secession(memberDto.getUsername());
             System.out.println("회원탈퇴 완료");
         } catch (Exception e) {
             System.out.println("회원탈퇴 실패");
@@ -87,13 +87,13 @@ class MemberServiceTest {
     // ID 찾기 테스트
     @Test
     public void getMemberByEmail() throws Exception {
-        Member member = new Member();
-        member.setEmail("test@nate.com");
+        MemberDto memberDto = new MemberDto();
+        memberDto.setEmail("test@nate.com");
 
         String resultUsername = "";
-        List<Member> memberList = memberService.getMemberByEmail(member.getEmail());
+        List<MemberDto> memberDtoList = memberService.getMemberByEmail(memberDto.getEmail());
 
-        member.setUsername(resultUsername);
+        memberDto.setUsername(resultUsername);
 
         System.out.println(resultUsername);
     }

@@ -1,6 +1,6 @@
 package com.min.board.config.auth;
 
-import com.min.board.model.Member;
+import com.min.board.model.MemberDto;
 import com.min.board.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,10 +23,10 @@ public class PrincipalDetailsService implements UserDetailsService {
     // 리턴되는 순간 시큐리티 session(내부 Authentication(내부 UserDetails))
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Member memberEntity = memberService.getMember(username);
+        MemberDto memberDtoEntity = memberService.getMember(username);
 
-        if(memberEntity != null) {
-            return new PrincipalDetails(memberEntity);
+        if(memberDtoEntity != null) {
+            return new PrincipalDetails(memberDtoEntity);
         }
         return null;
     }

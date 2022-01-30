@@ -18,7 +18,7 @@
     </sql>
 
     <!--(페이징) 게시글 모두 조회-->
-    <select id="selectBoardList" resultType="Board">
+    <select id="selectBoardList" resultType="BoardDto">
         SELECT
             <include refid="boardColumns"/>
         FROM
@@ -74,7 +74,7 @@
     </select>
 
     <!--게시글 작성-->
-    <insert id="insertBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertBoard" parameterType="BoardDto" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
             tb_board (title, content, writer_id, writer, create_date, type)
         VALUES
@@ -82,7 +82,7 @@
     </insert>
 
     <!--게시글 업데이트-->
-    <update id="updateBoard" parameterType="Board" useGeneratedKeys="true" keyProperty="id">
+    <update id="updateBoard" parameterType="BoardDto" useGeneratedKeys="true" keyProperty="id">
         UPDATE
             tb_board
         SET
@@ -103,7 +103,7 @@
     </update>
 
     <!--특정 아이디 게시글 조회-->
-    <select id="findById" resultType="Board">
+    <select id="findById" resultType="BoardDto">
         SELECT
             <include refid="boardColumns"/>
         FROM

@@ -1,6 +1,6 @@
 package com.min.board.controller;
 
-import com.min.board.model.Member;
+import com.min.board.model.MemberDto;
 import com.min.board.service.MailService;
 import com.min.board.service.MemberService;
 import org.slf4j.Logger;
@@ -50,8 +50,8 @@ public class LoginController {
     @GetMapping("/findIdForm")
     public String findIdForm(@RequestParam(required = false) String email, Model model) throws Exception {
         if(email != null) { // email을 입력한 경우 
-            List<Member> memberList = memberService.getMemberByEmail(email); // 해당 이메일에 등록된 ID를
-            model.addAttribute("memberList", memberList); // 클라이언트로 리턴
+            List<MemberDto> memberDtoList = memberService.getMemberByEmail(email); // 해당 이메일에 등록된 ID를
+            model.addAttribute("memberList", memberDtoList); // 클라이언트로 리턴
         }
         return "account/findIdForm";
     }
