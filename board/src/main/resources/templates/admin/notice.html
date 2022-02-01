@@ -62,8 +62,8 @@
 											<td class="mt-5 text-center pt-3 pb-3" scope="row"
 												th:text="${boardStat.count} + ${no}">1
 											</td>
-											<td class="text-center menu pt-3 pb-3"><a th:text="${board.title}" target='_blank'
-													style="text-decoration:none; color:black;">Title</a>
+											<td class="text-center menu pt-3 pb-3"><a th:text="${board.title}"
+													target='_blank' style="text-decoration:none; color:black;">Title</a>
 												<textarea type="text" class="form-control mt-3 mb-3 hide"
 													th:text="${board.content}" rows="5" style="background-color: white;"
 													readonly>내용</textarea>
@@ -99,7 +99,8 @@
 
 							<!-- Button -->
 							<div class="nav justify-content-end">
-								<a type="button" class="btn btn-primary me-2" th:href="@{/admin/noticeForm}">작성하기</a>
+								<a type="button" class="btn btn-primary me-2" th:href="@{/admin/noticeForm}"
+									sec:authorize="hasRole('ROLE_ADMIN')">작성하기</a>
 								<button type="submit" class="btn btn-danger" onclick="deleteBoards()">공지삭제</button>
 							</div>
 						</form>
