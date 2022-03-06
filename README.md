@@ -7,17 +7,64 @@
 ---
 
 > 개발환경
-### FrontEnd
+### ✔ FrontEnd
 - Thymeleaf
 - Bootstrap v5.1.3
 - JQuery v3.3.1
 
-### BackEnd
+### ✔ BackEnd
 - Language : Java 11
 - Framework : SpringBoot v2.5.4
 - DB : Mysql 8.0
 - Repository : Mybatis v2.1.4
 - Gradle
+
+---
+
+> 실행방법 <br/>
+
+### 0. 기본 정보
+- 서버 포트: 8080, Mysql 포트: 3306 <br>
+- 이미지 파일 업로드 시 파일이 저장되는 서버 경로는 C:/Temp로 지정돼있습니다. <br>
+- 수정을 위해서는 저장소를 clone 후 다음 java파일의 saveFile 메서드의 path를 수정하면 됩니다.
+```
+Board/board/src/main/java/com/min/board/service/FileService.java
+```
+### 1. clone
+```
+> git clone https://github.com/wmdwjddyd6/Board.git
+```
+
+### 2. application.properties 수정
+- Database 관련 정보와 Password 변경에 쓰일 GmailSMTP설정을 변경해줘야 합니다. (보안상 누락)
+- Board/board/src/main/resources/application.properties 파일의 해당 부분을 수정하면 됩니다.
+```
+# DataBase
+spring.datasource.username=root
+spring.datasource.password=Password
+
+# GoogleMail
+spring.mail.username=구글SMTP 비밀번호를 발급받은 google 계정 (예 : exam@gmail.com)
+spring.mail.password=발급받은 비밀번호
+```
+
+### 3. DB 설정 (Mysql 다운로드 가정)
+- Board/board/src/main/resources/db/mysql/schema.sql 실행 <br/><br/>
+
+### 4. Build
+```
+> cd board
+> ./gradlew build
+```
+
+### 5. 생성된 jar 실행
+```
+> cd Board\board\build\libs
+> java -jar board-0.0.1-SNAPSHOT.jar
+```
+
+### 6. 접속
+- 웹 브라우저로 localhost:8080에 접속하여 테스트 가능합니다.
 
 ---
 
