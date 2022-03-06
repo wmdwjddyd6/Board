@@ -9,7 +9,7 @@ CREATE TABLE `board`.`tb_userinfo` (
   `create_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`,`username`)
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 CREATE TABLE `board`.`tb_board` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -24,7 +24,7 @@ CREATE TABLE `board`.`tb_board` (
   PRIMARY KEY (`id`),
   KEY `writer_id` (`writer_id`),
   CONSTRAINT `tb_board_ibfk_1` FOREIGN KEY (`writer_id`) REFERENCES `tb_userinfo` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 CREATE TABLE `board`.`tb_comment` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -39,7 +39,7 @@ CREATE TABLE `board`.`tb_comment` (
   KEY `writer_id` (`writer_id`),
   CONSTRAINT `tb_comment_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `tb_board` (`id`) ON DELETE CASCADE,
   CONSTRAINT `tb_comment_ibfk_2` FOREIGN KEY (`writer_id`) REFERENCES `tb_userinfo` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
 
 CREATE TABLE `board`.`tb_file` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -51,4 +51,4 @@ CREATE TABLE `board`.`tb_file` (
   PRIMARY KEY (`id`),
   KEY `board_id` (`board_id`),
   CONSTRAINT `tb_file_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `tb_board` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB
+) ENGINE=InnoDB;
