@@ -52,3 +52,6 @@ CREATE TABLE `board`.`tb_file` (
   KEY `board_id` (`board_id`),
   CONSTRAINT `tb_file_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `tb_board` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
+
+-- 관리자 계정 생성 (username: admin, password: 123456, email: tester159@gmail.com)
+INSERT INTO board.tb_userinfo(id, username, password, email, role, create_date) VALUES (1, 'admin', '$2a$10$YfM/qUJh2Vatbav6XR4QYOucFQ1l/zY0KTm7jJLNZKpsrT0wTxDB2', 'tester159@gmail.com', 'ROLE_ADMIN', now());
