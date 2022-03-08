@@ -49,7 +49,8 @@ spring.mail.password=발급받은 비밀번호
 ```
 
 ### 3. DB 설정 (Mysql 다운로드 가정)
-- Board/board/src/main/resources/db/mysql/schema.sql 실행 <br/><br/>
+- Board/board/src/main/resources/db/mysql/schema.sql 실행 
+  - Database테이블 생성 및 최초 관리자 계정 생성 (username: admin, password: 123456)<br/><br/>
 
 ### 4. Build
 ```
